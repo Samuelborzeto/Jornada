@@ -5,9 +5,10 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Jornada</title>
 <meta name="theme-color" content="#15131f">
+<script>try{if(localStorage.getItem('jornada-theme')==='light'){document.documentElement.dataset.theme='light';}}catch(e){}</script>
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icon.png">
-<link rel="apple-touch-icon" href="icon.png">
+<link rel="apple-touch-icon" href="icon-maskable.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -21,7 +22,7 @@
   --bg:#141318; --panel:#1f1d27; --panel2:#2b2835; --line:#3f3b4d;
   --fg:#f6f4fb; --muted:#bdb7cc; --gold:#ffc94a; --accent:#ff6b8b;
   --forca:#ff5d5d; --vigor:#34d3a8; --mente:#5aa9ff; --familia:#ff8fd0; --equilibrio:#ffc94a;
-  --good:#34d3a8;
+  --good:#34d3a8; --ink:#15131f; --goldtx:var(--gold); --boxline:#6c6680; --inline:#57526a;
   --display:"Pixelify Sans", "Courier New", monospace;
   --body:"Nunito Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
   color-scheme:dark;
@@ -64,7 +65,7 @@ svg.px .st{animation:pulse 1.2s ease-in-out infinite}
 .ultfx{position:fixed;inset:0;z-index:45;display:grid;place-items:center;background:radial-gradient(circle,color-mix(in srgb,var(--gold) 40%,transparent),rgba(10,8,18,.88) 70%);animation:fxin 2.4s ease forwards;pointer-events:none}
 .ultfx .in{display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;padding:16px}
 .ultfx .prev{width:150px;aspect-ratio:24/26;animation:fxjump 1s ease 2}
-.ultfx h2{font-size:30px;color:var(--gold)}
+.ultfx h2{font-size:30px;color:var(--goldtx)}
 @keyframes fxin{0%{opacity:0}10%{opacity:1}80%{opacity:1}100%{opacity:0}}
 @keyframes fxjump{0%,100%{transform:translateY(0) scale(1)}40%{transform:translateY(-10%) scale(1.08)}}
 .habit.over{border-color:var(--forca);background:color-mix(in srgb,var(--forca) 10%,var(--panel))}
@@ -74,7 +75,7 @@ svg.px .st{animation:pulse 1.2s ease-in-out infinite}
 .aim[aria-pressed="true"]{border-color:var(--gold);background:color-mix(in srgb,var(--gold) 12%,var(--panel2))}
 .aim .tick{width:20px;height:20px;border-radius:4px;border:2px solid var(--line);flex:none}
 .aim[aria-pressed="true"] .tick{background:var(--gold);border-color:var(--gold)}
-.rec{font-family:var(--display);font-size:12px;color:var(--bg);background:var(--gold);border-radius:2px;padding:0 6px;display:inline-block;margin-bottom:4px}
+.rec{font-family:var(--display);font-size:12px;color:var(--ink);background:var(--gold);border-radius:2px;padding:0 6px;display:inline-block;margin-bottom:4px}
 .vices{display:flex;flex-direction:column;gap:8px}
 .vc{display:grid;grid-template-columns:64px 1fr;gap:12px;align-items:center;background:var(--panel2);border-radius:6px;padding:8px 10px}
 .vc .bart{width:64px;aspect-ratio:1;border-radius:4px;overflow:hidden}
@@ -93,10 +94,10 @@ svg.px .st{animation:pulse 1.2s ease-in-out infinite}
 .vt .prev{aspect-ratio:24/26;display:block}
 .vt.ghost .prev svg{filter:grayscale(1) brightness(1.3);opacity:.55}
 .vt .nm{font-size:13px;font-weight:600;background:var(--panel2);padding:4px 2px;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;border-top:1px solid var(--line)}
-.vt.sel .nm{background:var(--gold);color:var(--bg);font-weight:500}
+.vt.sel .nm{background:var(--gold);color:var(--ink);font-weight:500}
 .vt .badge{position:absolute;top:4px;left:4px;font-family:var(--display);font-size:11px;padding:0 5px;border-radius:2px;background:var(--forca);color:#fff}
 .vt .badge.gray{background:#6b6585}.vt .badge.blue{background:#3d7be0}
-.vt .lvb{position:absolute;top:4px;right:4px;font-family:var(--display);font-size:11px;padding:0 5px;border-radius:2px;background:rgba(10,8,18,.7);color:var(--gold)}
+.vt .lvb{position:absolute;top:4px;right:4px;font-family:var(--display);font-size:11px;padding:0 5px;border-radius:2px;background:rgba(10,8,18,.7);color:var(--goldtx)}
 .mdet{display:grid;grid-template-columns:120px 1fr;gap:14px;align-items:start;background:var(--panel2);border-radius:6px;padding:12px}
 .mdet .prev{width:120px;aspect-ratio:24/26;border-radius:4px;overflow:hidden}
 .mdet .prev.ghost svg{filter:grayscale(1) brightness(1.3);opacity:.55}
@@ -139,15 +140,15 @@ h3.sec{font-size:17px}
 .name{font-family:var(--display);font-weight:700;font-size:22px;line-height:1.1;text-wrap:balance}
 .title{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
 .lvlrow{display:flex;align-items:baseline;gap:8px;font-family:var(--display)}
-.lvl{font-size:30px;color:var(--gold);line-height:1}
+.lvl{font-size:30px;color:var(--goldtx);line-height:1}
 .xpbar{height:10px;background:var(--panel2);border:1px solid var(--line);border-radius:2px;overflow:hidden}
 .xpbar i{display:block;height:100%;background:var(--gold);transition:width .4s}
 .chips{display:flex;flex-wrap:wrap;gap:6px}
 .chip{font-family:var(--body);font-weight:600;font-size:14px;background:var(--panel2);border:1px solid var(--line);border-radius:3px;padding:2px 8px;white-space:nowrap}
-.chip b{color:var(--gold);font-weight:700}
+.chip b{color:var(--goldtx);font-weight:700}
 .stats{grid-column:1/-1;display:grid;gap:7px}
 .stat{display:grid;grid-template-columns:90px 1fr 56px;align-items:center;gap:8px;font-size:14px}
-.stat.main span:first-child{color:var(--gold)}
+.stat.main span:first-child{color:var(--goldtx)}
 .stat .bar{height:8px;background:var(--panel2);border-radius:2px;overflow:hidden}
 .stat .bar i{display:block;height:100%;transition:width .4s}
 .stat .lv{font-family:var(--display);text-align:right}
@@ -196,11 +197,11 @@ section[role=tabpanel],section.panel{display:flex;flex-direction:column;gap:12px
 .habit .hn{font-weight:700;font-size:17px}
 .habit .meta{font-size:13.5px;color:var(--muted);display:flex;flex-wrap:wrap;gap:4px 10px}
 .habit .meta .a{color:var(--c)}
-.habit .meta .boost{color:var(--gold)}
-.quest{font-family:var(--display);font-size:12px;color:var(--bg);background:var(--gold);border-radius:2px;padding:0 6px;align-self:flex-start}
+.habit .meta .boost{color:var(--goldtx)}
+.quest{font-family:var(--display);font-size:12px;color:var(--ink);background:var(--gold);border-radius:2px;padding:0 6px;align-self:flex-start}
 .habit .side{display:flex;align-items:center;gap:6px;padding-right:12px}
-.box{width:34px;height:34px;border:2px solid #6c6680;border-radius:8px;display:grid;place-items:center;background:var(--panel2)}
-.box svg{display:none}
+.box{width:34px;height:34px;border:2px solid var(--boxline);border-radius:8px;display:grid;place-items:center;background:var(--panel2)}
+.box svg{display:none;width:20px;height:20px}
 .habit.done{background:color-mix(in srgb,var(--c) 12%,var(--panel));border-color:color-mix(in srgb,var(--c) 45%,var(--line))}
 .habit.done .box{background:var(--c);border-color:var(--c)}
 .habit.done .box svg{display:block}
@@ -210,7 +211,7 @@ section[role=tabpanel],section.panel{display:flex;flex-direction:column;gap:12px
 .counter .cv{font-family:var(--display);min-width:38px;text-align:center}
 .prog{grid-column:2/-1;height:4px;background:var(--panel2)}
 .prog i{display:block;height:100%;background:var(--c);transition:width .3s}
-.float{position:absolute;right:16px;top:6px;font-family:var(--display);color:var(--gold);pointer-events:none;animation:floatup 1s ease forwards}
+.float{position:absolute;right:16px;top:6px;font-family:var(--display);color:var(--goldtx);pointer-events:none;animation:floatup 1s ease forwards}
 @keyframes floatup{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(-26px)}}
 .specs{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .spec{display:flex;flex-direction:column;gap:6px;background:var(--panel2);border:1px solid var(--line);border-radius:6px;padding:8px;text-align:left}
@@ -227,18 +228,19 @@ section[role=tabpanel],section.panel{display:flex;flex-direction:column;gap:12px
 .gl.won{border-left-color:var(--gold)}
 .late{color:var(--accent)}
 .sugs{display:flex;flex-wrap:wrap;gap:6px}
-.sugs button{background:var(--panel2);border:1px dashed #6c6680;border-radius:999px;padding:5px 11px;font-size:13.5px;font-weight:600}
+.sugs button[aria-pressed="true"]{border-style:solid;border-color:var(--accent);background:color-mix(in srgb,var(--accent) 16%,var(--panel2))}
+.sugs button{background:var(--panel2);border:1px dashed var(--boxline);border-radius:999px;padding:5px 11px;font-size:13.5px;font-weight:600}
 .trophy{display:inline-block;width:12px;height:12px;background:var(--gold);clip-path:polygon(0 0,100% 0,100% 40%,70% 70%,70% 85%,85% 85%,85% 100%,15% 100%,15% 85%,30% 85%,30% 70%,0 40%);vertical-align:-1px;margin-right:4px}
 
 /* familia */
-.code{font-family:var(--display);font-size:28px;letter-spacing:.15em;color:var(--gold);user-select:all}
+.code{font-family:var(--display);font-size:28px;letter-spacing:.15em;color:var(--goldtx);user-select:all}
 .rank{display:flex;flex-direction:column;gap:6px}
 .rk{display:grid;grid-template-columns:22px 44px 1fr auto;gap:10px;align-items:center;background:var(--panel2);border-radius:6px;padding:6px 10px}
 .rk .pos{font-family:var(--display);color:var(--muted);text-align:center}
-.rk.first .pos{color:var(--gold)}
+.rk.first .pos{color:var(--goldtx)}
 .rk .prev{width:44px;aspect-ratio:24/26;border-radius:3px;overflow:hidden}
 .rk b{font-weight:700;display:block}
-.rk .xp{font-family:var(--display);color:var(--gold)}
+.rk .xp{font-family:var(--display);color:var(--goldtx)}
 .rk.me{outline:1px solid var(--accent)}
 
 /* visual */
@@ -259,7 +261,7 @@ section[role=tabpanel],section.panel{display:flex;flex-direction:column;gap:12px
 .item .req{font-size:12px;color:var(--muted)}
 .item .req.ok{color:var(--good)}
 .item button{border:1px solid var(--line);background:var(--panel2);border-radius:8px;padding:8px;font-weight:700;font-size:14px}
-.item button.buy{background:var(--gold);color:var(--bg);border-color:var(--gold)}
+.item button.buy{background:var(--gold);color:var(--ink);border-color:var(--gold)}
 .item button.eq{border-color:var(--accent);color:var(--accent)}
 .item button:disabled{opacity:.45;cursor:not-allowed}
 .item.locked .prev{filter:grayscale(1) brightness(.6)}
@@ -288,12 +290,13 @@ section[role=tabpanel],section.panel{display:flex;flex-direction:column;gap:12px
 /* formularios */
 .form{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .form .full{grid-column:1/-1}
+.form label:not(.full){justify-content:space-between}
 label{display:flex;flex-direction:column;gap:4px;font-size:14px;font-weight:600;color:var(--muted);min-width:0}
-input,select{background:var(--panel2);border:1px solid #57526a;border-radius:8px;padding:10px;min-width:0;width:100%;font-size:16px;font-weight:400;color:var(--fg)}
+input,select{background:var(--panel2);border:1px solid var(--inline);border-radius:8px;padding:10px;min-width:0;width:100%;font-size:16px;font-weight:400;color:var(--fg)}
 .btn{background:var(--accent);color:#1a0d14;border:0;border-radius:8px;padding:11px 16px;font-weight:800;font-size:16px}
 .btn.ghost{background:var(--panel2);color:var(--fg);border:1px solid var(--line)}
 .btn.sm{padding:7px 12px;font-size:14px}
-.btn.gold{background:var(--gold);color:var(--bg)}
+.btn.gold{background:var(--gold);color:var(--ink)}
 .edit{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;padding:12px;border:1px solid var(--line);border-left:5px solid var(--c);border-radius:10px;background:var(--panel)}
 .edit .full{grid-column:1/-1}
 .edit .row{grid-column:1/-1;display:flex;justify-content:space-between;align-items:center;gap:8px}
@@ -310,14 +313,14 @@ input,select{background:var(--panel2);border:1px solid #57526a;border-radius:8px
 .tourart{display:flex;gap:8px;justify-content:center}
 .tourart .prev{width:72px;aspect-ratio:24/26;border-radius:4px;overflow:hidden}
 
-.toast{position:fixed;left:50%;bottom:calc(86px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--gold);color:var(--bg);font-weight:800;font-size:16px;padding:10px 16px;border-radius:4px;box-shadow:0 6px 0 rgba(0,0,0,.35);z-index:40;max-width:calc(100% - 32px);text-align:center}
+.toast{position:fixed;left:50%;bottom:calc(86px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--gold);color:var(--ink);font-weight:800;font-size:16px;padding:10px 16px;border-radius:4px;box-shadow:0 6px 0 rgba(0,0,0,.35);z-index:40;max-width:calc(100% - 32px);text-align:center}
 @media (max-width:420px){
   .sheet{grid-template-columns:108px 1fr;gap:12px}
   .avatar{width:108px}
   .name{font-size:19px}
   .lvl{font-size:26px}
   .stat{grid-template-columns:82px 1fr 54px}
-  .tab{font-size:11px}
+  .tab{font-size:10.5px}
 }
 
 /* nova versao: mini ficha, adicionar rapido, tarefas, recompensa */
@@ -328,7 +331,7 @@ input,select{background:var(--panel2);border:1px solid #57526a;border-radius:8px
 .mini-main{min-width:0;display:flex;flex-direction:column;gap:5px}
 .mini-top{display:flex;align-items:baseline;gap:8px;min-width:0}
 .mini-name{font-family:var(--display);font-size:18px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.mini-lv{font-size:14px;color:var(--muted);white-space:nowrap}.mini-lv b{color:var(--gold);font-family:var(--display);font-size:17px}
+.mini-lv{font-size:14px;color:var(--muted);white-space:nowrap}.mini-lv b{color:var(--goldtx);font-family:var(--display);font-size:17px}
 .mini-chips{display:flex;gap:2px 12px;font-size:13.5px;color:var(--muted);flex-wrap:wrap}.mini-chips b{color:var(--fg)}
 .mini-sw{align-self:start;font-size:14px}
 .qa{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:10px}
@@ -350,18 +353,44 @@ input,select{background:var(--panel2);border:1px solid #57526a;border-radius:8px
 .prow .pdel.arm{color:#ff8fa5;font-weight:700}
 .dailycard{border-color:var(--gold);text-align:center;align-items:center}
 .dailycard .prev{width:110px;aspect-ratio:24/26;border-radius:8px;overflow:hidden;animation:fxjump 1s ease 2}
-.dailycard h2{font-family:var(--display);font-weight:700;font-size:26px;color:var(--gold)}
+.dailycard h2{font-family:var(--display);font-weight:700;font-size:26px;color:var(--goldtx)}
 .dtrack{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;width:100%}
 .dslot{background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:6px 2px;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11px;color:var(--muted);min-width:0}
 .dslot b{font-family:var(--display);font-weight:500;font-size:15px;color:var(--fg)}
 .dslot.got{background:color-mix(in srgb,var(--good) 18%,var(--panel2));border-color:var(--good)}
 .dslot.now{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold);background:color-mix(in srgb,var(--gold) 16%,var(--panel2))}
-.dslot.chest b{color:var(--gold)}
+.dslot.chest b{color:var(--goldtx)}
 .dailycard .btn{width:100%}
 .mscard{border-color:var(--accent)}
 .fire{color:#ff9f43;font-weight:800}
+.consent{flex-direction:row!important;align-items:flex-start;gap:10px;font-weight:400;color:var(--fg)}
+.consent input{width:22px;height:22px;flex:none;margin-top:2px}
+.consent a,.legal a{color:var(--fg)}
+.legal{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;font-size:13px;color:var(--muted)}
+.dangerbox{border:1px solid #ff8fa5;border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:10px;background:color-mix(in srgb,#ff5d5d 10%,var(--panel))}
+.btn.danger{background:#d93c3c;color:#fff}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.plans{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.plan{background:var(--panel2);border:2px solid var(--line);border-radius:12px;padding:14px 10px;display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center}
+.plan b{font-size:24px;font-weight:800}
+.plan.main{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold);background:color-mix(in srgb,var(--gold) 12%,var(--panel2))}
+.plan .tag{font-size:12px;font-weight:800;background:var(--gold);color:var(--ink);border-radius:999px;padding:2px 10px}
+.perks{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:4px}
 #eventArea:empty,#sumBanner:empty,#bossArea:empty{display:none}
 .stat .lv{white-space:nowrap}
+/* tema claro */
+:root[data-theme="light"]{
+  --bg:#f3f1f7; --panel:#ffffff; --panel2:#ebe8f2; --line:#d5d0e0;
+  --fg:#1c1925; --muted:#565066; --gold:#f2b51d; --goldtx:#9a6400; --accent:#e8436a;
+  --forca:#d93c3c; --vigor:#119a76; --mente:#2d7ad6; --familia:#cf3f98; --equilibrio:#c48a00; --good:#119a76;
+  --boxline:#9a93ad; --inline:#b9b2c9; color-scheme:light;
+}
+:root[data-theme="light"] .tabs{box-shadow:0 -2px 10px rgba(30,20,60,.06)}
+:root[data-theme="light"] .habit, :root[data-theme="light"] .card, :root[data-theme="light"] .mini, :root[data-theme="light"] .qa{box-shadow:0 1px 3px rgba(30,20,60,.06)}
+:root[data-theme="light"] .btn{color:#fff}
+:root[data-theme="light"] .btn.ghost{color:var(--fg)}
+:root[data-theme="light"] .btn.gold{color:var(--ink)}
+:root[data-theme="light"] .overlay{background:rgba(30,24,50,.55)}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -387,6 +416,7 @@ input,select{background:var(--panel2);border:1px solid #57526a;border-radius:8px
       <button class="linkbtn" type="button" id="btnReset">Esqueci a senha</button>
       <div class="err" id="loginErr"></div>
     </div>
+    <div class="legal"><a href="politica.html" target="_blank" rel="noopener">Política de privacidade</a><a href="excluir-conta.html" target="_blank" rel="noopener">Como apagar a conta</a></div>
   </section>
 
   <section class="view" id="profileView" hidden>
@@ -400,15 +430,18 @@ input,select{background:var(--panel2);border:1px solid #57526a;border-radius:8px
           <button type="button" id="pf-adult" aria-pressed="true">Adulto</button>
           <button type="button" id="pf-kid" aria-pressed="false">Criança</button>
         </div>
+        <div class="small full">O personagem é menino/homem ou menina/mulher? Isso não muda depois.</div>
         <div class="seg full" role="group" aria-label="Corpo do avatar">
           <button type="button" id="pf-m" aria-pressed="true">Masculino</button>
           <button type="button" id="pf-f" aria-pressed="false">Feminino</button>
         </div>
+        <label class="full consent" id="pf-consentW" hidden><input type="checkbox" id="pf-consent"> <span>Sou pai, mãe ou responsável por esta criança e autorizo o uso dos dados dela no app, como explica a <a href="politica.html" target="_blank" rel="noopener">política de privacidade</a>.</span></label>
         <div class="small full" id="pf-hint">Começa leve, com 3 hábitos (água, leitura e sono). Na jornada você escolhe o que quer mudar.</div>
         <button class="btn full" type="submit">Criar perfil</button>
       </form>
     </div>
     <div class="small" id="acctLine"></div>
+    <div class="legal"><a href="politica.html" target="_blank" rel="noopener">Política de privacidade</a><button class="linkbtn" data-delacct="1" type="button" style="font-size:13px;color:var(--muted)">Apagar minha conta</button></div>
   </section>
 
   <div class="view" id="appView" hidden>
@@ -515,6 +548,7 @@ input,select{background:var(--panel2);border:1px solid #57526a;border-radius:8px
         <div class="head"><h3 class="sec">Como foi o dia?</h3><span class="small num">+10 XP</span></div>
         <div class="seg" id="moods"></div>
         <input id="jr-text" maxlength="140" placeholder="Uma linha sobre o dia (opcional)">
+        <div class="head"><span class="small" id="jr-status"></span><button class="btn sm" id="jr-save" type="button">Salvar</button></div>
       </div>
     </section>
 
@@ -548,7 +582,7 @@ input,select{background:var(--panel2);border:1px solid #57526a;border-radius:8px
     <section role="tabpanel" id="p-char" aria-labelledby="t-char" hidden>
       <div class="seg charseg" role="group" aria-label="Seções do personagem">
         <button type="button" data-sub="ficha" aria-pressed="true">Ficha</button>
-        <button type="button" data-sub="vis" aria-pressed="false">Visual e loja</button>
+        <button type="button" data-sub="vis" aria-pressed="false">Visual</button>
         <button type="button" data-sub="hist" aria-pressed="false">Status</button>
       </div>
       <div id="sub-ficha" class="view">
@@ -576,8 +610,6 @@ input,select{background:var(--panel2);border:1px solid #57526a;border-radius:8px
       <div id="sub-vis" class="view" hidden>
         <div class="card">
           <h2>Aparência</h2>
-          <h3 class="small">Corpo</h3>
-          <div class="seg" id="bodies"><button type="button" data-look="body_m">Masculino</button><button type="button" data-look="body_f">Feminino</button></div>
           <h3 class="small">Tom de pele</h3>
           <div class="swatches" id="skins"></div>
           <h3 class="small">Cabelo</h3>
@@ -647,13 +679,13 @@ input,select{background:var(--panel2);border:1px solid #57526a;border-radius:8px
           <div class="rank" id="famRank"></div>
         </div>
         <div class="card">
-          <div class="head"><h2>Missão em dupla</h2><span class="small num">+100 XP e item exclusivo</span></div>
-          <div class="small">Chame alguém da família para um desafio só de vocês 2 nesta semana.</div>
+          <div class="head"><h2>Desafio em família</h2><span class="small num">+100 XP e item exclusivo</span></div>
+          <div class="small">Escolha quem entra no desafio desta semana: 1 pessoa ou a família toda. A soma de todo mundo conta.</div>
           <div class="goals" id="duoList"></div>
           <form class="form" id="duoForm">
-            <label class="full">Com quem<select id="du-mem"></select></label>
+            <div class="full" style="display:flex;flex-direction:column;gap:6px"><div class="head"><span class="small" style="font-weight:600">Quem participa com você</span><button class="linkbtn" type="button" id="du-all">Todos</button></div><div class="sugs" id="du-mems"></div></div>
             <label>Atributo<select id="du-attr"></select></label>
-            <label>Juntos, quantos hábitos<input id="du-target" type="number" min="2" max="60" value="8"></label>
+            <label>Juntos, quantos hábitos<input id="du-target" type="number" min="2" max="200" value="8"></label>
             <button class="btn full" type="submit">Lançar desafio</button>
           </form>
         </div>
@@ -692,6 +724,11 @@ input,select{background:var(--panel2);border:1px solid #57526a;border-radius:8px
         <div class="small">Dia cheio vale +30 XP extra. A missão do dia dobra o XP de um hábito.</div>
         <span style="display:flex;gap:14px;flex-wrap:wrap"><button class="linkbtn" id="cfg-aims" type="button">Mudar minha jornada</button><button class="linkbtn" id="cfg-tour" type="button">Ver o tutorial de novo</button></span>
       </div>
+      <div class="card">
+        <h2>Aparência do app</h2>
+        <div class="seg" id="themeSeg"><button type="button" data-theme="dark" aria-pressed="true">Escuro</button><button type="button" data-theme="light" aria-pressed="false">Claro</button></div>
+        <div class="small">Vale para este aparelho.</div>
+      </div>
       <div class="card" id="ultCfg">
         <h2>Especial da classe</h2>
         <div class="ultopts" id="ultOpts"></div>
@@ -728,6 +765,13 @@ input,select{background:var(--panel2);border:1px solid #57526a;border-radius:8px
         <div class="small" id="acctLine2"></div>
         <div class="head"><button class="btn ghost sm" id="btnSwitch2" type="button">Trocar perfil</button><button class="btn ghost sm" id="btnLogout2" type="button">Sair da conta</button></div>
         <button class="linkbtn" id="btnDelProf" type="button">Apagar este perfil</button>
+        <button class="linkbtn" data-delacct="1" type="button">Apagar minha conta e todos os dados</button>
+        <div class="legal" style="justify-content:flex-start"><a href="politica.html" target="_blank" rel="noopener">Política de privacidade</a><a href="excluir-conta.html" target="_blank" rel="noopener">Como apagar a conta</a></div>
+      </div>
+      <div class="card" id="planCard" hidden>
+        <h2>Plano Família</h2>
+        <div class="small" id="planLine"></div>
+        <button class="btn gold" type="button" data-openplan="1">Ver o Plano Família</button>
       </div>
     </section>
 
@@ -743,6 +787,25 @@ input,select{background:var(--panel2);border:1px solid #57526a;border-radius:8px
 </div>
 
 <div class="ultfx" id="ultFx" hidden></div>
+<div class="overlay" id="delAcct" hidden><div class="tourcard" role="dialog" aria-modal="true" aria-labelledby="daTitle">
+  <h2 id="daTitle">Apagar a conta</h2>
+  <p>Isso apaga de vez todos os perfis desta conta (adultos e crianças), hábitos, histórico, diário, prêmios da casa e avisos, e tira os perfis da família. Não dá para desfazer.</p>
+  <label class="consent"><input type="checkbox" id="da-ok"> <span>Entendi e quero apagar tudo</span></label>
+  <div class="err" id="da-msg"></div>
+  <div class="head"><button class="btn ghost" type="button" id="da-cancel">Cancelar</button><button class="btn danger" type="button" id="da-go" disabled>Apagar tudo</button></div>
+</div></div>
+<div class="overlay" id="planView" hidden><div class="tourcard" role="dialog" aria-modal="true" aria-labelledby="pvTitle">
+  <h2 id="pvTitle">Plano Família</h2>
+  <p id="pvWhy">Libere tudo para a casa inteira. Uma assinatura vale para todos os perfis da conta.</p>
+  <ul class="perks"><li>Perfis ilimitados para toda a família</li><li>Prêmios da casa e desafios em família</li><li>Avisos no horário de cada hábito</li><li>Eventos, cosméticos extras e resumo da semana</li></ul>
+  <div class="plans">
+    <button type="button" class="plan main" data-plan="mensal"><span class="tag">Sem fidelidade</span><span class="small">Mensal</span><b>R$ 9,90</b><span class="small">por mês</span></button>
+    <button type="button" class="plan" data-plan="anual"><span class="small">Anual</span><b>R$ 79,90</b><span class="small">por ano</span></button>
+  </div>
+  <button class="btn gold" type="button" id="pv-go">Assinar o mensal</button>
+  <div class="small" id="pv-msg" style="text-align:center">Cancele quando quiser pela Google Play.</div>
+  <button class="linkbtn" type="button" id="pv-close" style="align-self:center">Agora não</button>
+</div></div>
 <div class="overlay" id="daily" hidden><div class="tourcard dailycard" role="dialog" aria-modal="true" aria-labelledby="dlTitle" id="dailyIn"></div></div>
 <div class="overlay" id="tour" hidden>
   <div class="tourcard" role="dialog" aria-modal="true" aria-labelledby="tourTitle">
@@ -801,6 +864,8 @@ const EVENTS=[
 const MOODS=['😞','😕','😐','🙂','😄'];
 const BONUS=30, MAXLVL=100, FAMREWARD=150, BUDGET=250, MAXHABITS=12;
 const ADULT_START=['agua','leitura','sono'];
+// Cobrança: false no teste fechado (tudo liberado para todos). Ligar no lançamento.
+const BILLING=false, TRIAL_DAYS=14, FREE_ADULTS=1, FREE_KIDS=1;
 const SIZE={10:'Pequeno',20:'Médio',25:'Médio+',30:'Bom',40:'Grande',60:'Épico'};
 const PREST=[null,
   {n:'Ouro',m:'#ffc94a',M:'#fff0a8'},
@@ -1010,7 +1075,7 @@ const ITEMS=[
   {id:'head_bone',slot:'head',n:'Boné',p:60,layer:L(0,3,['2.6c','10c','12c']),pal:{c:'#2f6fdc'}},
   {id:'head_palha',slot:'head',n:'Chapéu de palha',p:100,req:{a:'vigor',l:2},layers:[L(0,4,['8y','8r']),L(2,1,['14y'])],pal:{y:'#e8c46a',r:'#c4532b'}},
   {id:'head_flores',slot:'head',n:'Coroa de flores',p:150,req:{a:'familia',l:4},layer:L(2,3,['1r1y1p1r1y1p1r1y1p1r']),pal:{r:'#ff6b8b',y:'#ffd54a',p:'#c38bff'}},
-  {id:'head_dupla',slot:'head',n:'Faixa da dupla',p:0,req:{duo:1},layer:L(3,3,['11r','10.1y']),pal:{r:'#ff8fd0',y:'#ffc94a'}},
+  {id:'head_dupla',slot:'head',n:'Faixa do desafio',p:0,req:{duo:1},layer:L(3,3,['11r','10.1y']),pal:{r:'#ff8fd0',y:'#ffc94a'}},
   {id:'head_bruxa',slot:'head',n:'Chapéu de bruxa',p:0,req:{event:'halloween'},layers:[L(-5,4,['4.1u3.','3.2u3.','2.4u2.','1.6u1.','8u']),L(-1,4,['8o']),L(0,2,['12u'])],pal:{u:'#2a1a3a',o:'#ff8a2f'}},
   {id:'head_gorro',slot:'head',n:'Gorro de Natal',p:0,req:{event:'natal'},layers:[L(-2,4,['6.1w1.','4.3r1.','2.6r','8r']),L(2,3,['10w'])],pal:{r:'#d63a3a',w:'#f3eefc'}},
   {id:'face_oculosol',slot:'face',n:'Óculos de verão',p:0,req:{event:'ferias'},layer:L(5,4,['1k2y2k2y1k']),pal:{k:'#1b1726',y:'#ff6b8b'}},
@@ -1364,7 +1429,7 @@ const ACH=[
   {id:'fammis',n:'Juntos',d:'Concluiu uma missão em família',ok:c=>c.famDone>=1},
   {id:'evento',n:'Caçador de eventos',d:'Venceu um boss de evento',ok:c=>c.eventsWon.size>=1},
   {id:'diario7',n:'Querido diário',d:'Escreveu no diário 7 dias',ok:c=>c.journalDays>=7},
-  {id:'dupla',n:'Dupla dinâmica',d:'Concluiu uma missão em dupla',ok:c=>c.duoDone>=1},
+  {id:'dupla',n:'Time unido',d:'Concluiu um desafio em família',ok:c=>c.duoDone>=1},
   {id:'ult1',n:'Golpe especial',d:'Soltou o especial da classe',ok:()=>(state.ultReleases||[]).length>=1},
   {id:'escudo',n:'Bem protegido',d:'Usou o escudo de sequência',ok:c=>c.shieldDays.size>=1},
   {id:'boss1',n:'Caçador de boss',d:'Venceu um boss',ok:c=>c.boss.totalDefeats>=1},
@@ -1395,6 +1460,8 @@ function localBackend(){
     saveProfile:(uid,id,body)=>{ db.profiles[id]=JSON.parse(JSON.stringify(body)); persist(); return Promise.resolve(); },
     savePush:()=>Promise.resolve(), enablePush:()=>Promise.reject({code:'demo'}),
     deleteProfile:(uid,id)=>{ delete db.profiles[id]; persist(); return Promise.resolve(); },
+    deleteAccount:async(uid,ids)=>{ ids.forEach(id=>delete db.profiles[id]); db.house={rewards:[],requests:[]}; persist(); },
+    watchPlan:(uid,cb)=>{ cb(db.plan||{}); return ()=>{}; },
     famCreate:(fid,data)=>{ db.families[fid]={data,members:{}}; persist(); return Promise.resolve(); },
     famGet:fid=>Promise.resolve(db.families[fid]?db.families[fid].data:null),
     famUpdate:(fid,data)=>{ const f=db.families[fid]; if(f){ Object.assign(f.data,data); persist(); } return Promise.resolve(); },
@@ -1436,6 +1503,13 @@ function firebaseBackend(A,Au,F){
       const reg=await navigator.serviceWorker.ready; const token=await M.getToken(M.getMessaging(app),{vapidKey:VAPID_KEY,serviceWorkerRegistration:reg});
       await F.setDoc(F.doc(fdb,'pushSchedules',uid),{tokens:F.arrayUnion(token),appUrl:location.href.split('#')[0].split('?')[0],tz:Intl.DateTimeFormat().resolvedOptions().timeZone||'America/Sao_Paulo'},{merge:true}); return token; },
     deleteProfile:(uid,id)=>F.deleteDoc(F.doc(fdb,'users',uid,'profiles',id)),
+    deleteAccount:async(uid,ids)=>{
+      const snap=await F.getDocs(F.collection(fdb,'users',uid,'profiles')); const all=new Set(ids.concat(snap.docs.map(d=>d.id)));
+      for(const id of all) await F.deleteDoc(F.doc(fdb,'users',uid,'profiles',id));
+      await F.deleteDoc(F.doc(fdb,'users',uid,'meta','house')).catch(()=>{}); await F.deleteDoc(F.doc(fdb,'users',uid,'meta','plan')).catch(()=>{});
+      await F.deleteDoc(F.doc(fdb,'pushSchedules',uid)).catch(()=>{});
+      try{ await Au.deleteUser(auth.currentUser); }catch(e){ if(e&&e.code==='auth/requires-recent-login') throw {code:'relogin'}; throw e; } },
+    watchPlan:(uid,cb)=>F.onSnapshot(F.doc(fdb,'users',uid,'meta','plan'),s=>cb(s.exists()?s.data():{}),()=>{}),
     famCreate:(fid,data)=>F.setDoc(F.doc(fdb,'families',fid),data),
     famGet:async fid=>{ const s=await F.getDoc(F.doc(fdb,'families',fid)); return s.exists()?s.data():null; },
     famUpdate:(fid,data)=>F.updateDoc(F.doc(fdb,'families',fid),data),
@@ -1456,6 +1530,19 @@ const $=id=>document.getElementById(id);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 let B=null, view='loading', user=null, uid=null, pid=null, profiles=[], unsubProf=null, unsubList=null, unsubFam=null;
 let fam=null, members=[], duos=[], house={rewards:[],requests:[]}, unsubHouse=null, unsubDuos=null, dirty=false, timer=null, newKid=false;
+let jrDraft=null, plan={}, unsubPlan=null;
+function premium(){ if(!BILLING) return true; const now=Date.now();
+  if(plan.until&&plan.until>now) return true; if(plan.trialStart&&now-plan.trialStart<TRIAL_DAYS*864e5) return true; return false; }
+function openPlan(why){ $('pvWhy').textContent=why||'Libere tudo para a casa inteira. Uma assinatura vale para todos os perfis da conta.'; $('planView').hidden=false; }
+function needPlan(why){ if(premium()) return false; openPlan(why); return true; }
+function planLimitProfile(kid){ if(premium()) return false; const n=profiles.filter(p=>!!p.kid===!!kid).length;
+  if(n>=(kid?FREE_KIDS:FREE_ADULTS)){ openPlan(kid?'No plano grátis cabe 1 criança. Com o Plano Família, entram todos os filhos.':'No plano grátis cabe 1 adulto. Com o Plano Família, entra a família toda.'); return true; } return false; }
+function syncJournal(){ const d=viewDay, jr=state.journal[d]||{}, dr=jrDraft||{m:null,t:''};
+  const saved=jr.m!=null||!!jr.t, same=(jr.m!=null?jr.m:null)===dr.m&&(jr.t||'')===(dr.t||'').trim();
+  const empty=dr.m==null&&!(dr.t||'').trim();
+  $('jr-save').disabled=same||(empty&&!saved); $('jr-save').textContent=saved?(empty?'Apagar':'Atualizar'):'Salvar';
+  $('jr-status').textContent=same&&saved?`Salvo${jr.at?' às '+new Date(jr.at).toTimeString().slice(0,5):''}`:(same?'':'Toque em salvar para registrar');
+  $('jr-status').style.color=same&&saved?'var(--good)':''; }
 let tab='hoje', slotFilter='all', viewDay=today(), tourStep=0, charSub='ficha', editMode=false, qaMode='task', qaMore=false, dailyShown=null;
 const setSync=t=>{ $('sync').textContent=t; };
 const toastQ=[]; let toastOn=false;
@@ -1476,10 +1563,21 @@ function flush(){
   if(!B.demo) setSync(navigator.onLine===false?'Sem internet: salvo no aparelho, envia quando voltar':'Salvando…');
   B.saveProfile(uid,pid,body).then(()=>setSync(B.demo?'Modo demonstração: salvo só neste aparelho':'Salvo na sua conta')).catch(e=>setSync('Não foi possível salvar: '+(e&&e.code||'erro')));
   if(state.familyId) B.memberWrite(state.familyId,uid+'_'+pid,memberData(c)).catch(()=>{});
-  const items=state.habits.filter(h=>!h.archived&&h.time).map(h=>({hid:h.id,name:h.name,time:h.time,kind:h.kind||'do',target:h.target||1}));
-  const sig=JSON.stringify([state.name,items]);
-  if(sig!==flush._last&&(items.length||flush._last)){ flush._last=sig; B.savePush(uid,{byProfile:{[pid]:{name:state.name,items}},appUrl:location.href.split('#')[0].split('?')[0]}).catch(()=>{}); }
+  syncPush();
 }
+const utcSlot=t=>{ const [h,m]=t.split(':').map(Number); const u=((h*60+m+new Date().getTimezoneOffset())%1440+1440)%1440; return Math.floor(u/5)*5; };
+function syncPush(){
+  if(!pid||!B) return;
+  const items=state.habits.filter(h=>!h.archived&&!h.deleted&&h.time).map(h=>({hid:h.id,name:h.name,time:h.time,kind:h.kind||'do',target:h.target||1}));
+  const times=new Set(items.map(i=>i.time));
+  (rawProfiles||[]).forEach(d=>{ if(d.id===pid) return; ((d.data||{}).habits||[]).forEach(h=>{ if(!h.archived&&!h.deleted&&h.time) times.add(h.time); }); });
+  const slots=[...new Set([...times].map(utcSlot))].sort((a,b)=>a-b);
+  const sig=JSON.stringify([state.name,items,slots]);
+  if(sig===syncPush._last||(!items.length&&!slots.length&&!syncPush._last)) return;
+  syncPush._last=sig;
+  B.savePush(uid,{byProfile:{[pid]:{name:state.name,items}},slots,appUrl:location.href.split('#')[0].split('?')[0]}).catch(()=>{});
+}
+let rawProfiles=[];
 window.addEventListener('pagehide',()=>{ if(dirty){ clearTimeout(timer); flush(); } });
 document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==='hidden'&&dirty){ clearTimeout(timer); flush(); } if(document.visibilityState==='visible'&&view==='app') render(); });
 
@@ -1502,7 +1600,7 @@ function openProfile(id){
     if(meta.hasPendingWrites||dirty) return;
     if(d){ delete d.summary; delete d.updatedAt; state=normalize(d); view='app';
       if(first||famId!==state.familyId){ famId=state.familyId; watchFamily(); }
-      render(); if(first) setSync(B.demo?'Modo demonstração: salvo só neste aparelho':(meta.fromCache?'Carregado do aparelho':'Salvo na sua conta')); }
+      render(); if(first) setTimeout(syncPush,1500); if(first) setSync(B.demo?'Modo demonstração: salvo só neste aparelho':(meta.fromCache?'Carregado do aparelho':'Salvo na sua conta')); }
     else if(first&&!meta.fromCache) goProfiles();
     first=false;
   },e=>setSync('Erro ao carregar: '+(e&&e.code||'')));
@@ -1514,7 +1612,7 @@ function goProfiles(){
   view='profiles'; render();
 }
 async function createProfile(name,kid,fem){
-  const id=B.newId(uid); const s=DEFAULT(name,kid,fem);
+  const id=B.newId(uid); const s=DEFAULT(name,kid,fem); if(kid) s.consent={at:Date.now(),by:uid};
   await B.saveProfile(uid,id,Object.assign({},s,{summary:{lvl:1,ws:0,cls:null,spec:null,equipped:s.equipped},updatedAt:Date.now()}));
   openProfile(id);
 }
@@ -1564,14 +1662,16 @@ function checkFamily(c){
   members.filter(x=>x.id!==me).forEach(x=>(x.bless||[]).forEach(b=>{ if(!state.blessRecv[b.id]&&b.at>=state.created&&b.at>=keyOf(addDays(new Date(),-7))){ state.blessRecv[b.id]={xp:BLESSXP,at:today(),from:x.name}; toast(`${x.name||'Alguém'} usou Bênção: +${BLESSXP} XP para você`); save(); } }));
   const m=famMission(c);
   if(m.progress>=m.target&&!state.famRewards[m.wk]){ state.famRewards[m.wk]={xp:FAMREWARD,attr:m.attr}; toast(`Missão em família concluída! +${FAMREWARD} XP`); jump(); save(); }
-  duoStatus(m).forEach(d=>{ if(d.mine&&d.done&&!state.duoRewards[d.id]){ state.duoRewards[d.id]={xp:DUOREWARD,attr:d.attr,at:today()}; toast(`Missão em dupla concluída! +${DUOREWARD} XP`); jump(); save(); } });
+  duoStatus(m).forEach(d=>{ if(d.mine&&d.done&&!state.duoRewards[d.id]){ state.duoRewards[d.id]={xp:DUOREWARD,attr:d.attr,at:today()}; toast(`Desafio em família concluído! +${DUOREWARD} XP`); jump(); save(); } });
 }
 function duoStatus(m){
   const me=uid+'_'+pid, byId=Object.fromEntries(m.list.map(x=>[x.id,x]));
-  return duos.filter(d=>d.week===m.wk).map(d=>{ const a=byId[d.a], b=byId[d.b];
-    const pa=a?((a.weekAttr||{})[d.attr]||0):0, pb=b?((b.weekAttr||{})[d.attr]||0):0;
-    return Object.assign({},d,{pa,pb,progress:pa+pb,done:pa+pb>=d.target,mine:d.a===me||d.b===me,aName:a?a.name:d.aName,bName:b?b.name:d.bName}); });
+  return duos.filter(d=>d.week===m.wk).map(d=>{ const ids=d.members||[d.a,d.b].filter(Boolean), names=d.names||{[d.a]:d.aName,[d.b]:d.bName};
+    const parts=ids.map(id=>{ const x=byId[id]; return {id,name:x?x.name:(names[id]||'?'),n:x?((x.weekAttr||{})[d.attr]||0):0}; });
+    const progress=parts.reduce((a,x)=>a+x.n,0);
+    return Object.assign({},d,{parts,progress,done:progress>=d.target,mine:ids.includes(me)}); });
 }
+let duSel=[], duTouched=false;
 
 /* ---------- ações ---------- */
 function setCount(hid,val){
@@ -1596,7 +1696,7 @@ function reqOk(it,c){ const r=it.req; if(!r) return true;
   if(r.boss) return c.boss.defeats[r.boss]>=1; if(r.revived) return c.boss.revived>=1; if(r.vice) return c.vicesWon>=r.vice; if(r.duo) return c.duoDone>=r.duo; if(r.event) return c.eventsWon.has(r.event); if(r.chests) return (state.daily.chests||0)>=r.chests; return c.al[r.a].lvl>=r.l; }
 function reqText(it){ const r=it.req; if(!r) return 'Livre';
   if(r.lvl) return `Nível ${r.lvl}`; if(r.goals) return r.goals===1?'1 objetivo concluído':`${r.goals} objetivos concluídos`; if(r.prestige) return `Prestígio ${r.prestige}`;
-  if(r.boss) return `Vencer o ${bossName(r.boss)}`; if(r.revived) return 'Voltar do modo fantasma'; if(r.vice) return 'Vencer um vício'; if(r.duo) return 'Concluir uma missão em dupla'; if(r.event){ const ev=EVENTS.find(x=>x.id===r.event); return ev?`Vencer o evento ${ev.n}`:'Evento'; } if(r.chests) return r.chests===1?'Abrir 1 baú da recompensa diária':`Abrir ${r.chests} baús da recompensa diária`; return `${ATTRS[r.a].n} ${r.l}`; }
+  if(r.boss) return `Vencer o ${bossName(r.boss)}`; if(r.revived) return 'Voltar do modo fantasma'; if(r.vice) return 'Vencer um vício'; if(r.duo) return 'Concluir um desafio em família'; if(r.event){ const ev=EVENTS.find(x=>x.id===r.event); return ev?`Vencer o evento ${ev.n}`:'Evento'; } if(r.chests) return r.chests===1?'Abrir 1 baú da recompensa diária':`Abrir ${r.chests} baús da recompensa diária`; return `${ATTRS[r.a].n} ${r.l}`; }
 function syncTodaySum(){ const t=today(); if(state.daySum[t]) state.daySum[t]=activeWeights(); }
 const check='<svg width="16" height="16" viewBox="0 0 8 8" shape-rendering="crispEdges"><path fill="#15131f" d="M1 4h1v1h1v1h1V5h1V4h1V3h1V2h1v1H7v1H6v1H5v1H4v1H3V6H2V5H1z"/></svg>';
 
@@ -1652,21 +1752,23 @@ function renderToday(c){
   const info=c.byDay[d]||{xp:0,done:0,full:false}, g=state.dailyGoal;
   // evento
   const ev=activeEvent(); let eh='';
-  if(ev&&(c.eventProg[ev.key]||0)<ev.target){ const prog=c.eventProg[ev.key]||0, won=prog>=ev.target, it=ITEM[ev.item];
-    eh=`<div class="evcard"><span class="bart">${bossSVG(ev.boss)}</span><div><span class="small" style="color:var(--gold)">Evento: ${ev.n} · até ${ev.to.split('-').reverse().slice(0,2).join('/')}</span><b>${ev.bn}</b>
+  if(ev&&premium()&&(c.eventProg[ev.key]||0)<ev.target){ const prog=c.eventProg[ev.key]||0, won=prog>=ev.target, it=ITEM[ev.item];
+    eh=`<div class="evcard"><span class="bart">${bossSVG(ev.boss)}</span><div><span class="small" style="color:var(--goldtx)">Evento: ${ev.n} · até ${ev.to.split('-').reverse().slice(0,2).join('/')}</span><b>${ev.bn}</b>
       <div class="small">${won?`Vencido! ${it.n} liberado em Personagem.`:`Faça ${ev.target} dias cheios durante o evento para vencer e ganhar: ${it.n}.`}</div>
       <div class="hp"><i style="width:${Math.max(0,1-prog/ev.target)*100}%;background:var(--gold)"></i></div><div class="small num">Vida: ${Math.max(0,ev.target-prog)} de ${ev.target}</div></div></div>`; }
   $('eventArea').innerHTML=eh;
   // resumo da semana
   const nw=new Date(), dow=nw.getDay(); let sb='';
   const sk=dow===0&&nw.getHours()>=18?weekKey():dow===1?keyOf(addDays(mondayOf(nw),-7)):null;
-  if(sk&&!state.summarySeen[sk]&&(c.byDay[sk]||Object.keys(c.byDay).some(k=>k>=sk&&k<=keyOf(addDays(parseKey(sk),6))))){
+  if(premium()&&sk&&!state.summarySeen[sk]&&(c.byDay[sk]||Object.keys(c.byDay).some(k=>k>=sk&&k<=keyOf(addDays(parseKey(sk),6))))){
     sb=`<div class="card" style="border-color:var(--gold)">${summaryHTML(weekSummary(c,sk),dow===0?'Sua semana até agora':'Resumo da semana passada')}<button class="btn ghost sm" id="sumClose" type="button" style="align-self:flex-start">Fechar</button></div>`; }
   $('sumBanner').innerHTML=sb;
   // diário
   const jr=state.journal[d]||{};
-  $('moods').innerHTML=MOODS.map((m,i)=>`<button type="button" data-mood="${i}" aria-pressed="${jr.m===i}" aria-label="Humor ${i+1} de 5">${m}</button>`).join('');
-  if(document.activeElement!==$('jr-text')) $('jr-text').value=jr.t||'';
+  if(!jrDraft||jrDraft.d!==d) jrDraft={d,m:jr.m!=null?jr.m:null,t:jr.t||''};
+  $('moods').innerHTML=MOODS.map((m,i)=>`<button type="button" data-mood="${i}" aria-pressed="${jrDraft.m===i}" aria-label="Humor ${i+1} de 5">${m}</button>`).join('');
+  if(document.activeElement!==$('jr-text')) $('jr-text').value=jrDraft.t;
+  syncJournal();
   // boss, fantasma, pausa
   const bs=c.boss, todayInfo=c.byDay[tk]||{done:0,full:false}; let bh='';
   if(bs.dead){
@@ -1691,7 +1793,7 @@ function renderToday(c){
   const rb=$('remindBanner'); const now=new Date(); const hm=`${pad(now.getHours())}:${pad(now.getMinutes())}`;
   if(state.remindOn&&state.reminder&&d===tk&&hm>=state.reminder&&!info.full){ rb.hidden=false; rb.textContent=`Já passou das ${state.reminder}: falta${g-info.done>1?'m':''} ${g-info.done} hábito${g-info.done>1?'s':''} para o dia cheio.`; } else rb.hidden=true;
   $('goal').className='goal'+(info.full?' full':'');
-  $('goal').innerHTML=`<div class="head"><span>${info.full?'Dia cheio conquistado':`Dia cheio: ${Math.min(info.done,g)} de ${g} hábitos (+${BONUS*(fx.full||1)} XP)`}</span><span class="num" style="font-family:var(--display);color:var(--gold)">${info.xp} XP</span></div><div class="pips">${Array.from({length:g},(_,i)=>`<span class="${i<info.done?'on':''}"></span>`).join('')}</div>`;
+  $('goal').innerHTML=`<div class="head"><span>${info.full?'Dia cheio conquistado':`Dia cheio: ${Math.min(info.done,g)} de ${g} hábitos (+${BONUS*(fx.full||1)} XP)`}</span><span class="num" style="font-family:var(--display);color:var(--goldtx)">${info.xp} XP</span></div><div class="pips">${Array.from({length:g},(_,i)=>`<span class="${i<info.done?'on':''}"></span>`).join('')}</div>`;
   const act=state.habits.filter(h=>!h.archived&&!isAvoid(h)), avs=state.habits.filter(h=>!h.archived&&isAvoid(h));
   $('avoidWrap').hidden=!avs.length;
   $('avoidList').innerHTML=avs.map(h=>avoidRow(h,c,d,entries,q,fx)).join('');
@@ -1882,16 +1984,22 @@ function summaryHTML(w,title){
 }
 function renderDuos(m){
   const me=uid+'_'+pid, list=duoStatus(m);
+  const joinNames=ns=>ns.length<=1?(ns[0]||''):ns.slice(0,-1).join(', ')+' e '+ns[ns.length-1];
   $('duoList').innerHTML=list.length?list.map(d=>{ const a=ATTRS[d.attr]||ATTRS.familia;
-    return `<div class="gl${d.done?' won':''}" style="--c:${a.c}"><span class="gn">${d.done?'<span class="trophy"></span>':''}${esc(d.aName||'?')} e ${esc(d.bName||'?')}: ${d.target} hábitos de ${a.n}</span>
+    return `<div class="gl${d.done?' won':''}" style="--c:${a.c}"><span class="gn">${d.done?'<span class="trophy"></span>':''}${esc(joinNames(d.parts.map(x=>x.name||'?')))}: ${d.target} hábitos de ${a.n}</span>
       <div class="gbar"><i style="width:${Math.min(100,d.progress/d.target*100)}%"></i></div>
-      <div class="grow small num"><span>${esc(d.aName||'?')}: ${d.pa} · ${esc(d.bName||'?')}: ${d.pb} · ${Math.min(d.progress,d.target)} de ${d.target}${d.done?' · concluída':''}</span>${d.createdBy===uid&&d.a===me&&!d.done?`<button class="btn ghost sm" data-duodel="${d.id}" type="button">Cancelar</button>`:''}</div></div>`; }).join(''):'';
+      <div class="grow small num"><span>${d.parts.map(x=>`${esc(x.name||'?')}: ${x.n}`).join(' · ')} · ${Math.min(d.progress,d.target)} de ${d.target}${d.done?' · concluído':''}</span>${d.createdBy===uid&&(d.a===me||(d.members||[])[0]===me)&&!d.done?`<button class="btn ghost sm" data-duodel="${d.id}" type="button">Cancelar</button>`:''}</div></div>`; }).join(''):'';
   const others=m.list.filter(x=>!x.me);
-  const keep=$('du-mem').value;
-  $('du-mem').innerHTML=others.length?others.map(x=>`<option value="${x.id}" ${x.id===keep?'selected':''}>${esc(x.name||'Sem nome')}</option>`).join(''):'<option value="">Ninguém mais na família ainda</option>';
+  duSel=duSel.filter(id=>others.some(x=>x.id===id));
+  $('du-mems').innerHTML=others.length?others.map(x=>`<button type="button" data-dumem="${x.id}" aria-pressed="${duSel.includes(x.id)}">${esc(x.name||'Sem nome')}</button>`).join(''):'<span class="small">Ninguém mais na família ainda</span>';
+  $('du-all').hidden=others.length<2;
+  if(!duTouched) $('du-target').value=Math.max(4,4*(duSel.length+1));
   if(!$('du-attr').options.length) $('du-attr').innerHTML=attrOptions('familia');
-  $('duoForm').querySelector('button').disabled=!others.length;
+  $('duoForm').querySelector('button[type=submit]').disabled=!duSel.length;
 }
+$('du-mems').addEventListener('click',e=>{ const b=e.target.closest('[data-dumem]'); if(!b) return; const id=b.dataset.dumem; duSel=duSel.includes(id)?duSel.filter(x=>x!==id):duSel.concat([id]); render(); });
+$('du-all').addEventListener('click',()=>{ const me=uid+'_'+pid; const ids=famMission(compute()).list.filter(x=>x.id!==me).map(x=>x.id); duSel=duSel.length===ids.length?[]:ids; render(); });
+$('du-target').addEventListener('input',()=>{ duTouched=true; });
 function renderHouse(c){
   const adult=!state.kid, rw=house.rewards||[], reqs=house.requests||[];
   $('hcoins').textContent=c.coins;
@@ -1981,6 +2089,9 @@ function renderHist(c){
   $('attrxp').innerHTML=AKEYS.map(k=>`<div class="stat"><span>${ATTRS[k].n}</span><span class="bar"><i style="width:${c.attr[k]/tot*100}%;background:${ATTRS[k].c}"></i></span><span class="lv num">${c.attr[k]}</span></div>`).join('');
 }
 function renderSettings(c){
+  const showPlan=BILLING||/[?&]plano=1/.test(location.search); $('planCard').hidden=!showPlan;
+  if(showPlan){ const left=plan.trialStart?Math.max(0,TRIAL_DAYS-Math.floor((Date.now()-plan.trialStart)/864e5)):TRIAL_DAYS;
+    $('planLine').textContent=!BILLING?'Cobrança desligada: no teste, tudo está liberado para todos.':(plan.until&&plan.until>Date.now()?'Plano Família ativo.':(left>0&&plan.trialStart?`Teste grátis: faltam ${left} dias.`:'Você está no plano grátis.')); }
   if(document.activeElement!==$('cfg-name')) $('cfg-name').value=state.name||'';
   if(document.activeElement!==$('cfg-goal')) $('cfg-goal').value=state.dailyGoal;
   if(document.activeElement!==$('rm-time')) $('rm-time').value=state.reminder||'21:00';
@@ -2083,7 +2194,7 @@ function renderDaily(c){
     ${pl.note?`<p class="small">${pl.note}</p>`:''}
     <div class="small"><b style="color:var(--fg)">Dia ${pl.run} seguido</b> abrindo a Jornada. ${nextChest}</div>
     <div class="dtrack">${DAILY.map((v,i)=>`<div class="dslot${i<pl.slot?' got':''}${i===pl.slot?' now':''}${i===6?' chest':''}"><span>${i===6?'Baú':'Dia '+(i+1)}</span><b class="num">${v}</b></div>`).join('')}</div>
-    ${chestItem?`<div class="small" style="color:var(--gold)">O baú traz um item exclusivo: ${esc(chestItem.n)}</div>`:''}
+    ${chestItem?`<div class="small" style="color:var(--goldtx)">O baú traz um item exclusivo: ${esc(chestItem.n)}</div>`:''}
     <button class="btn gold" id="dailyGo" type="button">Coletar ${pl.coins} moedas</button>`;
   ov.hidden=false;
 }
@@ -2202,26 +2313,32 @@ $('famCreateForm').addEventListener('submit',async e=>{ e.preventDefault(); $('f
   try{ const code=newCode(); await B.famCreate(code,{name,createdBy:uid,createdAt:Date.now()}); state.familyId=code; save(); watchFamily(); render(); toast('Família criada'); }catch(err){ $('famErr').textContent='Não foi possível criar a família ('+(err&&err.code||'erro')+').'; } });
 $('famJoinForm').addEventListener('submit',async e=>{ e.preventDefault(); $('famErr').textContent=''; const code=$('fj-code').value.trim().toUpperCase().replace(/[^A-Z0-9]/g,''); if(code.length!==6){ $('famErr').textContent='O código tem 6 letras e números.'; return; }
   try{ const f=await B.famGet(code); if(!f){ $('famErr').textContent='Não achei nenhuma família com esse código.'; return; } state.familyId=code; save(); watchFamily(); render(); toast(`Você entrou em ${f.name}`); }catch(err){ $('famErr').textContent='Não foi possível entrar ('+(err&&err.code||'erro')+').'; } });
-$('duoForm').addEventListener('submit',e=>{ e.preventDefault(); const mid=$('du-mem').value; if(!mid||!state.familyId) return;
-  const m=famMission(compute()), other=m.list.find(x=>x.id===mid); if(!other) return;
-  const me=uid+'_'+pid, wk=weekKey();
-  if(duos.some(d=>d.week===wk&&((d.a===me&&d.b===mid)||(d.a===mid&&d.b===me)))){ toast('Vocês 2 já têm uma missão nesta semana'); return; }
+$('duoForm').addEventListener('submit',e=>{ e.preventDefault(); if(!duSel.length||!state.familyId) return; if(needPlan('Os desafios em família fazem parte do Plano Família.')) return;
+  const m=famMission(compute()), me=uid+'_'+pid, wk=weekKey();
+  const ppl=duSel.map(id=>m.list.find(x=>x.id===id)).filter(Boolean); if(!ppl.length) return;
+  const ids=[me].concat(ppl.map(x=>x.id)), key=ids.slice().sort().join('|');
+  if(duos.some(d=>d.week===wk&&(d.members||[d.a,d.b]).slice().sort().join('|')===key)){ toast('Esse grupo já tem um desafio nesta semana'); return; }
+  const names={[me]:state.name}; ppl.forEach(x=>names[x.id]=x.name||'');
   const did=B.newDuoId();
-  B.duoCreate(state.familyId,did,{a:me,b:mid,aName:state.name,bName:other.name,attr:$('du-attr').value,target:Math.max(2,Math.min(60,parseInt($('du-target').value)||8)),week:wk,createdBy:uid,createdAt:Date.now()})
-    .then(()=>toast(`Desafio lançado para ${other.name}`)).catch(()=>toast('Não foi possível criar o desafio')); });
+  B.duoCreate(state.familyId,did,{members:ids,names,a:me,b:ppl[0].id,aName:state.name,bName:ppl[0].name||'',attr:$('du-attr').value,target:Math.max(2,Math.min(200,parseInt($('du-target').value)||8)),week:wk,createdBy:uid,createdAt:Date.now()})
+    .then(()=>{ duSel=[]; duTouched=false; render(); toast(ppl.length>1?`Desafio lançado para ${ppl.length} pessoas`:`Desafio lançado para ${ppl[0].name}`); }).catch(()=>toast('Não foi possível criar o desafio')); });
 $('duoList').addEventListener('click',e=>{ const b=e.target.closest('[data-duodel]'); if(!b) return; B.duoDelete(state.familyId,b.dataset.duodel).catch(()=>{}); });
-$('rwForm').addEventListener('submit',e=>{ e.preventDefault(); const n=$('rw-name').value.trim(); if(!n) return; const ultR=$('rw-ult').checked; house.rewards=(house.rewards||[]).concat([{id:'r'+Date.now().toString(36),name:n,cost:ultR?0:Math.max(10,parseInt($('rw-cost').value)||500),ult:ultR}]); $('rw-name').value=''; $('rw-ult').checked=false; saveHouse(); toast('Prêmio criado'); });
+$('rwForm').addEventListener('submit',e=>{ e.preventDefault(); const n=$('rw-name').value.trim(); if(!n) return; if(needPlan('Os Prêmios da casa fazem parte do Plano Família.')) return; const ultR=$('rw-ult').checked; house.rewards=(house.rewards||[]).concat([{id:'r'+Date.now().toString(36),name:n,cost:ultR?0:Math.max(10,parseInt($('rw-cost').value)||500),ult:ultR}]); $('rw-name').value=''; $('rw-ult').checked=false; saveHouse(); toast('Prêmio criado'); });
 $('houseCard').addEventListener('click',e=>{ const t=e.target.closest('button'); if(!t) return; const d=t.dataset;
+  if(d.rwask&&needPlan('Os Prêmios da casa fazem parte do Plano Família.')) return;
   if(d.rwask){ const r=(house.rewards||[]).find(x=>x.id===d.rwask); const c=compute(); if(!r||c.coins<r.cost) return;
     house.requests=(house.requests||[]).concat([{id:'q'+Date.now().toString(36),rid:r.id,name:r.name,cost:r.cost,uid,pid,pname:state.name,status:'pending',at:Date.now()}]).slice(-200); saveHouse(); toast('Pedido enviado'); }
   if(d.rwdel){ house.rewards=(house.rewards||[]).filter(x=>x.id!==d.rwdel); saveHouse(); }
   if(d.rqcancel){ house.requests=(house.requests||[]).filter(x=>x.id!==d.rqcancel); saveHouse(); }
   if(d.rqok||d.rqno){ const q=(house.requests||[]).find(x=>x.id===(d.rqok||d.rqno)); if(q){ q.status=d.rqok?'ok':'no'; q.by=state.name; saveHouse(); toast(d.rqok?'Pedido aprovado':'Pedido recusado'); } }
 });
-$('moods').addEventListener('click',e=>{ const b=e.target.closest('[data-mood]'); if(!b) return; const d=viewDay; if(d<minEditDay()) return; const before=compute();
-  const j=Object.assign({},state.journal[d]||{}); const m=+b.dataset.mood; j.m=j.m===m?null:m; if(j.m==null&&!j.t) delete state.journal[d]; else state.journal[d]=j; save(); render(); celebrate(before,compute()); });
-$('jr-text').addEventListener('change',e=>{ const d=viewDay; if(d<minEditDay()) return; const before=compute(); const t=e.target.value.trim().slice(0,140);
-  const j=Object.assign({},state.journal[d]||{}); if(t) j.t=t; else delete j.t; if(!j.t&&j.m==null) delete state.journal[d]; else state.journal[d]=j; save(); render(); if(t) toast('Anotado no diário'); celebrate(before,compute()); });
+$('moods').addEventListener('click',e=>{ const b=e.target.closest('[data-mood]'); if(!b||!jrDraft) return; const m=+b.dataset.mood; jrDraft.m=jrDraft.m===m?null:m;
+  document.querySelectorAll('#moods [data-mood]').forEach(x=>x.setAttribute('aria-pressed',jrDraft.m===+x.dataset.mood)); syncJournal(); });
+$('jr-text').addEventListener('input',e=>{ if(!jrDraft) return; jrDraft.t=e.target.value; syncJournal(); });
+$('jr-save').addEventListener('click',()=>{ const d=viewDay; if(!jrDraft||d<minEditDay()) return; const before=compute(); const t=($('jr-text').value||'').trim().slice(0,140);
+  const had=!!state.journal[d]; const j={}; if(jrDraft.m!=null) j.m=jrDraft.m; if(t) j.t=t;
+  if(j.m==null&&!j.t) delete state.journal[d]; else state.journal[d]=Object.assign(j,{at:Date.now()});
+  jrDraft={d,m:j.m!=null?j.m:null,t:j.t||''}; save(); render(); toast(state.journal[d]?(had?'Diário atualizado':'Diário salvo'):'Diário apagado'); celebrate(before,compute()); });
 $('sumBanner').addEventListener('click',e=>{ if(!e.target.closest('#sumClose')) return; const now=new Date(); const sk=now.getDay()===0?weekKey():keyOf(addDays(mondayOf(now),-7)); state.summarySeen[sk]=true; save(); render(); });
 $('village').addEventListener('click',e=>{ const b=e.target.closest('[data-mem]'); if(!b) return; selMember=selMember===b.dataset.mem?null:b.dataset.mem; render(); });
 $('famScene').addEventListener('change',e=>{ if(!state.familyId||!B.famUpdate) return; const v=e.target.value; if(fam) fam.scene=v; B.famUpdate(state.familyId,{scene:v}).catch(()=>toast('Só quem criou a família pode trocar o cenário')); render(); });
@@ -2231,10 +2348,11 @@ $('famLeave').addEventListener('click',e=>{ const b=e.currentTarget; if(!b.datas
   B.memberDelete(state.familyId,uid+'_'+pid).catch(()=>{}); state.familyId=null; save(); watchFamily(); render(); });
 
 $('slots').addEventListener('click',e=>{ const b=e.target.closest('[data-slot]'); if(!b) return; slotFilter=b.dataset.slot; render(); });
-function onLook(e){ const b=e.target.closest('[data-look]'); if(!b) return; const it=ITEM[b.dataset.look]; state.equipped[it.slot]=it.id; save(); render(); }
-$('skins').addEventListener('click',onLook); $('bodies').addEventListener('click',onLook); $('hstyles').addEventListener('click',onLook);
+function onLook(e){ const b=e.target.closest('[data-look]'); if(!b) return; const it=ITEM[b.dataset.look]; if(!it||it.slot==='body') return; state.equipped[it.slot]=it.id; save(); render(); }
+$('skins').addEventListener('click',onLook); $('hstyles').addEventListener('click',onLook);
 $('shop').addEventListener('click',e=>{
   const buy=e.target.closest('[data-buy]'), eqb=e.target.closest('[data-equip]');
+  if(buy&&needPlan('A loja de cosméticos faz parte do Plano Família.')) return;
   if(buy){ const it=ITEM[buy.dataset.buy]; const c=compute(); if(c.coins<it.p||!reqOk(it,c)||c.boss.dead) return;
     state.spent=(state.spent||0)+it.p; state.owned.push(it.id); state.equipped[it.slot]=it.id; save(); render(); toast(`${it.n} equipado`); jump(); }
   if(eqb){ const it=ITEM[eqb.dataset.equip]; if(state.equipped[it.slot]===it.id){ if(!FIXED.has(it.slot)) delete state.equipped[it.slot]; } else state.equipped[it.slot]=it.id; save(); render(); }
@@ -2270,6 +2388,28 @@ document.querySelector('.charseg').addEventListener('click',e=>{ const b=e.targe
 $('miniAv').addEventListener('click',()=>{ charSub='ficha'; goTab('char'); });
 $('ultOpts').addEventListener('click',e=>{ const b=e.target.closest('[data-uo]'); if(!b||b.disabled) return; const c=compute(); if(c.ultCharge>0) return;
   state.ult=Object.assign({},state.ult||{},{choice:b.dataset.uo}); save(); render(); toast(`Especial: ${curUlt().n}`); });
+function applyTheme(t){ if(t==='light') document.documentElement.dataset.theme='light'; else delete document.documentElement.dataset.theme;
+  const mt=document.querySelector('meta[name="theme-color"]'); if(mt) mt.content=t==='light'?'#f3f1f7':'#15131f';
+  document.querySelectorAll('#themeSeg [data-theme]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.theme===(t==='light'?'light':'dark'))); }
+const curTheme=()=>{ try{ return localStorage.getItem('jornada-theme')||'dark'; }catch(e){ return 'dark'; } };
+applyTheme(curTheme());
+$('themeSeg').addEventListener('click',e=>{ const b=e.target.closest('[data-theme]'); if(!b) return; try{ localStorage.setItem('jornada-theme',b.dataset.theme); }catch(err){} applyTheme(b.dataset.theme); });
+document.addEventListener('click',e=>{ if(e.target.closest('[data-delacct]')){ $('da-ok').checked=false; $('da-go').disabled=true; $('da-msg').textContent=''; $('delAcct').hidden=false; }
+  if(e.target.closest('[data-openplan]')) openPlan(); });
+$('da-ok').addEventListener('change',()=>{ $('da-go').disabled=!$('da-ok').checked; });
+$('da-cancel').addEventListener('click',()=>{ $('delAcct').hidden=true; });
+$('da-go').addEventListener('click',async()=>{ const b=$('da-go'); b.disabled=true; $('da-msg').textContent='Apagando…';
+  try{ dirty=false; clearTimeout(timer); if(unsubProf){ unsubProf(); unsubProf=null; }
+    const mine=(rawProfiles||[]).map(d=>({id:d.id,fid:(d.data||{}).familyId}));
+    for(const p of mine) if(p.fid) await B.memberDelete(p.fid,uid+'_'+p.id).catch(()=>{});
+    await B.deleteAccount(uid,mine.map(p=>p.id));
+    try{ localStorage.removeItem(pidKey()); }catch(err){}
+    $('delAcct').hidden=true; toast('Conta apagada'); pid=null; B.logout(); }
+  catch(err){ if(err&&err.code==='relogin'){ $('da-msg').textContent='Os dados foram apagados. Para apagar também o login, o Google pede que você entre de novo: saia, entre e toque em "Apagar minha conta" outra vez.'; }
+    else $('da-msg').textContent='Não deu certo: '+(err&&(err.code||err.message)||err); b.disabled=false; } });
+document.querySelectorAll('#planView [data-plan]').forEach(b=>b.addEventListener('click',()=>{ document.querySelectorAll('#planView [data-plan]').forEach(x=>x.classList.toggle('main',x===b)); $('pv-go').textContent=b.dataset.plan==='mensal'?'Assinar o mensal':'Assinar o anual'; }));
+$('pv-go').addEventListener('click',()=>{ $('pv-msg').textContent=BILLING?'A assinatura abre pela Google Play.':'Na versão de teste a assinatura está desligada e tudo já está liberado.'; });
+$('pv-close').addEventListener('click',()=>{ $('planView').hidden=true; });
 $('daily').addEventListener('click',e=>{ if(e.target.closest('#dailyGo')) claimDaily(); });
 function onEdit(e){
   const el=e.target, card=el.closest('[data-eid]'); if(!card||!el.dataset.f) return;
@@ -2307,8 +2447,8 @@ $('cfg-tour').addEventListener('click',()=>{ state.tour=false; tourStep=0; rende
 $('rm-time').addEventListener('change',e=>{ state.reminder=e.target.value||'21:00'; save(); render(); });
 $('ult-hab').addEventListener('change',e=>{ const v=e.target.value||null; if((state.ult||{}).hid===v) return; state.ult={hid:v,start:today(),choice:(state.ult||{}).choice||null}; save(); render(); if(v) toast('Hábito do especial escolhido'); });
 ['ultBox','ultMini'].forEach(id=>$(id).addEventListener('click',e=>{ if(e.target.closest('[data-ultgo]')) releaseUlt(); if(e.target.closest('[data-ultcfg]')){ goTab('hab'); setTimeout(()=>{ try{ $('ultCfg').scrollIntoView({behavior:'smooth'}); }catch(err){} },50); } }));
-$('btnPush').addEventListener('click',async()=>{ const b=$('btnPush'); b.disabled=true; $('pushMsg').textContent='Ativando…';
-  try{ await B.enablePush(uid); state.notif=true; save(); $('pushMsg').textContent='Notificações ativadas neste celular. Coloque horário nos hábitos para receber os avisos.'; flush._last=null; flush(); }
+$('btnPush').addEventListener('click',async()=>{ if(needPlan('Os avisos no horário de cada hábito fazem parte do Plano Família.')) return; const b=$('btnPush'); b.disabled=true; $('pushMsg').textContent='Ativando…';
+  try{ await B.enablePush(uid); state.notif=true; save(); $('pushMsg').textContent='Notificações ativadas neste celular. Coloque horário nos hábitos para receber os avisos.'; syncPush._last=null; flush(); }
   catch(e){ const m={demo:'Na versão de teste do Claude as notificações não funcionam. Use o app publicado.',nokey:'As notificações ainda não foram configuradas no app.',unsupported:'Este navegador não aceita notificações. No iPhone, instale o app na tela inicial (iOS 16.4 ou mais novo) e abra por lá.',denied:'A permissão foi negada. Libere as notificações do app nas configurações do celular e tente de novo.'};
     $('pushMsg').textContent=m[e&&e.code]||('Não deu certo: '+(e&&(e.code||e.message)||e)); }
   b.disabled=false; });
@@ -2362,9 +2502,11 @@ $('btnDelProf').addEventListener('click',e=>{ const b=e.currentTarget; if(!b.dat
 let newFem=false;
 $('pf-m').addEventListener('click',()=>{ newFem=false; $('pf-m').setAttribute('aria-pressed','true'); $('pf-f').setAttribute('aria-pressed','false'); });
 $('pf-f').addEventListener('click',()=>{ newFem=true; $('pf-f').setAttribute('aria-pressed','true'); $('pf-m').setAttribute('aria-pressed','false'); });
-$('pf-adult').addEventListener('click',()=>{ newKid=false; $('pf-adult').setAttribute('aria-pressed','true'); $('pf-kid').setAttribute('aria-pressed','false'); $('pf-hint').textContent='Começa leve, com 3 hábitos (água, leitura e sono). Na jornada você escolhe o que quer mudar.'; });
-$('pf-kid').addEventListener('click',()=>{ newKid=true; $('pf-kid').setAttribute('aria-pressed','true'); $('pf-adult').setAttribute('aria-pressed','false'); $('pf-hint').textContent='Começa com escovar os dentes, arrumar o quarto, ler 10 min, ajudar em casa, brincar ao ar livre e dormir no horário.'; });
-$('profForm').addEventListener('submit',async e=>{ e.preventDefault(); const n=$('pf-name').value.trim(); if(!n) return; const b=e.submitter; if(b) b.disabled=true; try{ await createProfile(n,newKid,newFem); $('pf-name').value=''; }catch(err){ toast('Não foi possível criar o perfil'); } if(b) b.disabled=false; });
+$('pf-adult').addEventListener('click',()=>{ newKid=false; $('pf-consentW').hidden=true; $('pf-adult').setAttribute('aria-pressed','true'); $('pf-kid').setAttribute('aria-pressed','false'); $('pf-hint').textContent='Começa leve, com 3 hábitos (água, leitura e sono). Na jornada você escolhe o que quer mudar.'; });
+$('pf-kid').addEventListener('click',()=>{ newKid=true; $('pf-consentW').hidden=false; $('pf-kid').setAttribute('aria-pressed','true'); $('pf-adult').setAttribute('aria-pressed','false'); $('pf-hint').textContent='Começa com escovar os dentes, arrumar o quarto, ler 10 min, ajudar em casa, brincar ao ar livre e dormir no horário.'; });
+$('profForm').addEventListener('submit',async e=>{ e.preventDefault(); const n=$('pf-name').value.trim(); if(!n) return;
+  if(newKid&&!$('pf-consent').checked){ toast('Para perfil de criança, marque a autorização do responsável'); return; }
+  if(planLimitProfile(newKid)) return; const b=e.submitter; if(b) b.disabled=true; try{ await createProfile(n,newKid,newFem); $('pf-name').value=''; $('pf-consent').checked=false; }catch(err){ toast('Não foi possível criar o perfil'); } if(b) b.disabled=false; });
 $('plist').addEventListener('click',e=>{
   const d=e.target.closest('[data-pdel]');
   if(d){ const p=profiles.find(x=>x.id===d.dataset.pdel); if(!p) return;
@@ -2394,13 +2536,16 @@ function startAuth(){
     user=u;
     if(!u){ uid=null; pid=null; view='login'; render(); setSync(''); return; }
     if(unsubHouse){ unsubHouse(); unsubHouse=null; }
+    if(unsubPlan){ unsubPlan(); unsubPlan=null; } plan={}; unsubPlan=B.watchPlan?B.watchPlan(u.uid,d=>{ plan=d||{}; if(BILLING&&!plan.trialStart&&!B.demo){ /* teste de 14 dias começa no primeiro acesso */ } if(view==='app') render(); }):null;
     uid=u.uid; unsubHouse=B.watchHouse(uid,h=>{ house=Object.assign({rewards:[],requests:[]},h||{}); if(view==='app') render(); });
     $('acctLine').textContent=B.demo?u.label:'Conectado como '+u.label; $('btnLogout1').hidden=B.demo;
     let saved=null; try{ saved=localStorage.getItem(pidKey()); }catch(e){}
     let first=true;
     unsubList=B.watchProfiles(uid,(docs,fromCache)=>{
+      rawProfiles=docs;
       profiles=docs.map(d=>Object.assign({id:d.id},d.data.summary||{},{name:d.data.name,kid:d.data.kid,familyId:d.data.familyId||(d.data.summary||{}).familyId||null})).sort((a,b)=>(a.name||'').localeCompare(b.name||''));
       if(first){ first=false;
+        if(/[?&]excluir=1/.test(location.search)){ view='profiles'; render(); $('delAcct').hidden=false; return; }
         if(saved&&profiles.some(p=>p.id===saved)){ openProfile(saved); return; }
         if(profiles.length===1&&!fromCache){ openProfile(profiles[0].id); return; }
         view='profiles'; if(!profiles.length&&u.first) $('pf-name').value=u.first; }

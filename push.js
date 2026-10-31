@@ -1,4 +1,5 @@
 // Envia os avisos de horário dos hábitos. Roda pelo GitHub Actions a cada 5 minutos.
+// O app grava em pushSchedules/{uid}.slots as faixas de horário (UTC, de 5 em 5 min) que têm aviso.
 const admin=require('firebase-admin');
 admin.initializeApp({credential:admin.credential.cert(JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT))});
 const db=admin.firestore();
@@ -8,7 +9,10 @@ function agora(tz){
   return {dia:`${p.year}-${p.month}-${p.day}`,min:Number(p.hour)*60+Number(p.minute)};
 }
 (async()=>{
-  const snap=await db.collection('pushSchedules').get(); let enviados=0;
+  // Lê só as contas que têm algum aviso nos últimos 40 minutos (faixas de 5 min, em UTC).
+  const d0=new Date(), agoraUtc=d0.getUTCHours()*60+d0.getUTCMinutes(), base=Math.floor(agoraUtc/5)*5;
+  const faixas=[]; for(let k=0;k<=Math.ceil(JANELA/5);k++) faixas.push(((base-5*k)%1440+1440)%1440);
+  const snap=await db.collection('pushSchedules').where('slots','array-contains-any',faixas).get(); let enviados=0;
   for(const doc of snap.docs){
     const d=doc.data(); let tokens=d.tokens||[]; if(!tokens.length) continue;
     const {dia,min}=agora(d.tz||'America/Sao_Paulo'); const sent=d.sent||{}; const upd={}; const ruins=new Set();

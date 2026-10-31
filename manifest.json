@@ -1,7 +1,7 @@
 {
   "name": "Jornada",
   "short_name": "Jornada",
-  "description": "Hábitos que viram XP, roupa e arma para o seu avatar.",
+  "description": "Rotina da família em forma de jogo: hábitos viram XP, roupa e arma para o avatar de cada um.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
@@ -10,7 +10,24 @@
   "theme_color": "#15131f",
   "lang": "pt-BR",
   "icons": [
-    { "src": "icon.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
-    { "src": "icon.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
-  ]
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "id": "./"
 }

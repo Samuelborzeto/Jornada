@@ -1,0 +1,30 @@
+name: Lembretes
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+jobs:
+  enviar:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm install firebase-admin@12.7.0 --no-save
+      - run: node push.js
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+      - name: Manter o agendamento ligado
+        # O GitHub desliga agendamentos de repositório público após 60 dias sem alteração.
+        # Uma vez por dia, reativa este próprio agendamento para zerar essa contagem.
+        if: github.event_name == 'schedule'
+        run: |
+          if [ "$(date -u +%H%M)" \< "0310" ] && [ "$(date -u +%H%M)" \> "0259" ]; then
+            gh api -X PUT "repos/${{ github.repository }}/actions/workflows/lembretes.yml/enable" && echo "agendamento reativado"
+          fi
+        env:
+          GH_TOKEN: ${{ github.token }}
