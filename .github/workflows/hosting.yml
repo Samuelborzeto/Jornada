@@ -1,7 +1,10 @@
 name: Publicar no Firebase Hosting
 # Publica o app em https://jornada-diaria-5eaf2.web.app
-# Por enquanto só roda quando acionado à mão (aba Actions > Publicar no Firebase Hosting > Run workflow).
+# Roda sozinho a cada envio para a branch main (e também à mão, em Actions > Run workflow).
 on:
+  push:
+    branches: [main]
+    paths-ignore: ['push.js', '.github/workflows/lembretes.yml', '**.md']
   workflow_dispatch:
 jobs:
   publicar:
