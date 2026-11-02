@@ -1253,12 +1253,10 @@ function stageOf(al){ let s=0; WSTAGES.forEach((t,i)=>{ if(al>=t) s=i; }); retur
 /* Lendas da temporada: 5 personagens por ano, liberados por dias de uso */
 const SEASON={id:'s1',n:'Temporada 1',start:'2026-11-01',end:'2027-10-31'};
 const HEROES=[
-  {id:'saci',n:'Saci',from:'Folclore brasileiro',rel:0,days:8,t:'Travesso dos redemoinhos',aura:'#ff5d5d',
-    pal:{s:'#6b3a22',h:'#1b1726',t:'#6b3a22',p:'#e9e2cf',b:'#6b3a22',e:'#fff2e0',m:'#3a1e12'},
-    body:{15:'4.1k6p1k4.',16:'4.8k4.',17:'8.1k2s1k4.',18:'7.1k3s1k4.',19:'7.5k4.'},
-    lay:[[L(-3,11,['1r']),{r:'#c62f45'}],[L(-2,9,['3r']),{r:'#c62f45'}],[L(-1,7,['5r']),{r:'#c62f45'}],[L(0,5,['7r']),{r:'#c62f45'}],[L(1,4,['1R7r']),{r:'#c62f45',R:'#8f1f30'}],
-      [L(7,9,['4w']),{w:'#8a5a34'}],[L(6,12,['2w']),{w:'#8a5a34'}]],
-    fx:[[L(4,13,['1z']),{z:'#d5dbe4'}],[L(3,14,['1z']),{z:'#d5dbe4'}],[L(2,13,['1z']),{z:'#d5dbe4'}]]},
+  {id:'kitsune',n:'Kitsune',from:'Folclore japonês',rel:0,days:8,t:'Raposa de nove caudas',aura:'#ff9f43',
+    pal:{s:'#f1c7a0',h:'#f08a3a',t:'#c62f45',p:'#c62f45',b:'#2a2640'},
+    back:[[L(9,12,['2.2h','1.3h','4h','2w2h','1.3h','2.1w1h']),{w:'#f3eefc'}]],
+    lay:[[L(-1,4,['2h6.2h']),{}],[L(0,4,['1h1w6.1w1h']),{w:'#f3eefc'}],[L(6,5,['1r4.1r']),{r:'#ff6b8b'}],[L(14,5,['6y']),{y:'#f3eefc'}],[L(10,6,['1w2.1w']),{w:'#f3eefc'}]]},
   {id:'valquiria',n:'Valquíria',from:'Mitologia nórdica',rel:2,days:25,t:'Guardiã dos bravos',aura:'#7fe0ff',
     pal:{s:'#f1c7a0',h:'#f2d16b',t:'#9aa3b5',p:'#2f4a8a',b:'#6b4433'},
     back:[[L(10,1,Array(9).fill('14c')),{c:'#2f4a8a'}]],
