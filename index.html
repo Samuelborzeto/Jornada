@@ -343,6 +343,10 @@ input,select{background:var(--panel2);border:1px solid var(--inline);border-radi
 .mic svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .mic.on{background:var(--accent);border-color:var(--accent);color:#fff;animation:micp 1s ease-in-out infinite}
 @keyframes micp{50%{box-shadow:0 0 0 6px color-mix(in srgb,var(--accent) 30%,transparent)}}
+.card>.info{display:none}
+.card.open>.info{display:block}
+.ibtn{display:inline-grid;place-items:center;width:24px;height:24px;margin-left:8px;border-radius:50%;border:1.5px solid var(--boxline);background:none;color:var(--muted);font:700 13px/1 var(--body);vertical-align:3px;padding:0}
+.card.open .ibtn{background:var(--fg);color:var(--bg);border-color:var(--fg)}
 .pinrow{display:flex;gap:8px}.pinrow input{flex:1;letter-spacing:.4em;font-family:var(--display);font-size:22px;text-align:center}
 .mlist{display:flex;flex-direction:column;gap:6px}
 .mrow{display:flex;justify-content:space-between;align-items:center;gap:8px;background:var(--panel2);border-radius:8px;padding:8px 10px}
@@ -698,7 +702,7 @@ input,select{background:var(--panel2);border:1px solid var(--inline);border-radi
       <div id="sub-lendas" class="view" hidden>
         <div class="card" id="heroCard">
           <div class="head"><h2>Lendas da temporada</h2><span class="small num" id="heroDays"></span></div>
-          <div class="small" id="heroIntro"></div>
+          <div class="small info" id="heroIntro"></div>
           <div class="heroes" id="heroList"></div>
           <div class="small" id="heroUse"></div>
           <button class="linkbtn" id="heroDemo" type="button" hidden>Liberar todas (só no modo demonstração)</button>
@@ -779,12 +783,12 @@ input,select{background:var(--panel2);border:1px solid var(--inline);border-radi
         <div class="card" id="famMission"></div>
         <div class="card">
           <div class="head"><h2>Placar da semana</h2><span class="small" id="famWeek"></span></div>
-          <div class="small">Cada dia vale até 100 pontos: o quanto a pessoa cumpriu da própria meta do dia cheio. Assim criança e adulto disputam de igual para igual.</div>
+          <div class="small info">Cada dia vale até 100 pontos: o quanto a pessoa cumpriu da própria meta do dia cheio. Assim criança e adulto disputam de igual para igual.</div>
           <div class="rank" id="famRank"></div>
         </div>
         <div class="card">
           <div class="head"><h2>Desafio em família</h2><span class="small num">+100 XP e item exclusivo</span></div>
-          <div class="small">Escolha quem entra no desafio desta semana: 1 pessoa ou a família toda. A soma de todo mundo conta.</div>
+          <div class="small info">Escolha quem entra no desafio desta semana: 1 pessoa ou a família toda. A soma de todo mundo conta.</div>
           <div class="goals" id="duoList"></div>
           <form class="form" id="duoForm">
             <div class="full" style="display:flex;flex-direction:column;gap:6px"><div class="head"><span class="small" style="font-weight:600">Quem participa com você</span><button class="linkbtn" type="button" id="du-all">Todos</button></div><div class="sugs" id="du-mems"></div></div>
@@ -832,7 +836,7 @@ input,select{background:var(--panel2);border:1px solid var(--inline);border-radi
           <label>Hábitos para o dia cheio<input id="cfg-goal" type="number" min="1" max="20"></label>
         </div>
         <div class="head"><span class="small" id="cfg-cls"></span><button class="btn ghost sm" id="cfg-swap" type="button">Trocar classe</button></div>
-        <div class="small">Dia cheio vale +30 XP extra. A missão do dia dobra o XP de um hábito.</div>
+        <div class="small info">Dia cheio vale +30 XP extra. A missão do dia dobra o XP de um hábito.</div>
         <span style="display:flex;gap:14px;flex-wrap:wrap"><button class="linkbtn" id="cfg-aims" type="button">Montar meu dia de novo</button><button class="linkbtn" id="cfg-tour" type="button">Ver o tutorial de novo</button></span>
       </div>
       <div class="card">
@@ -845,11 +849,12 @@ input,select{background:var(--panel2);border:1px solid var(--inline);border-radi
         <div class="ultopts" id="ultOpts"></div>
         <div class="small" id="ultLock"></div>
         <label>Hábito que carrega o especial<select id="ult-hab"></select></label>
-        <div class="small">Cada vez que você faz esse hábito, a barra enche 25%. Cada dia cheio soma mais 5%. Escolha algo mais difícil, que você quer muito manter.</div>
+        <div class="small info">Cada vez que você faz esse hábito, a barra enche 25%. Cada dia cheio soma mais 5%. Escolha algo mais difícil, que você quer muito manter.</div>
       </div>
       <div class="card">
         <h2>Notificações no celular</h2>
-        <div class="small">Avisa na hora dos hábitos que têm horário (ex.: dormir às 21:00, estudar às 19:00), mesmo com o app fechado. Para colocar horário, toque em Editar na lista de hábitos da aba Hoje. Se o hábito já estiver marcado, o aviso não vem.</div>
+        <div class="small">Avisa na hora dos hábitos que têm horário, mesmo com o app fechado.</div>
+        <div class="small info">Exemplos: dormir às 21:00, estudar às 19:00. Para colocar horário, toque em Editar na lista de hábitos da aba Hoje. Se o hábito já estiver marcado, o aviso não vem.</div>
         <button class="btn" id="btnPush" type="button">Ativar notificações neste celular</button>
         <div class="small" id="pushMsg"></div>
       </div>
@@ -859,20 +864,21 @@ input,select{background:var(--panel2);border:1px solid var(--inline);border-radi
           <label>Horário<input id="rm-time" type="time"></label>
           <label>Aviso no app<select id="rm-on"><option value="1">Ligado</option><option value="0">Desligado</option></select></label>
         </div>
-        <div class="small">Depois desse horário, o app mostra quantos hábitos faltam para o dia cheio.</div>
+        <div class="small info">Depois desse horário, o app mostra quantos hábitos faltam para o dia cheio.</div>
         <button class="btn ghost" id="rm-ics" type="button">Adicionar lembrete na agenda</button>
         <div class="small" id="rm-msg"></div>
       </div>
       <div class="card">
         <h2>Boss e pausa</h2>
         <label>Boss da preguiça<select id="cfg-boss"><option value="normal">Normal: rouba XP e pode virar fantasma</option><option value="leve">Leve: só aparece e ameaça</option></select></label>
-        <div class="small">Toda semana você tem 1 escudo, usado sozinho no primeiro dia sem marcar nada: a sequência não quebra e o boss não avança.</div>
-        <div class="small">Pausa, para férias ou doença: o boss não aparece e não tira XP. Até 14 dias por vez.</div>
+        <div class="small info">Toda semana você tem 1 escudo, usado sozinho no primeiro dia sem marcar nada: a sequência não quebra e o boss não avança.</div>
+        <div class="small info">Pausa, para férias ou doença: o boss não aparece e não tira XP. Até 14 dias por vez.</div>
         <div id="pauseBox"></div>
       </div>
       <div class="card">
         <h2>Senha dos pais</h2>
         <div class="small" id="pinLine"></div>
+        <div class="small info">Com a senha, só os adultos abrem Ajustes, aprovam e cadastram prêmios, abrem a tela do plano e apagam perfil ou conta. Vale para todos os perfis da conta e, depois de digitada, fica liberada por 10 minutos.</div>
         <div class="pinrow"><input id="pin-new" type="password" inputmode="numeric" maxlength="6" autocomplete="off" placeholder="4 a 6 números" aria-label="Nova senha dos pais"><button class="btn sm" id="pin-save" type="button">Salvar</button></div>
         <button class="linkbtn" id="pin-del" type="button" hidden>Tirar a senha</button>
       </div>
@@ -1980,7 +1986,7 @@ function renderSheet(c){
   $('avatar').innerHTML=myAvatar(c); $('avatar').classList.toggle('ghost',c.boss.dead);
   $('pname').innerHTML=esc(state.name||'Herói')+(state.prestige?` <span class="pchip" style="--pc:${prestOf(state.prestige).M}">Prestígio ${state.prestige}</span>`:'');
   $('whoLine').textContent=`Perfil: ${state.name||''}`;
-  $('pinLine').textContent=pinSet()?'Ligada. É pedida para abrir Ajustes, aprovar e cadastrar prêmios, abrir a tela do plano e apagar perfil ou conta. Depois de digitar, fica liberada por 10 minutos.':'Desligada. Com a senha, só os adultos abrem Ajustes, aprovam prêmios e mexem no plano. Vale para todos os perfis da conta.'; $('pin-del').hidden=!pinSet(); $('pin-save').textContent=pinSet()?'Trocar':'Salvar';
+  $('pinLine').textContent=pinSet()?'Ligada: Ajustes, prêmios e plano só com a senha.':'Desligada.'; $('pin-del').hidden=!pinSet(); $('pin-save').textContent=pinSet()?'Trocar':'Salvar';
   $('ptitle').textContent=c.boss.dead?'Fantasma':`${roleName(state.cls,state.spec,c.p.lvl,isF(state.equipped))}${state.prestige?' · '+prestName(state.prestige):''}`;
   $('ptier').textContent=c.boss.dead?'':tierName(tier,isF(state.equipped));
   $('pnext').textContent=tier<9?`nova roupa no ${(tier+1)*10}`:(c.p.lvl<MAXLVL?'rumo ao prestígio no 100':'');
@@ -2746,6 +2752,10 @@ $('shop').addEventListener('click',e=>{
 $('qa-task').addEventListener('click',()=>{ qaMode='task'; render(); $('qa-name').focus(); });
 $('qa-hab').addEventListener('click',()=>{ qaMode='hab'; render(); $('qa-name').focus(); });
 $('qa-more').addEventListener('click',()=>{ qaMore=!qaMore; render(); });
+/* Textos explicativos: ficam atrás do ⓘ ao lado do título do cartão */
+document.querySelectorAll('.card').forEach(card=>{ if(!card.querySelector(':scope > .info')) return; const h=card.querySelector(':scope > h2, :scope > .head > h2'); if(!h) { card.classList.add('open'); return; }
+  const b=document.createElement('button'); b.type='button'; b.className='ibtn'; b.textContent='i'; b.setAttribute('aria-label','Explicação'); b.setAttribute('aria-expanded','false');
+  b.addEventListener('click',()=>{ const o=card.classList.toggle('open'); b.setAttribute('aria-expanded',String(o)); }); h.appendChild(b); });
 $('famAdmin').addEventListener('click',e=>{ const a=e.target.closest('[data-fapp]'), dn=e.target.closest('[data-fdeny]'), rm=e.target.closest('[data-frem]');
   if(a){ famSet(a.dataset.fapp,true); toast('Entrada aceita'); }
   if(dn){ famSet(dn.dataset.fdeny,false); toast('Pedido recusado'); }
