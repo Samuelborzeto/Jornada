@@ -347,13 +347,24 @@ input,select{background:var(--panel2);border:1px solid var(--inline);border-radi
 .mlist{display:flex;flex-direction:column;gap:6px}
 .mrow{display:flex;justify-content:space-between;align-items:center;gap:8px;background:var(--panel2);border-radius:8px;padding:8px 10px}
 .mrow b{font-weight:700}.mrow .acts{display:flex;gap:6px;flex:none}
+.herostrip{display:grid;grid-template-columns:40px 1fr auto;gap:10px;align-items:center;width:100%;text-align:left;background:var(--panel);border:1px solid color-mix(in srgb,var(--gold) 45%,var(--line));border-radius:12px;padding:8px 12px}
+.herostrip .prev{width:40px;aspect-ratio:24/26;border-radius:6px;overflow:hidden;background:var(--bg)}
+.herostrip .prev.lock svg{filter:brightness(0) invert(.5);opacity:.8}
+.herostrip .prev.soon{display:grid;place-items:center;font-family:var(--display);color:var(--muted);font-size:20px}
+.herostrip b{font-weight:800;font-size:14.5px;display:block}
+.herostrip .small{display:block}
+.herostrip .hb{display:block;height:6px;border-radius:2px;background:var(--panel2);overflow:hidden;margin-top:4px}.herostrip .hb i{display:block;height:100%;background:var(--gold)}
+.herostrip .go{font-size:13px;color:var(--muted);font-weight:700}
+.herofx{text-align:center;align-items:center}
+.herofx .prev{width:150px;aspect-ratio:24/26;border-radius:8px;overflow:hidden;animation:fxjump 1s ease 2}
+.herofx h2{font-family:var(--display);font-weight:700;font-size:28px;color:var(--goldtx)}
 .heroes{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .hero{display:flex;flex-direction:column;gap:4px;background:var(--panel2);border:2px solid var(--line);border-radius:8px;padding:6px;text-align:left;min-width:0}
 .hero .prev{aspect-ratio:24/26;border-radius:4px;overflow:hidden;background:var(--bg)}
 .hero b{font-family:var(--display);font-weight:500;font-size:15px;line-height:1.1}
 .hero span{font-size:12px;color:var(--muted);line-height:1.25}
 .hero.cur{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold)}
-.hero.lock .prev svg{filter:brightness(0);opacity:.55}
+.hero.lock .prev svg{filter:brightness(0) invert(.5);opacity:.8}
 .hero.soon .prev{display:grid;place-items:center;font-family:var(--display);font-size:34px;color:var(--muted)}
 .hero .hb{height:6px;border-radius:2px;background:var(--bg);overflow:hidden}.hero .hb i{display:block;height:100%;background:var(--gold)}
 .herotag{font-size:12px;font-weight:800;border-radius:999px;padding:1px 8px;background:var(--gold);color:var(--ink);align-self:flex-start}
@@ -553,6 +564,7 @@ input,select{background:var(--panel2);border:1px solid var(--inline);border-radi
         <button class="linkbtn mini-sw" id="btnSwitch" type="button">Trocar</button>
       </div>
       <div class="ult" id="ultMini" hidden></div>
+      <button class="herostrip" id="heroStrip" type="button" hidden></button>
       <div class="card racecard" id="raceCard" hidden></div>
 
       <form class="qa" id="qaForm" autocomplete="off">
@@ -656,6 +668,7 @@ input,select{background:var(--panel2);border:1px solid var(--inline);border-radi
     <section role="tabpanel" id="p-char" aria-labelledby="t-char" hidden>
       <div class="seg charseg" role="group" aria-label="Seções do personagem">
         <button type="button" data-sub="ficha" aria-pressed="true">Ficha</button>
+        <button type="button" data-sub="lendas" aria-pressed="false">Lendas</button>
         <button type="button" data-sub="vis" aria-pressed="false">Visual</button>
         <button type="button" data-sub="hist" aria-pressed="false">Status</button>
       </div>
@@ -682,7 +695,7 @@ input,select{background:var(--panel2);border:1px solid var(--inline);border-radi
           <div class="next" id="nextLine"></div>
         </div>
       </div>
-      <div id="sub-vis" class="view" hidden>
+      <div id="sub-lendas" class="view" hidden>
         <div class="card" id="heroCard">
           <div class="head"><h2>Lendas da temporada</h2><span class="small num" id="heroDays"></span></div>
           <div class="small" id="heroIntro"></div>
@@ -690,6 +703,8 @@ input,select{background:var(--panel2);border:1px solid var(--inline);border-radi
           <div class="small" id="heroUse"></div>
           <button class="linkbtn" id="heroDemo" type="button" hidden>Liberar todas (só no modo demonstração)</button>
         </div>
+      </div>
+      <div id="sub-vis" class="view" hidden>
         <div class="card">
           <h2>Aparência</h2>
           <h3 class="small">Tom de pele</h3>
@@ -889,6 +904,13 @@ input,select{background:var(--panel2);border:1px solid var(--inline);border-radi
 </div>
 
 <div class="ultfx" id="ultFx" hidden></div>
+<div class="overlay" id="heroFx" hidden><div class="tourcard herofx" role="dialog" aria-modal="true" aria-labelledby="hfTitle">
+  <span class="small" id="hfFrom"></span>
+  <span class="prev" id="hfArt"></span>
+  <h2 id="hfTitle"></h2>
+  <p id="hfText"></p>
+  <div class="head" style="width:100%"><button class="btn ghost" type="button" id="hfLater">Depois</button><button class="btn gold" type="button" id="hfUse">Usar agora</button></div>
+</div></div>
 <div class="overlay" id="pinBox" hidden><div class="tourcard" role="dialog" aria-modal="true" aria-labelledby="pinTitle">
   <h2 id="pinTitle">Senha dos pais</h2>
   <p id="pinWhy"></p>
@@ -1326,7 +1348,7 @@ function heroSVG(h,eq){
   mark.forEach(([x,y])=>grid[y][x]={c:h.aura,t:'a'});
   (h.fx||[]).forEach(([l,pp])=>drawLayer(grid,l,Object.assign({},pal,pp),'st'));
   const pet=ITEM[eq.pet]; if(pet) drawLayer(grid,{r:20-OY,c:17-OX,rows:pet.pet},pet.pal);
-  let out=''; bgRects(eq.bg||'bg_quarto').forEach(([x,y,w,hh,c])=>out+=`<rect x="${x}" y="${y}" width="${w}" height="${hh}" fill="${c}"/>`);
+  let out=''; if(eq.bg!=='none') bgRects(eq.bg||'bg_quarto').forEach(([x,y,w,hh,c])=>out+=`<rect x="${x}" y="${y}" width="${w}" height="${hh}" fill="${c}"/>`);
   out+=`<rect x="3" y="24.4" width="13" height="1" fill="#000" opacity=".25"/>`;
   for(let y=0;y<H;y++){ let x=0; while(x<W){ const g=grid[y][x]; if(!g){x++;continue;} let w=1; while(x+w<W&&grid[y][x+w]&&grid[y][x+w].c===g.c&&grid[y][x+w].t===g.t) w++;
     out+= g.t==='a' ? `<rect class="aura" x="${x}" y="${y}" width="${w}" height="1" fill="${g.c}" opacity=".45"/>` : g.t==='st' ? `<rect class="st" x="${x}" y="${y}" width="${w}" height="1" fill="${g.c}"/>` : `<rect x="${x}" y="${y}" width="${w}" height="1" fill="${g.c}"/>`; x+=w; } }
@@ -1479,15 +1501,23 @@ function heroStatus(h,days){ const t=today(); const got=!!(state.heroes&&state.h
   if(got) return 'got'; if(!heroDemoAll&&heroRelDate(h)>t) return 'soon'; if(heroDemoAll||days>=h.days) return 'ready'; return 'lock'; }
 function checkHeroes(){ const days=seasonDays(); state.heroes=state.heroes||{}; let fresh=null;
   HEROES.forEach(h=>{ if(heroStatus(h,days)==='ready'){ state.heroes[h.id]=today(); fresh=h; } });
-  if(fresh){ save(); toast(`Nova lenda liberada: ${fresh.n}! Veja em Personagem > Visual.`); } }
+  if(fresh){ save(); showHeroFx(fresh); } }
+let heroFxId=null;
+function showHeroFx(h){ heroFxId=h.id; $('hfFrom').textContent=`Nova lenda liberada · ${h.from}`; $('hfArt').innerHTML=avatarSVG({eq:{bg:'bg_noite',hero:h.id}}); $('hfTitle').textContent=h.n;
+  $('hfText').textContent=`${h.t}. Liberada com ${h.days} dias de uso, a lenda é sua para sempre. Classe, nível e XP continuam iguais.`; $('heroFx').hidden=false; }
+function nextHero(days){ for(const h of HEROES){ const st=heroStatus(h,days); if(st==='lock'||st==='soon') return {h,st}; } return null; }
+function renderHeroStrip(){ const el=$('heroStrip'); const days=seasonDays(); const nx=nextHero(days); if(!nx){ el.hidden=true; return; }
+  const {h,st}=nx; el.hidden=false;
+  if(st==='soon'){ const d=parseKey(heroRelDate(h)); el.innerHTML=`<span class="prev soon">?</span><span><b>Nova lenda chega em ${MESES[d.getMonth()]}/${d.getFullYear()}</b><span class="small">${days} dias de uso na temporada</span></span><span class="go">Lendas ›</span>`; return; }
+  el.innerHTML=`<span class="prev lock">${avatarSVG({eq:{bg:'none',hero:h.id}})}</span><span><b>Próxima lenda: ${esc(h.n)}</b><span class="small num">${days} de ${h.days} dias de uso</span><span class="hb"><i style="width:${Math.min(100,Math.round(100*days/h.days))}%"></i></span></span><span class="go">Lendas ›</span>`; }
 const MESES=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
 function renderHeroes(){
   const days=seasonDays(), cur=state.equipped.hero||'';
-  $('heroDays').textContent=`${days} dias de uso`;
+  $('heroDays').textContent=`${days} ${days===1?'dia':'dias'} de uso`;
   $('heroIntro').textContent=`${SEASON.n}: lendas de vários cantos do mundo. Uma nova chega a cada 2 ou 3 meses e é liberada pelos dias em que você marca pelo menos 1 hábito, sem precisar ser em sequência. A lenda liberada é sua para sempre.`;
   $('heroList').innerHTML=HEROES.map(h=>{ const st=heroStatus(h,days);
     if(st==='soon'){ const d=parseKey(heroRelDate(h)); return `<div class="hero soon"><span class="prev">?</span><b>???</b><span>${esc(h.from)} · chega em ${MESES[d.getMonth()]}/${d.getFullYear()}</span></div>`; }
-    const prev=avatarSVG({eq:{bg:state.equipped.bg,hero:h.id}});
+    const prev=avatarSVG({eq:{bg:st==='lock'?'none':state.equipped.bg,hero:h.id}});
     if(st==='lock') return `<div class="hero lock"><span class="prev">${prev}</span><b>${esc(h.n)}</b><span>${esc(h.from)}</span><div class="hb"><i style="width:${Math.min(100,Math.round(100*days/h.days))}%"></i></div><span class="num">${days} de ${h.days} dias</span></div>`;
     return `<button class="hero${cur===h.id?' cur':''}" type="button" data-hero="${h.id}"><span class="prev">${prev}</span><b>${esc(h.n)}</b><span>${esc(h.t)}</span>${cur===h.id?'<span class="herotag">Em uso</span>':''}</button>`; }).join('');
   $('heroUse').innerHTML=cur&&HERO[cur]?`Você está jogando como <b>${esc(HERO[cur].n)}</b>. Classe, nível e XP continuam iguais. <button class="linkbtn" type="button" data-hero="">Voltar para o meu avatar</button>`:'Toque numa lenda liberada para jogar com ela. Classe, nível e XP continuam iguais.';
@@ -2385,7 +2415,6 @@ function renderVisual(c){
     $('weapTitle').textContent=cls.weapon; $('weapSub').textContent=`muda com ${ATTRS[cls.attr].n} (agora ${c.al[cls.attr].lvl})`;
     $('weapons').innerHTML=cls.stages.map((n,i)=>`<div class="th${i===c.ws?' cur':''}${i>c.ws?' lock':''}"><span class="prev">${avatarSVG({eq:plain,level:c.p.lvl,cls:state.cls,spec:state.spec,wstage:i,prestige:state.prestige})}</span><span><b>${ATTRS[cls.attr].n} ${WSTAGES[i]}</b>${n}</span></div>`).join('');
   }
-  renderHeroes();
   $('slots').innerHTML=SLOTS.map(([k,n])=>`<button data-slot="${k}" aria-pressed="${slotFilter===k}">${n}</button>`).join('');
   $('shopNote').hidden=!c.boss.dead;
   const list=ITEMS.filter(i=>i.slot!=='skin'&&i.slot!=='hstyle'&&i.slot!=='body'&&(slotFilter==='all'||i.slot===slotFilter));
@@ -2588,10 +2617,10 @@ function render(){
   if(aiming){ $('tour').hidden=true; $('daily').hidden=true; renderAims(); return; }
   if(picking){ $('daily').hidden=true; renderClassPick(); return; }
   checkHeroes();
-  if(tab==='hoje'){ renderToday(c); renderRace(c); renderQuick(); renderTasks(); renderEditMode(); }
+  if(tab==='hoje'){ renderToday(c); renderHeroStrip(); renderRace(c); renderQuick(); renderTasks(); renderEditMode(); }
   if(tab==='obj'){ renderVices(c); renderGoals(); }
-  if(tab==='char'){ document.querySelectorAll('.charseg [data-sub]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.sub===charSub)); ['ficha','vis','hist'].forEach(k=>$('sub-'+k).hidden=k!==charSub);
-    if(charSub==='vis') renderVisual(c); if(charSub==='hist'){ renderHist(c); renderTaskHist(); } }
+  if(tab==='char'){ document.querySelectorAll('.charseg [data-sub]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.sub===charSub)); ['ficha','lendas','vis','hist'].forEach(k=>$('sub-'+k).hidden=k!==charSub);
+    if(charSub==='vis') renderVisual(c); if(charSub==='lendas') renderHeroes(); if(charSub==='hist'){ renderHist(c); renderTaskHist(); } }
   if(tab==='fam'){ renderFamily(c); renderHouse(c); }
   if(tab==='hab') renderSettings(c);
   renderDaily(c); if(state.tour) checkMilestone(c);
@@ -2736,6 +2765,9 @@ $('pin-del').addEventListener('click',()=>{ delete house.pin; saveHouse(); toast
 document.addEventListener('click',e=>{ const b=e.target.closest('[data-hero]'); if(!b) return; const id=b.dataset.hero;
   if(id&&!(state.heroes||{})[id]) return; state.equipped.hero=id||''; save(); render(); toast(id?`Agora você é ${HERO[id].n}`:'Voltou para o seu avatar'); });
 $('heroDemo').addEventListener('click',()=>{ heroDemoAll=true; render(); });
+$('heroStrip').addEventListener('click',()=>{ charSub='lendas'; goTab('char'); });
+$('hfLater').addEventListener('click',()=>{ $('heroFx').hidden=true; });
+$('hfUse').addEventListener('click',()=>{ $('heroFx').hidden=true; if(heroFxId&&(state.heroes||{})[heroFxId]){ state.equipped.hero=heroFxId; save(); render(); toast(`Agora você é ${HERO[heroFxId].n}`); } });
 (function(){ const SR=window.SpeechRecognition||window.webkitSpeechRecognition; const mic=$('qa-mic'); if(!SR||!mic) return; mic.hidden=false;
   let rec=null, base='';
   const stop=()=>{ mic.classList.remove('on'); mic.setAttribute('aria-label','Falar em vez de escrever'); $('qa-name').placeholder='+ Adicionar algo para hoje'; rec=null; };
