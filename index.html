@@ -1250,30 +1250,26 @@ const itemLayers=it=>it.layers||(it.layer?[it.layer]:[]);
 const tierOf=l=>Math.min(9,Math.floor(l/10));
 function stageOf(al){ let s=0; WSTAGES.forEach((t,i)=>{ if(al>=t) s=i; }); return s; }
 
-/* Lendas da temporada: personagens por dias de uso, 1 novo a cada 2 meses */
+/* Lendas da temporada: 5 personagens por ano, liberados por dias de uso */
 const SEASON={id:'s1',n:'Temporada 1',start:'2026-11-01',end:'2027-10-31'};
 const HEROES=[
-  {id:'saci',n:'Saci',from:'Folclore brasileiro',rel:0,days:3,t:'Travesso dos redemoinhos',aura:'#ff5d5d',
+  {id:'saci',n:'Saci',from:'Folclore brasileiro',rel:0,days:8,t:'Travesso dos redemoinhos',aura:'#ff5d5d',
     pal:{s:'#6b3a22',h:'#1b1726',t:'#6b3a22',p:'#e9e2cf',b:'#6b3a22',e:'#fff2e0',m:'#3a1e12'},
     body:{15:'4.1k6p1k4.',16:'4.8k4.',17:'8.1k2s1k4.',18:'7.1k3s1k4.',19:'7.5k4.'},
     lay:[[L(-3,11,['1r']),{r:'#c62f45'}],[L(-2,9,['3r']),{r:'#c62f45'}],[L(-1,7,['5r']),{r:'#c62f45'}],[L(0,5,['7r']),{r:'#c62f45'}],[L(1,4,['1R7r']),{r:'#c62f45',R:'#8f1f30'}],
       [L(7,9,['4w']),{w:'#8a5a34'}],[L(6,12,['2w']),{w:'#8a5a34'}]],
     fx:[[L(4,13,['1z']),{z:'#d5dbe4'}],[L(3,14,['1z']),{z:'#d5dbe4'}],[L(2,13,['1z']),{z:'#d5dbe4'}]]},
-  {id:'valquiria',n:'Valquíria',from:'Mitologia nórdica',rel:2,days:20,t:'Guardiã dos bravos',aura:'#7fe0ff',
+  {id:'valquiria',n:'Valquíria',from:'Mitologia nórdica',rel:2,days:25,t:'Guardiã dos bravos',aura:'#7fe0ff',
     pal:{s:'#f1c7a0',h:'#f2d16b',t:'#9aa3b5',p:'#2f4a8a',b:'#6b4433'},
     back:[[L(10,1,Array(9).fill('14c')),{c:'#2f4a8a'}]],
     lay:[[L(1,5,['6m']),{m:'#d5dbe4'}],[L(2,4,['8m']),{m:'#b8c0cc'}],[L(0,2,['2w8.2w']),{w:'#f3eefc'}],[L(1,1,['3w10.3w']),{w:'#f3eefc'}],
       [L(5,2,['1h12.1h','1h12.1h','1h12.1h','1h12.1h','1h12.1h']),{}],[L(14,5,['6y']),{y:'#ffc94a'}],
       [L(-1,14,['1m']),{m:'#d5dbe4'}],[L(0,13,['3m']),{m:'#d5dbe4'}],[L(1,14,Array(18).fill('1w')),{w:'#8a5a34'}]]},
-  {id:'iara',n:'Iara',from:'Folclore brasileiro',rel:4,days:40,t:'Senhora dos rios',aura:'#34d3a8',
+  {id:'iara',n:'Iara',from:'Folclore brasileiro',rel:5,days:50,t:'Senhora dos rios',aura:'#34d3a8',
     pal:{s:'#c98a5a',h:'#1f4a3a',t:'#c98a5a',p:'#2fb38a',b:'#2fb38a'},
     body:{15:'4.1k6p1k4.',16:'5.1k1p2G1p1k5.',17:'6.1k2p1k6.',18:'4.1k2p2k2p1k4.',19:'4.3k2.3k4.'},bpal:{G:'#1f8a6a'},
     lay:[[L(3,2,Array(10).fill('2h8.2h')),{}],[L(11,5,['2v2.2v']),{v:'#c38bff'}],[L(9,6,['1o2.1o']),{o:'#f3eefc'}],[L(10,7,['2o']),{o:'#f3eefc'}]]},
-  {id:'kitsune',n:'Kitsune',from:'Folclore japonês',rel:6,days:60,t:'Raposa de nove caudas',aura:'#ff9f43',
-    pal:{s:'#f1c7a0',h:'#f08a3a',t:'#c62f45',p:'#c62f45',b:'#2a2640'},
-    back:[[L(9,12,['2.2h','1.3h','4h','2w2h','1.3h','2.1w1h']),{w:'#f3eefc'}]],
-    lay:[[L(-1,4,['2h6.2h']),{}],[L(0,4,['1h1w6.1w1h']),{w:'#f3eefc'}],[L(6,5,['1r4.1r']),{r:'#ff6b8b'}],[L(14,5,['6y']),{y:'#f3eefc'}],[L(10,6,['1w2.1w']),{w:'#f3eefc'}]]},
-  {id:'anubis',n:'Anúbis',from:'Mitologia egípcia',rel:8,days:80,t:'Guardião dos caminhos',aura:'#ffc94a',
+  {id:'anubis',n:'Anúbis',from:'Mitologia egípcia',rel:7,days:80,t:'Guardião dos caminhos',aura:'#ffc94a',
     pal:{s:'#22202e',h:'#22202e',t:'#22202e',p:'#f3eefc',b:'#ffc94a',e:'#ffc94a',m:'#22202e'},
     lay:[[L(-2,5,['1s4.1s']),{}],[L(-1,4,['2s4.2s']),{}],[L(0,4,['2s4.2s']),{}],[L(6,11,['2s']),{}],[L(7,11,['3s']),{}],
       [L(10,4,['8y']),{y:'#ffc94a'}],[L(11,4,['1y6b1y']),{y:'#ffc94a',b:'#2f6fdc'}],[L(15,5,['6y']),{y:'#ffc94a'}],
@@ -1455,7 +1451,7 @@ const MESES=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','
 function renderHeroes(){
   const days=seasonDays(), cur=state.equipped.hero||'';
   $('heroDays').textContent=`${days} dias de uso`;
-  $('heroIntro').textContent=`${SEASON.n}: lendas de vários cantos do mundo. Uma nova chega a cada 2 meses e é liberada pelos dias em que você marca pelo menos 1 hábito, sem precisar ser em sequência. A lenda liberada é sua para sempre.`;
+  $('heroIntro').textContent=`${SEASON.n}: lendas de vários cantos do mundo. Uma nova chega a cada 2 ou 3 meses e é liberada pelos dias em que você marca pelo menos 1 hábito, sem precisar ser em sequência. A lenda liberada é sua para sempre.`;
   $('heroList').innerHTML=HEROES.map(h=>{ const st=heroStatus(h,days);
     if(st==='soon'){ const d=parseKey(heroRelDate(h)); return `<div class="hero soon"><span class="prev">?</span><b>???</b><span>${esc(h.from)} · chega em ${MESES[d.getMonth()]}/${d.getFullYear()}</span></div>`; }
     const prev=avatarSVG({eq:{bg:state.equipped.bg,hero:h.id}});
