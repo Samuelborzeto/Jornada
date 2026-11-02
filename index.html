@@ -362,6 +362,12 @@ input,select{background:var(--panel2);border:1px solid var(--inline);border-radi
 .qa .small{margin:0}
 .charseg{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:4px}
 .task .stripe{background:#8a84a0}
+.habit.task{border-style:dashed;border-color:var(--boxline)}
+.habit.task .main{padding:9px 14px}
+.habit.task .hn{font-size:16px}
+.ttag{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:0 7px}
+.habit.task.flash{animation:tflash 1.1s ease}
+@keyframes tflash{0%,60%{background:color-mix(in srgb,var(--gold) 30%,var(--panel));border-color:var(--gold)}100%{background:var(--panel)}}
 .task .del{background:none;border:0;color:var(--muted);font-size:22px;line-height:1;padding:4px 6px}
 .task .late{font-weight:700}
 .ultopts{display:flex;flex-direction:column;gap:8px}
@@ -584,6 +590,7 @@ input,select{background:var(--panel2);border:1px solid var(--inline);border-radi
         </div>
       </form>
 
+      <div id="taskWrap" hidden><h3 class="sec" style="margin-bottom:8px">Tarefas de hoje</h3><div class="habits" id="taskList"></div></div>
       <div id="eventArea"></div>
       <div id="sumBanner"></div>
       <div id="bossArea"></div>
@@ -611,7 +618,6 @@ input,select{background:var(--panel2);border:1px solid var(--inline);border-radi
       </div>
       <div class="sugs" id="habSugs"></div>
       <div id="avoidWrap" hidden><h3 class="sec" style="margin-bottom:8px">Para largar</h3><div class="habits" id="avoidList"></div></div>
-      <div id="taskWrap" hidden><h3 class="sec" style="margin-bottom:8px">Também para hoje</h3><div class="habits" id="taskList"></div></div>
       <div class="card">
         <div class="head"><h3 class="sec">Como foi o dia?</h3><span class="small num">+10 XP</span></div>
         <div class="seg" id="moods"></div>
@@ -2470,6 +2476,7 @@ function habSugList(){
   const have=new Set(state.habits.filter(h=>!h.deleted).map(h=>h.id)), seen=new Set();
   return base.filter(h=>!isAvoid(h)&&!have.has(h.id)&&!seen.has(h.id)&&seen.add(h.id));
 }
+let lastTask=null;
 function renderTasks(){
   const tk=today(), d=viewDay;
   const open=(state.tasks||[]).filter(t=>!t.done&&(!t.date||t.date<=tk)).sort((a,b)=>(a.date||'9')<(b.date||'9')?-1:1);
@@ -2478,7 +2485,7 @@ function renderTasks(){
   $('taskWrap').hidden=!show; if(!show){ $('taskList').innerHTML=''; return; }
   const doneToday=(state.tasks||[]).filter(t=>t.done&&t.doneAt===tk).length;
   $('taskList').innerHTML=open.map(t=>{ const late=t.date&&t.date<tk;
-    return `<div class="habit task" data-tid="${t.id}"><span class="stripe"></span><button class="main" data-tact="done"><span class="hn">${esc(t.name)}</span><span class="meta">${late?`<span class="late">Atrasada desde ${t.date.split('-').reverse().slice(0,2).join('/')}</span>`:t.date?'<span>Para hoje</span>':''}<span>${doneToday<TASKMAX?`+${TASKXP} XP`:'sem XP extra hoje'}</span></span></button><div class="side"><button class="del" data-tact="del" type="button" aria-label="Apagar tarefa">×</button><div class="box">${check}</div></div></div>`; }).join('')
+    return `<div class="habit task${t.id===lastTask?' flash':''}" data-tid="${t.id}"><span class="stripe"></span><button class="main" data-tact="done"><span class="hn">${esc(t.name)}</span><span class="meta"><span class="ttag">Tarefa</span>${late?`<span class="late">Atrasada desde ${t.date.split('-').reverse().slice(0,2).join('/')}</span>`:t.date?'<span>Para hoje</span>':''}<span>${doneToday<TASKMAX?`+${TASKXP} XP`:'sem XP extra hoje'}</span></span></button><div class="side"><button class="del" data-tact="del" type="button" aria-label="Apagar tarefa">×</button><div class="box">${check}</div></div></div>`; }).join('')
     +(later.length?`<div class="small">${later.length===1?'1 tarefa marcada':`${later.length} tarefas marcadas`} para os próximos dias: ${later.slice(0,3).map(t=>`${esc(t.name)} (${t.date.split('-').reverse().slice(0,2).join('/')})`).join(', ')}${later.length>3?'…':''}</div>`:'');
 }
 function renderQuick(){
@@ -2748,7 +2755,7 @@ $('heroDemo').addEventListener('click',()=>{ heroDemoAll=true; render(); });
 $('qaForm').addEventListener('submit',e=>{
   e.preventDefault(); const name=$('qa-name').value.trim(); if(!name){ $('qa-name').focus(); return; }
   if(qaMode==='task'){ const dt=$('qa-date').value||null;
-    state.tasks=(state.tasks||[]).concat([{id:'t'+Date.now().toString(36),name:name.slice(0,70),date:dt,done:false,created:today()}]);
+    const tid='t'+Date.now().toString(36); state.tasks=(state.tasks||[]).concat([{id:tid,name:name.slice(0,70),date:dt,done:false,created:today()}]); lastTask=tid; setTimeout(()=>{ lastTask=null; },1500);
     $('qa-name').value=''; $('qa-date').value=''; qaMore=false; save(); render(); toast(dt&&dt>today()?`Tarefa marcada para ${dt.split('-').reverse().slice(0,2).join('/')}`:'Tarefa adicionada'); return; }
   if(state.habits.filter(h=>!h.archived).length>=MAXHABITS){ toast(`Limite de ${MAXHABITS} hábitos ativos. Arquive um para criar outro.`); return; }
   const target=Math.max(1,Math.min(50,parseInt($('nf-target').value)||1));
