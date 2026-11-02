@@ -1,6 +1,6 @@
 {
-  "name": "Jornada",
-  "short_name": "Jornada",
+  "name": "Nossa Jornada",
+  "short_name": "Nossa Jornada",
   "description": "Rotina da família em forma de jogo: hábitos viram XP, roupa e arma para o avatar de cada um.",
   "start_url": "./",
   "scope": "./",

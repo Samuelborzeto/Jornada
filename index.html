@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Jornada</title>
+<title>Nossa Jornada</title>
 <meta name="theme-color" content="#15131f">
 <script>try{if(localStorage.getItem('jornada-theme')==='light'){document.documentElement.dataset.theme='light';}}catch(e){}</script>
 <link rel="manifest" href="manifest.json">
@@ -12,7 +12,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Jornada">
+<meta name="apple-mobile-web-app-title" content="Nossa Jornada">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@500;700&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700;6..12,800&display=swap">
@@ -141,9 +141,12 @@ h3.sec{font-size:17px}
 .title{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
 .lvlrow{display:flex;align-items:baseline;gap:8px;font-family:var(--display)}
 .lvl{font-size:30px;color:var(--goldtx);line-height:1}
+.tiername{font-family:var(--display);font-size:20px;color:var(--goldtx);line-height:1.1}
+#pnext{color:var(--muted)}
 .xpbar{height:10px;background:var(--panel2);border:1px solid var(--line);border-radius:2px;overflow:hidden}
 .xpbar i{display:block;height:100%;background:var(--gold);transition:width .4s}
 .chips{display:flex;flex-wrap:wrap;gap:6px}
+.sheetchips{grid-column:1/-1}
 .chip{font-family:var(--body);font-weight:600;font-size:14px;background:var(--panel2);border:1px solid var(--line);border-radius:3px;padding:2px 8px;white-space:nowrap}
 .chip b{color:var(--goldtx);font-weight:700}
 .stats{grid-column:1/-1;display:grid;gap:7px}
@@ -363,10 +366,17 @@ input,select{background:var(--panel2);border:1px solid var(--inline);border-radi
 .dailycard .btn{width:100%}
 .mscard{border-color:var(--accent)}
 .fire{color:#ff9f43;font-weight:800}
+.rkt{display:flex;flex-direction:column;min-width:0}
+.rkt b,.rkt .small{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rk .xp small{font-family:var(--body);font-size:12px;color:var(--muted);margin-left:2px}
+.role{font-size:12px;font-weight:700;color:var(--muted);background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:0 7px;vertical-align:1px}
+.vt .nm .nmr{display:block;font-style:normal;font-size:11px;color:var(--muted);font-weight:600}
+.racecard{border-color:color-mix(in srgb,var(--accent) 50%,var(--line))}
 .consent{flex-direction:row!important;align-items:flex-start;gap:10px;font-weight:400;color:var(--fg)}
 .consent input{width:22px;height:22px;flex:none;margin-top:2px}
 .consent a,.legal a{color:var(--fg)}
-.legal{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;font-size:13px;color:var(--muted)}
+.legal{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;align-items:center;font-size:13px;color:var(--muted)}
+.legal a,.legal .linkbtn{font-size:13px;line-height:1.4;padding:0;margin:0;align-self:center}
 .dangerbox{border:1px solid #ff8fa5;border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:10px;background:color-mix(in srgb,#ff5d5d 10%,var(--panel))}
 .btn.danger{background:#d93c3c;color:#fff}
 .btn:disabled{opacity:.45;cursor:not-allowed}
@@ -391,6 +401,29 @@ input,select{background:var(--panel2);border:1px solid var(--inline);border-radi
 :root[data-theme="light"] .btn.ghost{color:var(--fg)}
 :root[data-theme="light"] .btn.gold{color:var(--ink)}
 :root[data-theme="light"] .overlay{background:rgba(30,24,50,.55)}
+/* monte o seu dia */
+.steps{display:flex;gap:6px;justify-content:center}
+.steps i{width:28px;height:6px;border-radius:3px;background:var(--line)}
+.steps i.on{background:var(--accent)}
+.chipsel button{border-style:solid}
+.mdblock{display:flex;flex-direction:column;gap:8px;margin-top:6px}
+.mdblock h3{display:flex;align-items:center;gap:8px}
+.mdcards{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.mdc{position:relative;background:var(--panel2);border:2px solid var(--line);border-radius:12px;padding:10px 10px 10px 12px;text-align:left;display:flex;flex-direction:column;gap:2px;min-height:64px;width:100%}
+.mdc b{font-weight:700;font-size:15px;line-height:1.25;padding-right:22px}
+.mdc .small{font-size:12.5px}
+.mdc[aria-pressed="true"]{border-color:var(--c,var(--accent));background:color-mix(in srgb,var(--c,var(--accent)) 16%,var(--panel2))}
+.mdc .star{color:var(--goldtx);font-size:12px;font-weight:700}
+.mdc .pen{position:absolute;right:4px;top:4px;background:none;border:0;font-size:16px;padding:4px;color:var(--muted)}
+.mdc.locked{opacity:.6}
+.mdc.add{border-style:dashed;align-items:center;justify-content:center;color:var(--muted);font-weight:700}
+.mdedit{grid-column:1/-1;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:10px;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.mdedit .full{grid-column:1/-1}
+.pacto{border-color:var(--gold);text-align:center;align-items:center}
+.pacto .prev{width:110px;aspect-ratio:24/26;border-radius:8px;overflow:hidden;margin:0 auto}
+.pacto h2{font-family:var(--display);font-weight:700;color:var(--goldtx)}
+.pacto ul{text-align:left;margin:0;padding-left:20px;display:flex;flex-direction:column;gap:3px}
+.whyc{display:inline-block;font-size:12px;font-weight:700;border-radius:999px;padding:1px 8px;background:var(--panel2);border:1px solid var(--line);color:var(--muted)}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -403,7 +436,7 @@ input,select{background:var(--panel2);border:1px solid var(--inline);border-radi
   </div>
 
   <section class="view login" id="loginView" hidden>
-    <div class="brand"><span class="prev" id="loginAvatar"></span><div><h1>Jornada</h1><div class="small">Seus hábitos viram XP, roupa e arma para o seu avatar.</div></div></div>
+    <div class="brand"><span class="prev" id="loginAvatar"></span><div><h1>Nossa Jornada</h1><div class="small">Seus hábitos viram XP, roupa e arma para o seu avatar.</div></div></div>
     <div class="card">
       <button class="gbtn" id="btnGoogle" type="button"><svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/></svg>Entrar com Google</button>
       <div class="or">ou com e-mail</div>
@@ -446,10 +479,15 @@ input,select{background:var(--panel2);border:1px solid var(--inline);border-radi
 
   <div class="view" id="appView" hidden>
     <section class="panel" id="aimPick" hidden>
-      <div class="card">
-        <h2>O que você quer mudar?</h2>
-        <div class="small">Escolha quantos quiser, na ordem de importância. O primeiro define a classe sugerida, e cada um traz 1 hábito para começar. Tudo pode ser ajustado depois.</div>
-        <div class="aims" id="aimList"></div>
+      <div class="steps" id="mdSteps"></div>
+      <div class="card" id="mdStep1">
+        <h2>Monte o seu dia</h2>
+        <div class="small" id="mdKidHint" hidden>Monte junto com um adulto: ele ajuda a escolher.</div>
+        <h3 class="sec">Como é o seu dia?</h3>
+        <div class="sugs chipsel" id="mdTraits"></div>
+        <h3 class="sec">O que você quer?</h3>
+        <div class="small">Toque em quantos quiser. O primeiro sugere a sua classe.</div>
+        <div class="sugs chipsel" id="aimList"></div>
         <div class="form" id="viceCfg" hidden>
           <label class="full">Qual vício<input id="vc-name" maxlength="40" value="Cafeína (café e energético)"></label>
           <label class="full">Como<select id="vc-mode"><option value="reduce">Diminuir aos poucos</option><option value="quit">Parar de vez</option></select></label>
@@ -457,12 +495,22 @@ input,select{background:var(--panel2);border:1px solid var(--inline);border-radi
           <label id="vc-goalW">Limite final por dia<input id="vc-goal" type="number" min="0" max="49" value="1"></label>
           <label class="full" id="vc-unitW">Unidade<input id="vc-unit" maxlength="20" value="doses"></label>
         </div>
-        <div class="head"><button class="linkbtn" id="aimSkip" type="button">Pular</button><button class="btn" id="aimGo" type="button">Continuar</button></div>
+        <div class="head"><button class="linkbtn" id="aimSkip" type="button">Pular</button><button class="btn" id="mdNext1" type="button">Continuar</button></div>
+      </div>
+      <div class="card" id="mdStep2" hidden>
+        <h2>Sua rotina</h2>
+        <div class="small">Toque no que quer na sua rotina. As estrelas são sugestões para o seu dia. No lápis você muda o nome e o horário.</div>
+        <div id="mdBoard"></div>
+        <div class="head"><button class="linkbtn" id="mdBack2" type="button">Voltar</button><span class="small num" id="mdCount"></span><button class="btn" id="mdNext2" type="button">Continuar</button></div>
+      </div>
+      <div class="card pacto" id="mdStep3" hidden>
+        <div id="mdPacto"></div>
+        <div class="head"><button class="linkbtn" id="mdBack3" type="button">Voltar</button><button class="btn gold" id="aimGo" type="button">Fechar o pacto</button></div>
       </div>
     </section>
 
     <section class="panel" id="classPick" hidden>
-      <button class="btn ghost sm backbtn" id="classBack" type="button">← Voltar para a jornada</button>
+      <div class="head"><button class="btn ghost sm backbtn" id="classBack" type="button">← Voltar para a rotina</button><button class="btn ghost sm" id="classCancel" type="button" hidden>Cancelar a troca</button></div>
       <div class="card">
         <h2>Escolha sua classe</h2>
         <div class="small">A classe ganha +20% de XP nos hábitos do atributo dela, e a arma evolui conforme esse atributo sobe. Hábitos de outros atributos continuam contando normalmente. Dá para trocar depois em Ajustes.</div>
@@ -474,13 +522,14 @@ input,select{background:var(--panel2);border:1px solid var(--inline);border-radi
       <div class="mini">
         <button class="mini-av" id="miniAv" type="button" aria-label="Abrir seu personagem"></button>
         <div class="mini-main">
-          <div class="mini-top"><b class="mini-name" id="miniName"></b><span class="mini-lv">Nv <b class="num" id="miniLvl">1</b></span></div>
+          <div class="mini-top"><b class="mini-name" id="miniName"></b><span class="mini-lv"><span id="miniTier"></span> · Nv <b class="num" id="miniLvl">1</b></span></div>
           <div class="xpbar"><i id="miniXp" style="width:0%"></i></div>
           <div class="mini-chips"><span id="miniCoins"></span><span id="miniStreak"></span><span id="miniShield"></span></div>
         </div>
         <button class="linkbtn mini-sw" id="btnSwitch" type="button">Trocar</button>
       </div>
       <div class="ult" id="ultMini" hidden></div>
+      <div class="card racecard" id="raceCard" hidden></div>
 
       <form class="qa" id="qaForm" autocomplete="off">
         <div class="qa-row">
@@ -591,17 +640,18 @@ input,select{background:var(--panel2);border:1px solid var(--inline);border-radi
           <div class="who">
             <div class="name" id="pname"></div>
             <div class="title" id="ptitle"></div>
-            <div class="lvlrow"><span class="small">NÍVEL</span><span class="lvl num" id="plvl">1</span><span class="small num">/ 100</span></div>
+            <div class="tiername" id="ptier"></div>
+            <div class="lvlrow"><span class="small">NÍVEL</span><span class="lvl num" id="plvl">1</span><span class="small" id="pnext"></span></div>
             <div class="xpbar"><i id="pxpbar" style="width:0%"></i></div>
             <div class="small num" id="pxptext"></div>
             <div class="small" id="aimLine" hidden></div>
-            <div class="chips">
+          </div>
+            <div class="chips sheetchips">
               <span class="chip num" title="Moedas para a loja"><b id="pcoins">0</b> moedas</span>
               <span class="chip num" title="Dias seguidos com pelo menos 1 hábito"><b id="pstreak">0</b> dias seguidos</span>
               <span class="chip" id="pshield" title="O escudo protege 1 dia sem marcar por semana: a sequência não quebra e o boss não avança"></span>
               <span class="chip num" title="Objetivos concluídos" id="ptrophyChip" hidden><span class="trophy"></span><b id="ptrophy">0</b></span>
             </div>
-          </div>
           <div class="ult" id="ultBox" hidden></div>
           <div class="stats" id="stats"></div>
           <div class="next" id="nextLine"></div>
@@ -654,6 +704,7 @@ input,select{background:var(--panel2);border:1px solid var(--inline);border-radi
         <div class="card">
           <h2>Jogar em família</h2>
           <div class="small">Cada pessoa continua com o próprio avatar. Na família vocês veem o placar da semana e fazem uma missão juntos, que dá XP para todo mundo quando é concluída.</div>
+          <div class="form roleui" data-rolebox=""><label>Quem é você na família<select id="fr-sel"></select></label><label id="fr-otherW" hidden>Como chamar<input id="fr-other" maxlength="16" placeholder="Ex.: Papai, Vovó"></label></div>
           <form class="form" id="famCreateForm">
             <label class="full">Nome da família<input id="fc-name" maxlength="30" required placeholder="Ex.: Família Ferreira"></label>
             <button class="btn full" type="submit">Criar família</button>
@@ -676,6 +727,7 @@ input,select{background:var(--panel2);border:1px solid var(--inline);border-radi
         <div class="card" id="famMission"></div>
         <div class="card">
           <div class="head"><h2>Placar da semana</h2><span class="small" id="famWeek"></span></div>
+          <div class="small">Cada dia vale até 100 pontos: o quanto a pessoa cumpriu da própria meta do dia cheio. Assim criança e adulto disputam de igual para igual.</div>
           <div class="rank" id="famRank"></div>
         </div>
         <div class="card">
@@ -708,6 +760,7 @@ input,select{background:var(--panel2);border:1px solid var(--inline);border-radi
       </div>
       <div class="card" id="famCodeCard" hidden>
         <div class="head"><h2 id="famName">Família</h2><button class="btn ghost sm" id="famLeave" type="button">Sair da família</button></div>
+        <div class="form roleui" data-rolebox="2"><label>Quem é você na família<select id="fr-sel2"></select></label><label id="fr-otherW2" hidden>Como chamar<input id="fr-other2" maxlength="16" placeholder="Ex.: Papai, Vovó"></label></div>
         <div class="small">Código para quem vai entrar (inclusive os outros perfis desta conta):</div>
         <div class="head"><span class="code" id="famCode"></span><button class="btn ghost sm" id="famCopy" type="button">Copiar</button></div>
       </div>
@@ -722,7 +775,7 @@ input,select{background:var(--panel2);border:1px solid var(--inline);border-radi
         </div>
         <div class="head"><span class="small" id="cfg-cls"></span><button class="btn ghost sm" id="cfg-swap" type="button">Trocar classe</button></div>
         <div class="small">Dia cheio vale +30 XP extra. A missão do dia dobra o XP de um hábito.</div>
-        <span style="display:flex;gap:14px;flex-wrap:wrap"><button class="linkbtn" id="cfg-aims" type="button">Mudar minha jornada</button><button class="linkbtn" id="cfg-tour" type="button">Ver o tutorial de novo</button></span>
+        <span style="display:flex;gap:14px;flex-wrap:wrap"><button class="linkbtn" id="cfg-aims" type="button">Montar meu dia de novo</button><button class="linkbtn" id="cfg-tour" type="button">Ver o tutorial de novo</button></span>
       </div>
       <div class="card">
         <h2>Aparência do app</h2>
@@ -850,7 +903,8 @@ const ULTFX={fury:'XP em dobro em todos os hábitos de hoje',arrow:'Derrota na h
 const LEGACY_EFF={guerreiro:'fury',ranger:'arrow',mago:'meteor',clerigo:'bless',monge:'medit'};
 const relEff=r=>r.eff||LEGACY_EFF[r.cls];
 function curUlt(){ const o=ULT_OPTS[state.cls]; if(!o) return null; const ch=(state.ult||{}).choice; const x=o.find(z=>z.e===ch)||o[0]; return {e:x.e,n:x.n,d:ULTFX[x.e]}; }
-const TASKXP=10, TASKMAX=5;
+const TASKXP=10, TASKMAX=5, RACECOINS=20;
+const ROLES=['Pai','Mãe','Filho','Filha','Avô','Avó','Tio','Tia','Primo','Prima','Padrasto','Madrasta'];
 const DAILY=[10,15,20,25,30,40,100];
 const MILES=[3,7,14,30,50,100];
 const CHEERS=['Que bom te ver de novo!','Mais um dia na jornada. Bora!','Cada dia conta, e você voltou.','Constância vence pressa. Mandou bem em abrir hoje.','Pequenos passos todo dia fazem a diferença.','Sua família agradece cada passo.','Hoje é um bom dia para um dia cheio.'];
@@ -1053,6 +1107,11 @@ const ITEMS=[
   {id:'skin_3',slot:'skin',n:'Pele média',p:0,col:'#c68642'},
   {id:'skin_4',slot:'skin',n:'Pele morena',p:0,col:'#8d5524'},
   {id:'skin_5',slot:'skin',n:'Pele escura',p:0,col:'#5c3a21'},
+  {id:'skin_verde',slot:'skin',n:'Verde ogro',p:0,col:'#7fb85a'},
+  {id:'skin_laranja',slot:'skin',n:'Laranja',p:0,col:'#f0965a'},
+  {id:'skin_azul',slot:'skin',n:'Azul',p:0,col:'#6fa8e6'},
+  {id:'skin_roxo',slot:'skin',n:'Roxo',p:0,col:'#a988e0'},
+  {id:'skin_pedra',slot:'skin',n:'Cinza pedra',p:0,col:'#9a9aa6'},
 
   {id:'body_m',slot:'body',n:'Masculino',p:0},
   {id:'body_f',slot:'body',n:'Feminino',p:0},
@@ -1243,7 +1302,7 @@ const fmtDay=k=>{ const d=parseKey(k); return `${DOW[d.getDay()]}, ${pad(d.getDa
 let state=DEFAULT();
 function normalize(s){ const d=DEFAULT(s&&s.name,s&&s.kid); s=Object.assign(d,s||{});
   ['log','quests','famRewards','daySum'].forEach(k=>{ s[k]=s[k]||{}; }); ['goals','owned','ach','pauses'].forEach(k=>{ s[k]=s[k]||[]; });
-  s.prestige=s.prestige||0; s.prestigeOffset=s.prestigeOffset||0; if(s.aims===undefined) s.aims=null; if(!s.bossMode) s.bossMode=s.kid?'leve':'normal'; s.ult=Object.assign({hid:null,start:null,choice:null},s.ult||{}); s.tasks=s.tasks||[]; s.daily=Object.assign({last:null,run:0,claims:{},chests:0},s.daily||{}); s.msSeen=s.msSeen||[]; s.ultReleases=s.ultReleases||[]; s.blessRecv=s.blessRecv||{}; ['journal','summarySeen','duoRewards'].forEach(k=>{ s[k]=s[k]||{}; });
+  s.prestige=s.prestige||0; s.prestigeOffset=s.prestigeOffset||0; if(s.aims===undefined) s.aims=null; if(!s.bossMode) s.bossMode=s.kid?'leve':'normal'; s.ult=Object.assign({hid:null,start:null,choice:null},s.ult||{}); s.tasks=s.tasks||[]; s.daily=Object.assign({last:null,run:0,claims:{},chests:0},s.daily||{}); s.msSeen=s.msSeen||[]; s.fullAt=s.fullAt||{}; s.raceWins=s.raceWins||{}; s.rankSeen=s.rankSeen||{}; s.ultReleases=s.ultReleases||[]; s.blessRecv=s.blessRecv||{}; ['journal','summarySeen','duoRewards'].forEach(k=>{ s[k]=s[k]||{}; });
   s.equipped=Object.assign({bg:'bg_quarto',hair:'hair_castanho',skin:'skin_1',hstyle:'hs_curto',body:'body_m'},s.equipped||{});
   if(s.cls&&!CLS[s.cls]) s.cls=null; if(s.spec&&(!s.cls||!CLS[s.cls].specs[s.spec])) s.spec=null;
   for(const k in s.equipped) if(!ITEM[s.equipped[k]]) delete s.equipped[k];
@@ -1396,8 +1455,10 @@ function compute(){
   let ultCoins=0; (state.ultReleases||[]).forEach(r=>{ if(relEff(r)==='medit') ultCoins+=(byDay[r.at]||{xp:0}).xp; });
   const dailyCoins=Object.values((state.daily||{}).claims||{}).reduce((a,b)=>a+(+b||0),0);
   const realSpent=(house.requests||[]).filter(q=>q.pid===pid&&q.uid===uid&&q.status!=='no').reduce((a,q)=>a+(q.cost||0),0);
-  return {taskDay,total,attr,al,byDay,p,streak,best,won,ws,ultCharge,shield,shieldDays,duoDone,realSpent,eventsWon,eventProg,journalDays,doneCount,fullDays,questDone,attrCount,weekXP,weekAttr,bought,famDone,boss,vices,vicesWon,viceBest,
-    coins:Math.max(0,total+loot+ultCoins+dailyCoins-(state.spent||0)-coinLoss-realSpent)};
+  const dayPts=k=>{ const b=byDay[k]; return b&&b.done?Math.round(100*Math.min(1,b.done/Math.max(1,state.dailyGoal))):0; };
+  let weekPts=0, prevPts=0; for(let i=0;i<7;i++){ weekPts+=dayPts(keyOf(addDays(parseKey(wk),i))); prevPts+=dayPts(keyOf(addDays(parseKey(wk),i-7))); }
+  return {weekPts,prevPts,todayPts:dayPts(tk),taskDay,total,attr,al,byDay,p,streak,best,won,ws,ultCharge,shield,shieldDays,duoDone,realSpent,eventsWon,eventProg,journalDays,doneCount,fullDays,questDone,attrCount,weekXP,weekAttr,bought,famDone,boss,vices,vicesWon,viceBest,
+    coins:Math.max(0,total+loot+ultCoins+dailyCoins+RACECOINS*Object.keys(state.raceWins||{}).length-(state.spent||0)-coinLoss-realSpent)};
 }
 function habitStreak(id){ const h=state.habits.find(x=>x.id===id); if(!h) return 0; const ok=k=>habitDone(h,k,(state.log[k]||{})[id]||0); let n=0, cur=new Date(); if(!ok(keyOf(cur))) cur=addDays(cur,-1); while(ok(keyOf(cur))){ n++; cur=addDays(cur,-1); } return n; }
 function myAvatar(c,over){ return avatarSVG(Object.assign({eq:state.equipped,level:c.p.lvl,cls:state.cls,spec:state.spec,wstage:c.ws,prestige:state.prestige},over||{})); }
@@ -1551,7 +1612,7 @@ function nextToast(){ const m=toastQ.shift(); const t=$('toast'); if(!m){ t.hidd
 function jump(){ ['avatar','miniAv'].forEach(id=>{ const a=$(id); if(!a) return; a.classList.remove('jump'); void a.offsetWidth; a.classList.add('jump'); }); }
 
 function memberData(c){
-  return {name:state.name,cls:state.cls,spec:state.spec,lvl:c.p.lvl,ws:c.ws,eq:state.equipped,kid:!!state.kid,prestige:state.prestige||0,bless:(state.ultReleases||[]).filter(r=>relEff(r)==='bless').slice(-10).map(r=>({id:r.id,at:r.at})),boss:c.boss.status,bossType:c.boss.type,streak:c.streak,al:Object.fromEntries(AKEYS.map(k=>[k,c.al[k].lvl])),won:c.won,achs:state.ach.length,week:weekKey(),weekXP:c.weekXP,weekAttr:c.weekAttr,updatedAt:Date.now()};
+  return {name:state.name,cls:state.cls,spec:state.spec,lvl:c.p.lvl,ws:c.ws,eq:state.equipped,kid:!!state.kid,prestige:state.prestige||0,bless:(state.ultReleases||[]).filter(r=>relEff(r)==='bless').slice(-10).map(r=>({id:r.id,at:r.at})),boss:c.boss.status,bossType:c.boss.type,streak:c.streak,al:Object.fromEntries(AKEYS.map(k=>[k,c.al[k].lvl])),won:c.won,achs:state.ach.length,week:weekKey(),weekXP:c.weekXP,weekAttr:c.weekAttr,weekPts:c.weekPts,prevPts:c.prevPts,todayPts:c.todayPts,fullAt:state.fullAt[today()]?{d:today(),at:state.fullAt[today()]}:null,role:state.famRole||'',updatedAt:Date.now()};
 }
 function save(){ dirty=true; clearTimeout(timer); timer=setTimeout(flush,600); }
 function flush(){
@@ -1595,7 +1656,7 @@ function openProfile(id){
   if(unsubProf) unsubProf();
   pid=id; try{ localStorage.setItem(pidKey(),id); }catch(e){}
   let first=true, famId;
-  viewDay=today(); tab='hoje'; charSub='ficha'; editMode=false; dailyShown=null; document.querySelectorAll('.tab').forEach(x=>x.setAttribute('aria-selected',x.id==='t-hoje'));
+  viewDay=today(); swapPrev=null; mdStart(false); tab='hoje'; charSub='ficha'; editMode=false; dailyShown=null; document.querySelectorAll('.tab').forEach(x=>x.setAttribute('aria-selected',x.id==='t-hoje'));
   unsubProf=B.watchProfile(uid,id,(d,meta)=>{
     if(meta.hasPendingWrites||dirty) return;
     if(d){ delete d.summary; delete d.updatedAt; state=normalize(d); view='app';
@@ -1650,18 +1711,46 @@ function checkAch(c){
 function famMission(c){
   const wk=weekKey(); const attr=AKEYS[hashStr(wk)%AKEYS.length];
   const me=uid+'_'+pid;
-  const list=members.filter(m=>m.id!==me).map(m=>Object.assign({},m,m.week===wk?{}:{weekXP:0,weekAttr:{}}));
+  const prevWk=keyOf(addDays(parseKey(wk),-7));
+  const list=members.filter(m=>m.id!==me).map(m=>Object.assign({},m,m.week===wk?{}:{weekXP:0,weekAttr:{},weekPts:0,todayPts:0,prevPts:m.week===prevWk?(m.weekPts||0):0}));
   list.push(Object.assign({id:me,me:true},memberData(c)));
-  const target=Math.max(6,5*list.length);
+  const target=state.famRewards[wk]&&state.famRewards[wk].target||Math.max(6,5*list.length);
   const progress=list.reduce((s,m)=>s+((m.weekAttr||{})[attr]||0),0);
   return {wk,attr,target,progress,list};
+}
+function renderRoleUI(){ ['','2'].forEach(sx=>{ const sel=$('fr-sel'+sx); if(!sel) return; const cur=state.famRole||''; const known=ROLES.includes(cur);
+    if(document.activeElement!==sel) sel.innerHTML='<option value="">Escolha</option>'+ROLES.map(r=>`<option ${r===cur?'selected':''}>${r}</option>`).join('')+`<option value="__outro" ${cur&&!known?'selected':''}>Outro (escrever)</option>`;
+    const other=sel.value==='__outro'; $('fr-otherW'+sx).hidden=!other; if(other&&document.activeElement!==$('fr-other'+sx)) $('fr-other'+sx).value=known?'':cur; }); }
+function champOf(list){ const best=Math.max(0,...list.map(x=>x.prevPts||0)); return best>0?list.filter(x=>(x.prevPts||0)===best).map(x=>x.id):[]; }
+function raceInfo(m){ const tk=today(); return m.list.filter(x=>x.fullAt&&x.fullAt.d===tk).sort((a,b)=>a.fullAt.at-b.fullAt.at); }
+function renderRace(c){
+  const card=$('raceCard'); if(!state.familyId||!fam){ card.hidden=true; return; }
+  const m=famMission(c); if(m.list.length<2){ card.hidden=true; return; }
+  card.hidden=false;
+  const rank=m.list.slice().sort((x,y)=>(y.weekPts||0)-(x.weekPts||0)); const pos=rank.findIndex(x=>x.me)+1, me=rank[pos-1];
+  const nw=new Date(), dow=nw.getDay(); const champ=champOf(m.list), cn=m.list.filter(x=>champ.includes(x.id)).map(x=>x.me?'você':x.name);
+  let line;
+  if(pos===1){ const sec=rank[1]; const gap=(me.weekPts||0)-(sec.weekPts||0); line=gap>0?`Você lidera a semana, <b>${gap} pontos</b> à frente de ${esc(sec.name||'')}.`:`Você está empatado em 1º com ${esc(sec.name||'')}.`; }
+  else { const ab=rank[pos-2]; const gap=(ab.weekPts||0)-(me.weekPts||0); line=`Você está em <b>${pos}º</b>, ${gap} pontos atrás de ${esc(ab.name||'')}. Um dia cheio vale 100.`; }
+  const race=raceInfo(m), first=race[0];
+  const raceLine=first?(first.me?`⚡ Você fechou o dia cheio primeiro hoje (+${RACECOINS} moedas)`:`⚡ ${esc(first.name||'')} fechou o dia cheio primeiro hoje. ${race.some(x=>x.me)?'Você também fechou.':'Ainda dá para fechar o seu.'}`):`⚡ Corrida de hoje: quem fechar o dia cheio primeiro ganha ${RACECOINS} moedas.`;
+  const ann=dow===1&&cn.length?`👑 ${cn.join(' e ')} ${cn.length>1||cn[0]==='você'?'venceram':'venceu'} a semana passada.`:(dow===0&&nw.getHours()>=18?'A semana fecha hoje à meia-noite. Última chance de subir no placar!':'');
+  card.innerHTML=`<div class="head"><h3 class="sec">Placar da casa</h3><button class="linkbtn" type="button" data-gofam="1">Ver placar</button></div><div>${line}</div><div class="small">${raceLine}</div>${ann?`<div class="small" style="color:var(--goldtx);font-weight:700">${ann}</div>`:''}`;
+  const seen=state.rankSeen||{};
+  if(seen.wk===m.wk&&seen.pos&&pos>seen.pos){ const by=rank[pos-2]; if(by&&!by.me) toast(`${by.name} te passou no placar!`); }
+  if(seen.wk!==m.wk||seen.pos!==pos){ state.rankSeen={wk:m.wk,pos}; save(); }
+}
+function checkRace(before,after){
+  const tk=today(); if(!(after.byDay[tk]||{}).full||(before.byDay[tk]||{}).full) return;
+  state.fullAt[tk]=Date.now();
+  if(state.familyId&&fam){ const m=famMission(after); if(m.list.length>=2&&!m.list.some(x=>!x.me&&x.fullAt&&x.fullAt.d===tk)&&!state.raceWins[tk]){ state.raceWins[tk]=true; toast(`⚡ Você fechou o dia cheio primeiro! +${RACECOINS} moedas`); } }
 }
 function checkFamily(c){
   if(!state.familyId||!fam) return;
   const me=uid+'_'+pid;
   members.filter(x=>x.id!==me).forEach(x=>(x.bless||[]).forEach(b=>{ if(!state.blessRecv[b.id]&&b.at>=state.created&&b.at>=keyOf(addDays(new Date(),-7))){ state.blessRecv[b.id]={xp:BLESSXP,at:today(),from:x.name}; toast(`${x.name||'Alguém'} usou Bênção: +${BLESSXP} XP para você`); save(); } }));
   const m=famMission(c);
-  if(m.progress>=m.target&&!state.famRewards[m.wk]){ state.famRewards[m.wk]={xp:FAMREWARD,attr:m.attr}; toast(`Missão em família concluída! +${FAMREWARD} XP`); jump(); save(); }
+  if(m.progress>=m.target&&!state.famRewards[m.wk]){ state.famRewards[m.wk]={xp:FAMREWARD,attr:m.attr,target:m.target,progress:m.progress}; toast(`Missão em família concluída! +${FAMREWARD} XP`); jump(); save(); }
   duoStatus(m).forEach(d=>{ if(d.mine&&d.done&&!state.duoRewards[d.id]){ state.duoRewards[d.id]={xp:DUOREWARD,attr:d.attr,at:today()}; toast(`Desafio em família concluído! +${DUOREWARD} XP`); jump(); save(); } });
 }
 function duoStatus(m){
@@ -1686,7 +1775,7 @@ function setCount(hid,val){
   if(val) state.log[d][hid]=val; else delete state.log[d][hid];
   if(!Object.keys(state.log[d]).length) delete state.log[d];
   const won=checkGoals();
-  save(); const after=compute(); render();
+  checkRace(before,compute()); save(); const after=compute(); render();
   const gain=after.total-before.total;
   if(gain>0){ const r=document.querySelector(`[data-hid="${hid}"]`); if(r){ const f=document.createElement('span'); f.className='float'; f.textContent=`+${gain} XP`; r.appendChild(f); r.classList.add('pop'); setTimeout(()=>f.remove(),1000);} }
   if(val>prev) celebrate(before,after,won);
@@ -1711,12 +1800,14 @@ function renderSheet(c){
   $('avatar').innerHTML=myAvatar(c); $('avatar').classList.toggle('ghost',c.boss.dead);
   $('pname').innerHTML=esc(state.name||'Herói')+(state.prestige?` <span class="pchip" style="--pc:${prestOf(state.prestige).M}">Prestígio ${state.prestige}</span>`:'');
   $('whoLine').textContent=`Perfil: ${state.name||''}`;
-  $('ptitle').textContent=c.boss.dead?'Fantasma':`${roleName(state.cls,state.spec,c.p.lvl,isF(state.equipped))} · ${tierName(tier,isF(state.equipped))}${state.prestige?' · '+prestName(state.prestige):''}`;
+  $('ptitle').textContent=c.boss.dead?'Fantasma':`${roleName(state.cls,state.spec,c.p.lvl,isF(state.equipped))}${state.prestige?' · '+prestName(state.prestige):''}`;
+  $('ptier').textContent=c.boss.dead?'':tierName(tier,isF(state.equipped));
+  $('pnext').textContent=tier<9?`nova roupa no ${(tier+1)*10}`:(c.p.lvl<MAXLVL?'rumo ao prestígio no 100':'');
   const AS=state.kid?KID_AIMS:AIMS; const al_=(state.aims||[]).filter(a=>AS[a]);
-  $('aimLine').hidden=!al_.length; $('aimLine').textContent=al_.length?'Jornada: '+al_.map(a=>AS[a].n.toLowerCase()).join(' · '):'';
+  $('aimLine').hidden=!al_.length; $('aimLine').textContent=al_.length?'Quer: '+al_.map(a=>(AIM_SHORT[a]||AS[a].n).toLowerCase()).join(' · '):'';
   $('plvl').textContent=c.p.lvl;
   $('pxpbar').style.width=c.p.pct+'%';
-  $('pxptext').textContent=c.p.lvl>=MAXLVL?'Nível máximo':`${c.p.into} / ${c.p.need} XP para o nível ${c.p.lvl+1}`;
+  $('pxptext').textContent=(c.p.lvl>=MAXLVL?'Nível máximo':`${c.p.into} / ${c.p.need} XP para o nível ${c.p.lvl+1}`)+` · ${Math.max(0,Math.round(c.total)).toLocaleString('pt-BR')} XP no total`;
   $('pcoins').textContent=c.coins; $('scoins').textContent=c.coins; $('pstreak').textContent=c.streak;
   { const left=c.shield.allow-c.shield.usedCount; $('pshield').innerHTML=left>0?`<b>Escudo</b> pronto${left>1?` (${left})`:''}`:`Escudo usado (${DOW[parseKey(c.shield.used).getDay()].toLowerCase()})`; }
   renderUlt(c);
@@ -1729,11 +1820,12 @@ function renderSheet(c){
 }
 function renderClassPick(){
   const src=state.kid?KID_AIMS:AIMS, aims=(state.aims||[]).filter(a=>src[a]);
-  const rec=aims.length?src[aims[0]].cls:null;
+  const rec=recClass();
   let specHint='';
   if(rec&&aims[1]){ const at=src[aims[1]].attr; const sp=Object.values(CLS[rec].specs).find(s=>s.fx.attr===at); if(sp) specHint=` No nível 30, a especialização ${isF(state.equipped)?sp.nf:sp.n} combina com ${src[aims[1]].n.toLowerCase()}.`; }
   const order=Object.keys(CLS).sort((a,b)=>(b===rec)-(a===rec));
-  $('classList').innerHTML=(aims.length?`<div class="card small">Sua jornada: <b style="color:var(--fg)">${aims.map(a=>src[a].n.toLowerCase()).join(' · ')}</b>. Criei 1 hábito para cada escolha; os outros aparecem como sugestão na aba Hoje.${rec?` A classe que mais combina é ${clsName(rec,isF(state.equipped))}.`:''}${specHint}</div>`:'')+order.map(k=>{ const cl=CLS[k]; return `<button class="cls" data-cls="${k}" style="--c:${ATTRS[cl.attr].c}">
+  $('classCancel').hidden=!swapPrev; $('classBack').hidden=!!swapPrev;
+  $('classList').innerHTML=(rec?`<div class="card small">${aims.length?`Você quer: <b style="color:var(--fg)">${aims.map(a=>(AIM_SHORT[a]||src[a].n).toLowerCase()).join(' · ')}</b>. `:''}A classe que mais combina com a sua rotina é ${clsName(rec,isF(state.equipped))}.${specHint}</div>`:'')+order.map(k=>{ const cl=CLS[k]; return `<button class="cls" data-cls="${k}" style="--c:${ATTRS[cl.attr].c}">
     <span class="prev">${avatarSVG({eq:{bg:'bg_quarto',hair:state.equipped.hair,skin:state.equipped.skin,hstyle:state.equipped.hstyle,body:state.equipped.body},level:20,cls:k,wstage:3})}</span>
     <span>${k===rec?'<span class="rec">Recomendada para você</span>':''}<b>${clsName(k,isF(state.equipped))}</b><span class="small">Cresce com ${ATTRS[cl.attr].n}: ${cl.hint}</span><span class="small">+20% XP em ${ATTRS[cl.attr].n} · Arma: ${cl.weapon.toLowerCase()}</span><span class="small">Especializações: ${Object.values(cl.specs).map(s=>isF(state.equipped)?s.nf:s.n).join(' ou ')}</span></span>
   </button>`; }).join('');
@@ -1794,7 +1886,7 @@ function renderToday(c){
   if(state.remindOn&&state.reminder&&d===tk&&hm>=state.reminder&&!info.full){ rb.hidden=false; rb.textContent=`Já passou das ${state.reminder}: falta${g-info.done>1?'m':''} ${g-info.done} hábito${g-info.done>1?'s':''} para o dia cheio.`; } else rb.hidden=true;
   $('goal').className='goal'+(info.full?' full':'');
   $('goal').innerHTML=`<div class="head"><span>${info.full?'Dia cheio conquistado':`Dia cheio: ${Math.min(info.done,g)} de ${g} hábitos (+${BONUS*(fx.full||1)} XP)`}</span><span class="num" style="font-family:var(--display);color:var(--goldtx)">${info.xp} XP</span></div><div class="pips">${Array.from({length:g},(_,i)=>`<span class="${i<info.done?'on':''}"></span>`).join('')}</div>`;
-  const act=state.habits.filter(h=>!h.archived&&!isAvoid(h)), avs=state.habits.filter(h=>!h.archived&&isAvoid(h));
+  const BO={m:0,t:1,n:2}; const act=state.habits.filter(h=>!h.archived&&!isAvoid(h)).sort((x,y)=>(BO[x.block]??3)-(BO[y.block]??3)), avs=state.habits.filter(h=>!h.archived&&isAvoid(h));
   $('avoidWrap').hidden=!avs.length;
   $('avoidList').innerHTML=avs.map(h=>avoidRow(h,c,d,entries,q,fx)).join('');
   $('habits').innerHTML=act.length?act.map(h=>{
@@ -1806,7 +1898,7 @@ function renderToday(c){
       <button class="main" data-act="${t>1?(done?'none':'plus'):'toggle'}" aria-pressed="${done}">
         ${isQ?`<span class="quest">Missão do dia ×${qm}</span>`:''}
         <span class="hn">${esc(h.name)}</span>
-        <span class="meta"><span class="a">${a.n}</span>${h.time?`<span>às ${h.time}</span>`:''}<span class="${boosted?'boost':''}">+${isQ?base*qm:base} XP${boosted?' (classe)':''}</span>${t>1?`<span>${t} ${esc(h.unit||'')}</span>`:''}${st>1?`<span>${st} dias seguidos</span>`:''}</span>
+        <span class="meta"><span class="a">${a.n}</span>${h.block?`<span>${{m:'manhã',t:'tarde',n:'noite'}[h.block]}</span>`:''}${h.time?`<span>às ${h.time}</span>`:''}${h.why&&AIM_SHORT[h.why]?`<span class="whyc">${AIM_SHORT[h.why]}</span>`:''}<span class="${boosted?'boost':''}">+${isQ?base*qm:base} XP${boosted?' (classe)':''}</span>${t>1?`<span>${t} ${esc(h.unit||'')}</span>`:''}${st>1?`<span>${st} dias seguidos</span>`:''}</span>
       </button>
       <div class="side">${side}</div>
       ${t>1?`<div class="prog"><i style="width:${Math.min(100,cnt/t*100)}%"></i></div>`:''}
@@ -1845,31 +1937,103 @@ function renderVices(c){
       <div class="small">${won?`Vencido em ${v.defeatedOn.split('-').reverse().slice(0,2).join('/')} (+${VICE_BONUS} XP)`:how}</div>
       ${won?'':`<div class="hp"><i style="width:${v.hp/VICE_HP*100}%;background:#9b59d0"></i></div><div class="small num">Vida: ${v.hp} de ${VICE_HP}${h.mode!=='reduce'?` · maior sequência: ${v.best} dias`:''}</div>`}</div></div>`; }).join('');
 }
-let aimSel=[], aimEdit=false;
+let swapPrev=null, aimSel=[], aimEdit=false, mdStep=1, mdTraitSel=[], mdPick={}, mdEdit=null, mdCustom=[];
+const BLOCKS=[['m','Manhã'],['t','Tarde'],['n','Noite']];
+const AIM_SHORT={emagrecer:'Mais energia e saúde',forca:'Ficar mais forte',ler:'Aprender mais',familia:'Mais tempo com a família',sono:'Menos estresse e sono melhor',vicio:'Largar um vício',kler:'Ler mais',kmexer:'Brincar e se mexer',kajudar:'Ajudar em casa',ktela:'Menos tela',kdormir:'Dormir e se cuidar'};
+const TRAITS={fora:'Trabalho fora',casa:'Trabalho em casa',filhos:'Tenho filhos na escola',cedo:'Acordo cedo',exercicio:'Faço exercício',estudo:'Estudo'};
+const KID_TRAITS={escola:'Vou à escola',esporte:'Faço esporte',lergosto:'Gosto de ler',muitatela:'Uso muito tablet ou celular'};
+const CATALOG=[
+  {id:'agua',name:'Beber água',attr:'vigor',xp:20,target:6,unit:'copos',b:'m',tags:['fora','casa','exercicio'],aims:['emagrecer']},
+  {id:'cafe',name:'Café da manhã com a família',attr:'familia',xp:20,target:1,b:'m',tags:['filhos'],aims:['familia']},
+  {id:'mochila',name:'Arrumar a mochila das crianças',attr:'familia',xp:10,target:1,b:'m',tags:['filhos'],aims:[]},
+  {id:'alongar',name:'Alongar 10 min',attr:'equilibrio',xp:10,target:1,b:'m',tags:['cedo','casa'],aims:['sono']},
+  {id:'caminhar',name:'Caminhar ou correr 30 min',attr:'vigor',xp:40,target:1,b:'m',tags:['exercicio','cedo'],aims:['emagrecer']},
+  {id:'musc',name:'Musculação',attr:'forca',xp:40,target:1,b:'t',tags:['exercicio'],aims:['forca']},
+  {id:'flexao',name:'20 flexões',attr:'forca',xp:20,target:1,b:'t',tags:['casa'],aims:['forca']},
+  {id:'verdura',name:'Salada no almoço',attr:'equilibrio',xp:20,target:1,b:'t',tags:['fora'],aims:['emagrecer']},
+  {id:'pausa',name:'10 min de pausa',attr:'equilibrio',xp:20,target:1,b:'t',tags:['fora','casa'],aims:['sono']},
+  {id:'estudar',name:'Estudar 30 min',attr:'mente',xp:30,target:1,b:'t',tags:['estudo'],aims:['ler']},
+  {id:'dever',name:'Ajudar no dever de casa',attr:'familia',xp:30,target:1,b:'t',tags:['filhos'],aims:['familia']},
+  {id:'criancas',name:'Brincar com as crianças',attr:'familia',xp:30,target:1,b:'n',tags:['filhos'],aims:['familia']},
+  {id:'jantar',name:'Jantar sem celular',attr:'familia',xp:20,target:1,b:'n',tags:['filhos'],aims:['familia']},
+  {id:'leitura',name:'Ler um livro (20 min)',attr:'mente',xp:25,target:1,b:'n',tags:['estudo'],aims:['ler']},
+  {id:'doce',name:'Sem doce depois do jantar',attr:'equilibrio',xp:20,target:1,kind:'avoid',mode:'quit',b:'n',tags:[],aims:['emagrecer']},
+  {id:'sono',name:'Dormir antes da meia-noite',attr:'equilibrio',xp:20,target:1,b:'n',tags:['cedo','fora'],aims:['sono']}
+];
+const KID_CATALOG=[
+  {id:'dentes',name:'Escovar os dentes',attr:'equilibrio',xp:10,target:2,unit:'vezes',b:'m',tags:['escola'],aims:['kdormir']},
+  {id:'cama',name:'Arrumar a cama',attr:'forca',xp:10,target:1,b:'m',tags:['escola'],aims:['kajudar']},
+  {id:'aguak',name:'Beber água',attr:'vigor',xp:10,target:4,unit:'copos',b:'m',tags:['esporte'],aims:['kmexer']},
+  {id:'deverk',name:'Fazer o dever de casa',attr:'mente',xp:20,target:1,b:'t',tags:['escola'],aims:['kler']},
+  {id:'brincarfora',name:'Brincar ao ar livre',attr:'vigor',xp:20,target:1,b:'t',tags:['esporte','muitatela'],aims:['kmexer']},
+  {id:'esporte',name:'Fazer um esporte',attr:'forca',xp:20,target:1,b:'t',tags:['esporte'],aims:['kmexer']},
+  {id:'ajudar',name:'Ajudar em casa',attr:'familia',xp:20,target:1,b:'t',tags:[],aims:['kajudar']},
+  {id:'lerk',name:'Ler 10 minutos',attr:'mente',xp:20,target:1,b:'n',tags:['lergosto'],aims:['kler']},
+  {id:'quarto',name:'Arrumar o quarto',attr:'forca',xp:20,target:1,b:'n',tags:[],aims:['kajudar']},
+  {id:'banho',name:'Tomar banho sem reclamar',attr:'equilibrio',xp:10,target:1,b:'n',tags:[],aims:['kdormir']},
+  {id:'tela',name:'Tempo de tela',attr:'equilibrio',xp:30,target:1,kind:'avoid',mode:'reduce',start:4,goal:2,unit:'horas',b:'n',tags:['muitatela'],aims:['ktela']},
+  {id:'dormir',name:'Dormir no horário',attr:'equilibrio',xp:20,target:1,b:'n',tags:['escola'],aims:['kdormir']}
+];
+const mdCat=()=>(state.kid?KID_CATALOG:CATALOG).concat(mdCustom);
+const mdScore=c=>(c.tags||[]).filter(t=>mdTraitSel.includes(t)).length+2*(c.aims||[]).filter(a=>aimSel.includes(a)).length;
+function mdExisting(){ if(!aimEdit) return new Set(); return new Set(state.habits.filter(h=>!h.archived&&!h.deleted).map(h=>h.id)); }
+function mdStart(edit){ aimEdit=!!edit; mdStep=1; mdEdit=null; mdCustom=[]; mdPick={}; aimSel=edit?(state.aims||[]).slice():[]; mdTraitSel=edit?(state.traits||[]).slice():[]; }
 function renderAims(){
-  const src=state.kid?KID_AIMS:AIMS;
-  $('aimList').innerHTML=Object.entries(src).map(([k,a])=>{ const i=aimSel.indexOf(k);
-    return `<button class="aim" data-aim="${k}" aria-pressed="${i>=0}" style="--c:${ATTRS[a.attr].c}"><span><b style="font-weight:500">${i>=0?(i+1)+'. ':''}${a.n}</b><span class="small" style="display:block">Puxa ${ATTRS[a.attr].n}${a.cls?' · combina com '+CLS[a.cls].n:''}</span></span><span class="tick"></span></button>`; }).join('');
-  $('viceCfg').hidden=!aimSel.includes('vicio');
-  const red=$('vc-mode').value==='reduce'; $('vc-startW').hidden=!red; $('vc-goalW').hidden=!red; $('vc-unitW').hidden=!red;
-  $('aimGo').disabled=!aimSel.length; $('aimSkip').textContent=aimEdit?'Cancelar':'Pular';
+  const src=state.kid?KID_AIMS:AIMS, tr=state.kid?KID_TRAITS:TRAITS;
+  $('mdSteps').innerHTML=[1,2,3].map(i=>`<i class="${i<=mdStep?'on':''}"></i>`).join('');
+  ['mdStep1','mdStep2','mdStep3'].forEach((id,i)=>$(id).hidden=mdStep!==i+1);
+  $('mdKidHint').hidden=!state.kid;
+  $('aimSkip').textContent=aimEdit?'Cancelar':'Pular';
+  if(mdStep===1){
+    $('mdTraits').innerHTML=Object.entries(tr).map(([k,n])=>`<button type="button" data-trait="${k}" aria-pressed="${mdTraitSel.includes(k)}">${n}</button>`).join('');
+    $('aimList').innerHTML=Object.entries(src).map(([k,a])=>{ const i=aimSel.indexOf(k); return `<button type="button" data-aim="${k}" aria-pressed="${i>=0}">${i>=0?(i+1)+'. ':''}${esc(AIM_SHORT[k]||a.n)}</button>`; }).join('');
+    $('viceCfg').hidden=!aimSel.includes('vicio');
+    const red=$('vc-mode').value==='reduce'; $('vc-startW').hidden=!red; $('vc-goalW').hidden=!red; $('vc-unitW').hidden=!red;
+  }
+  if(mdStep===2){
+    const ex=mdExisting(), cat=mdCat();
+    const card=c=>{ const on=!!mdPick[c.id], lock=ex.has(c.id), sc=mdScore(c), a=ATTRS[c.attr]||ATTRS.equilibrio, p=mdPick[c.id]||{};
+      return `<button type="button" class="mdc${lock?' locked':''}" data-md="${c.id}" aria-pressed="${on||lock}" style="--c:${a.c}" ${lock?'disabled':''}>
+        ${on?`<span class="pen" data-mdedit="${c.id}" role="button" aria-label="Mudar nome e horário">✎</span>`:''}
+        <b>${esc(p.name||c.name)}</b><span class="small">${lock?'já está na sua rotina':`${a.n}${c.target>1?` · ${c.target} ${esc(c.unit||'')}`:''}${p.time?` · ${p.time}`:''}`}</span>
+        ${!lock&&sc>0?'<span class="star">★ sugerido</span>':''}</button>`+(mdEdit===c.id?`<div class="mdedit"><label class="full">Nome<input id="md-name" maxlength="60" value="${esc(p.name||c.name)}"></label><label>Horário (opcional)<input id="md-time" type="time" value="${p.time||''}"></label><button class="btn sm" type="button" data-mdok="${c.id}" style="align-self:end">Pronto</button></div>`:''); };
+    $('mdBoard').innerHTML=BLOCKS.map(([b,n])=>{ const list=cat.filter(c=>c.b===b).sort((x,y)=>mdScore(y)-mdScore(x));
+      return `<div class="mdblock"><h3 class="sec">${n}</h3><div class="mdcards">${list.map(card).join('')}<button type="button" class="mdc add" data-mdadd="${b}">+ Criar o meu</button></div></div>`; }).join('');
+    const n=Object.keys(mdPick).length; $('mdCount').textContent=n?`${n} escolhido${n>1?'s':''}`:'';
+    $('mdNext2').disabled=!n&&!aimEdit;
+  }
+  if(mdStep===3){
+    const cat=mdCat(), ch=Object.keys(mdPick).map(id=>Object.assign({},cat.find(c=>c.id===id),mdPick[id]));
+    const ex=state.habits.filter(h=>!h.archived&&!h.deleted);
+    const c=compute();
+    $('mdPacto').innerHTML=`<span class="prev">${myAvatar(c)}</span><h2>O pacto de ${esc(state.name||'Herói')}</h2>
+      ${aimSel.length?`<div class="small">Para ter: ${aimSel.map(a=>`<span class="whyc">${esc(AIM_SHORT[a]||((state.kid?KID_AIMS:AIMS)[a]||{}).n||a)}</span>`).join(' ')}</div>`:''}
+      <div class="small">Eu me comprometo com:</div>
+      <ul>${BLOCKS.map(([b,n])=>{ const l=ch.filter(x=>x.b===b); return l.length?`<li><b>${n}:</b> ${l.map(x=>esc(x.name)).join(', ')}</li>`:''; }).join('')}${aimEdit&&ex.length?`<li><b>E o que já faço:</b> ${ex.map(h=>esc(h.name)).slice(0,8).join(', ')}${ex.length>8?'…':''}</li>`:''}</ul>`;
+  }
 }
 function applyAims(sel){
   const src=state.kid?KID_AIMS:AIMS, fresh=!Object.keys(state.log).length&&!state.cls;
   if(fresh){ state.habits=[]; state.goals=[]; state.daySum={}; }
-  const addHabit=h=>{ const ex=state.habits.find(x=>x.id===h.id); if(ex){ ex.archived=false; return; } if(state.habits.filter(x=>!x.archived).length>=MAXHABITS) return; state.habits.push(Object.assign({},h,{created:today()})); };
+  const cat=mdCat();
+  const addHabit=h=>{ const ex=state.habits.find(x=>x.id===h.id); if(ex){ ex.archived=false; delete ex.deleted; return; } if(state.habits.filter(x=>!x.archived).length>=MAXHABITS) return; state.habits.push(Object.assign({},h,{created:today()})); };
+  Object.keys(mdPick).forEach(id=>{ const c=cat.find(x=>x.id===id); if(!c) return; const p=mdPick[id]||{};
+    const h={id:c.id,name:(p.name||c.name).slice(0,60),attr:c.attr,xp:c.xp,target:c.target||1,block:c.b};
+    if(c.unit) h.unit=c.unit; if(p.time) h.time=p.time; if(c.kind){ h.kind=c.kind; h.mode=c.mode; if(c.start!=null){ h.start=c.start; h.goal=c.goal; } }
+    const why=(c.aims||[]).find(a=>sel.includes(a)); if(why) h.why=why;
+    addHabit(h); });
   sel.forEach(id=>{ const a=src[id]; if(!a) return;
-    let hs=a.habits;
-    if(a.vice){ const mode=$('vc-mode').value; const st=Math.max(1,parseInt($('vc-start').value)||4); hs=[{id:'vice'+Date.now().toString(36),name:$('vc-name').value.trim()||'Vício',attr:'equilibrio',xp:30,target:1,kind:'avoid',mode,start:st,goal:Math.min(st,Math.max(0,parseInt($('vc-goal').value)||0)),unit:$('vc-unit').value.trim()||'doses'}]; }
-    (a.vice?hs:hs.slice(0,1)).forEach(addHabit);
+    if(a.vice){ const mode=$('vc-mode').value; const st=Math.max(1,parseInt($('vc-start').value)||4); addHabit({id:'vice'+Date.now().toString(36),name:$('vc-name').value.trim()||'Vício',attr:'equilibrio',xp:30,target:1,kind:'avoid',mode,start:st,goal:Math.min(st,Math.max(0,parseInt($('vc-goal').value)||0)),unit:$('vc-unit').value.trim()||'doses',block:'n',why:'vicio'}); }
     const g=a.goal;
-    if(g&&!state.goals.some(x=>x.name===g.name)){ const hb=state.habits.find(x=>x.id===g.habitId); state.goals.push({id:'g'+Date.now().toString(36)+id,name:g.name,habitId:g.habitId||null,target:g.target,unit:g.unit,deadline:g.date||null,reward:g.reward,attr:hb?hb.attr:(g.attr||a.attr),created:today(),manual:0,done:false}); }
+    if(g&&!state.goals.some(x=>x.name===g.name)&&(!g.habitId||state.habits.some(x=>x.id===g.habitId&&!x.archived))){ const hb=state.habits.find(x=>x.id===g.habitId); state.goals.push({id:'g'+Date.now().toString(36)+id,name:g.name,habitId:g.habitId||null,target:g.target,unit:g.unit,deadline:g.date||null,reward:g.reward,attr:hb?hb.attr:(g.attr||a.attr),created:today(),manual:0,done:false}); }
   });
   if(!state.habits.filter(h=>!h.archived).length) state.habits=JSON.parse(JSON.stringify(state.kid?KID_HABITS:ADULT_HABITS.filter(h=>ADULT_START.includes(h.id))));
   const n=state.habits.filter(h=>!h.archived).length;
   if(fresh) state.dailyGoal=Math.max(1,Math.min(3,n));
-  state.aims=sel.slice(); syncTodaySum();
+  state.aims=sel.slice(); state.traits=mdTraitSel.slice(); syncTodaySum();
 }
+function recClass(){ const src=state.kid?KID_AIMS:AIMS, aims=(state.aims||[]).filter(a=>src[a]&&src[a].cls); if(aims.length) return src[aims[0]].cls;
+  const cnt={}; state.habits.filter(h=>!h.archived).forEach(h=>cnt[h.attr]=(cnt[h.attr]||0)+1); const top=Object.entries(cnt).sort((a,b)=>b[1]-a[1])[0]; return top?Object.keys(CLS).find(k=>CLS[k].attr===top[0]):null; }
 const SUGS=[
   {name:'Ler 12 livros em 2026',habitId:'',target:12,unit:'livros',attr:'mente',reward:1000,date:'2026-12-31'},
   {name:'Treinar 12 vezes no mês',habitId:'musc',target:12,unit:'treinos',reward:250},
@@ -1904,6 +2068,7 @@ function renderGoals(){
   $('wonWrap').hidden=!won.length; $('wonList').innerHTML=won.map(card).join('');
 }
 function renderFamily(c){
+  renderRoleUI();
   const inF=!!state.familyId;
   $('famNone').hidden=inF; $('famIn').hidden=!inF; $('famCodeCard').hidden=!inF;
   if(!inF) return;
@@ -1915,12 +2080,12 @@ function renderFamily(c){
   $('famWeek').textContent=`${pad(parseKey(m.wk).getDate())}/${pad(parseKey(m.wk).getMonth()+1)} a ${pad(end.getDate())}/${pad(end.getMonth()+1)}`;
   $('famMission').innerHTML=`<div class="head"><h2>Missão da semana</h2><span class="small num">+${FAMREWARD} XP para cada um</span></div>
     <div>Juntos, completem <b>${m.target} hábitos de ${a.n}</b> até domingo.</div>
-    <div class="gbar" style="--c:${a.c}"><i style="width:${Math.min(100,m.progress/m.target*100)}%"></i></div>
-    <div class="small num">${Math.min(m.progress,m.target)} de ${m.target}${done?' · concluída, XP recebido':''}</div>`;
-  const rank=m.list.slice().sort((x,y)=>(y.weekXP||0)-(x.weekXP||0));
+    <div class="gbar" style="--c:${a.c}"><i style="width:${done?100:Math.min(100,m.progress/m.target*100)}%"></i></div>
+    <div class="small num">${done?'Concluída! XP recebido por todos':`${Math.min(m.progress,m.target)} de ${m.target}`}</div>`;
+  const rank=m.list.slice().sort((x,y)=>(y.weekPts||0)-(x.weekPts||0)||(y.weekXP||0)-(x.weekXP||0)); const champ=champOf(m.list);
   renderVillage(m); renderDuos(m);
   const bossTxt=b=>b==='dead'?' · virou fantasma':BOSSES[b]?' · enfrentando boss':'';
-  $('famRank').innerHTML=rank.map((r,i)=>`<div class="rk${i===0?' first':''}${r.me?' me':''}"><span class="pos">${i+1}º</span><span class="prev" style="${r.boss==='dead'?'filter:grayscale(1);opacity:.6':''}">${avatarSVG({eq:r.eq||{},level:r.lvl||1,cls:r.cls,spec:r.spec,wstage:r.ws||0,prestige:r.prestige||0})}</span><span><b>${esc(r.name||'Sem nome')}${r.me?' (você)':''}${r.prestige?` <span class="pchip" style="--pc:${prestOf(r.prestige).M}">P${r.prestige}</span>`:''}${(r.streak||0)>=7?` <span class="fire" title="${r.streak} dias seguidos">🔥${r.streak}</span>`:''}</b><span class="small">Nível ${r.lvl||1}${r.cls&&CLS[r.cls]?' · '+clsName(r.cls,isF(r.eq)):''} · ${((r.weekAttr||{})[m.attr]||0)} de ${a.n}${bossTxt(r.boss)}</span></span><span class="xp num">${r.weekXP||0} XP</span></div>`).join('');
+  $('famRank').innerHTML=rank.map((r,i)=>`<div class="rk${i===0?' first':''}${r.me?' me':''}"><span class="pos">${i+1}º</span><span class="prev" style="${r.boss==='dead'?'filter:grayscale(1);opacity:.6':''}">${avatarSVG({eq:r.eq||{},level:r.lvl||1,cls:r.cls,spec:r.spec,wstage:r.ws||0,prestige:r.prestige||0})}</span><span class="rkt"><b>${champ.includes(r.id)?'👑 ':''}${esc(r.name||'Sem nome')}${r.role?` <span class="role">${esc(r.role)}</span>`:''}${r.me?' (você)':''}${(r.streak||0)>=7?` <span class="fire" title="${r.streak} dias seguidos">🔥${r.streak}</span>`:''}</b><span class="small">Nível ${r.lvl||1}${r.cls&&CLS[r.cls]?' · '+clsName(r.cls,isF(r.eq)):''}${r.prestige?' · P'+r.prestige:''}</span><span class="small">${((r.weekAttr||{})[m.attr]||0)} de ${a.n}${bossTxt(r.boss)}</span></span><span class="xp num">${r.weekPts||0}<small> pts</small></span></div>`).join('');
 }
 const SCENES=[['bg_jardim','Jardim'],['bg_parque','Parque'],['bg_quarto','Sala'],['bg_praia','Praia'],['bg_montanha','Montanha'],['bg_noite','Noite estrelada'],['bg_espaco','Espaço']];
 let selMember=null;
@@ -1936,7 +2101,7 @@ function renderVillage(m){
   if(!list.some(r=>r.id===selMember)) selMember=null;
   $('village').innerHTML=list.map(r=>{ const dead=r.boss==='dead';
     const badge=dead?'<span class="badge gray">fantasma</span>':BOSSES[r.boss]?'<span class="badge">boss</span>':r.boss==='pause'?'<span class="badge blue">pausa</span>':'';
-    return `<button class="vt${dead?' ghost':''}${selMember===r.id?' sel':''}" data-mem="${r.id}" type="button"><span class="prev">${avatarSVG({eq:Object.assign({},r.eq||{},{bg:scene}),level:r.lvl||1,cls:r.cls,spec:r.spec,wstage:r.ws||0,prestige:r.prestige||0})}</span>${badge}<span class="lvb">Nv ${r.lvl||1}</span><span class="nm">${(r.streak||0)>=7?'🔥':''}${esc(r.name||'Sem nome')}${r.me?' (você)':''}</span></button>`; }).join('');
+    return `<button class="vt${dead?' ghost':''}${selMember===r.id?' sel':''}" data-mem="${r.id}" type="button"><span class="prev">${avatarSVG({eq:Object.assign({},r.eq||{},{bg:scene}),level:r.lvl||1,cls:r.cls,spec:r.spec,wstage:r.ws||0,prestige:r.prestige||0})}</span>${badge}<span class="lvb">Nv ${r.lvl||1}</span><span class="nm">${champOf(m.list).includes(r.id)?'👑':''}${(r.streak||0)>=7?'🔥':''}${esc(r.name||'Sem nome')}${r.me?' (você)':''}${r.role?`<i class="nmr">${esc(r.role)}</i>`:''}</span></button>`; }).join('');
   const r=list.find(x=>x.id===selMember);
   $('famHint').hidden=!!r;
   if(!r){ $('memberDetail').innerHTML=''; return; }
@@ -2130,7 +2295,7 @@ function renderHabEdit(){
 
 function renderMini(c){
   $('miniAv').innerHTML=myAvatar(c); $('miniAv').classList.toggle('ghost',c.boss.dead);
-  $('miniName').textContent=state.name||'Herói'; $('miniLvl').textContent=c.p.lvl; $('miniXp').style.width=c.p.pct+'%';
+  $('miniName').textContent=state.name||'Herói'; $('miniLvl').textContent=c.p.lvl; $('miniTier').textContent=tierName(tierOf(c.p.lvl),isF(state.equipped)); $('miniXp').style.width=c.p.pct+'%';
   $('miniCoins').innerHTML=`<b class="num">${c.coins}</b> moedas`;
   $('miniStreak').innerHTML=c.streak?`${c.streak>=7?'🔥':'Sequência:'} <b class="num">${c.streak}</b> ${c.streak===1?'dia':'dias'}`:'Comece a sequência hoje';
   const left=c.shield.allow-c.shield.usedCount; $('miniShield').innerHTML=''; $('miniShield').hidden=true; $('miniStreak').title=left>0?'Escudo da semana pronto':'Escudo da semana já usado';
@@ -2192,7 +2357,7 @@ function renderDaily(c){
     <p>${cheer}</p>
     ${yline?`<p class="small">${yline}</p>`:''}
     ${pl.note?`<p class="small">${pl.note}</p>`:''}
-    <div class="small"><b style="color:var(--fg)">Dia ${pl.run} seguido</b> abrindo a Jornada. ${nextChest}</div>
+    <div class="small"><b style="color:var(--fg)">Dia ${pl.run} seguido</b> abrindo a Nossa Jornada. ${nextChest}</div>
     <div class="dtrack">${DAILY.map((v,i)=>`<div class="dslot${i<pl.slot?' got':''}${i===pl.slot?' now':''}${i===6?' chest':''}"><span>${i===6?'Baú':'Dia '+(i+1)}</span><b class="num">${v}</b></div>`).join('')}</div>
     ${chestItem?`<div class="small" style="color:var(--goldtx)">O baú traz um item exclusivo: ${esc(chestItem.n)}</div>`:''}
     <button class="btn gold" id="dailyGo" type="button">Coletar ${pl.coins} moedas</button>`;
@@ -2250,7 +2415,7 @@ function render(){
   renderTour(c);
   if(aiming){ $('tour').hidden=true; $('daily').hidden=true; renderAims(); return; }
   if(picking){ $('daily').hidden=true; renderClassPick(); return; }
-  if(tab==='hoje'){ renderToday(c); renderQuick(); renderTasks(); renderEditMode(); }
+  if(tab==='hoje'){ renderToday(c); renderRace(c); renderQuick(); renderTasks(); renderEditMode(); }
   if(tab==='obj'){ renderVices(c); renderGoals(); }
   if(tab==='char'){ document.querySelectorAll('.charseg [data-sub]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.sub===charSub)); ['ficha','vis','hist'].forEach(k=>$('sub-'+k).hidden=k!==charSub);
     if(charSub==='vis') renderVisual(c); if(charSub==='hist'){ renderHist(c); renderTaskHist(); } }
@@ -2262,7 +2427,7 @@ function goTab(t){ tab=t; document.querySelectorAll('.tab').forEach(x=>x.setAttr
 
 /* ---------- eventos ---------- */
 document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{ if(b.id==='t-hoje'&&tab==='hoje') editMode=false; goTab(b.id.slice(2)); }));
-$('classList').addEventListener('click',e=>{ const b=e.target.closest('[data-cls]'); if(!b) return; state.cls=b.dataset.cls; state.spec=null; tourStep=0; save(); render(); toast(`Você agora é ${clsName(state.cls,isF(state.equipped))}`); jump(); });
+$('classList').addEventListener('click',e=>{ const b=e.target.closest('[data-cls]'); if(!b) return; const keep=swapPrev&&swapPrev.cls===b.dataset.cls; state.cls=b.dataset.cls; state.spec=keep?swapPrev.spec:null; swapPrev=null; tourStep=0; save(); render(); toast(`Você agora é ${clsName(state.cls,isF(state.equipped))}`); jump(); });
 $('specPick').addEventListener('click',e=>{ const b=e.target.closest('[data-spec]'); if(!b) return; state.spec=b.dataset.spec; save(); render(); toast(`Especialização: ${specName(state.cls,state.spec,isF(state.equipped))}`); jump(); });
 $('d-today').addEventListener('click',()=>{ viewDay=today(); render(); });
 $('d-yest').addEventListener('click',()=>{ viewDay=keyOf(addDays(new Date(),-1)); render(); });
@@ -2282,11 +2447,26 @@ function onHabitClick(e){
 $('habits').addEventListener('click',onHabitClick); $('avoidList').addEventListener('click',onHabitClick);
 $('aimList').addEventListener('click',e=>{ const b=e.target.closest('[data-aim]'); if(!b) return; const k=b.dataset.aim, i=aimSel.indexOf(k);
   if(i>=0) aimSel.splice(i,1); else aimSel.push(k); renderAims(); });
+$('mdTraits').addEventListener('click',e=>{ const b=e.target.closest('[data-trait]'); if(!b) return; const k=b.dataset.trait; mdTraitSel=mdTraitSel.includes(k)?mdTraitSel.filter(x=>x!==k):mdTraitSel.concat([k]); renderAims(); });
 $('vc-mode').addEventListener('change',renderAims);
-$('aimGo').addEventListener('click',()=>{ if(!aimSel.length) return; const editing=aimEdit; applyAims(aimSel); aimEdit=false; save(); render(); toast(editing?'Jornada atualizada':'Hábitos e metas criados para a sua jornada'); });
-$('classBack').addEventListener('click',()=>{ aimEdit=true; aimSel=(state.aims||[]).slice(); render(); try{ window.scrollTo({top:0}); }catch(e){} });
-$('aimSkip').addEventListener('click',()=>{ if(aimEdit){ aimEdit=false; render(); return; } state.aims=[]; save(); render(); });
-$('cfg-aims').addEventListener('click',()=>{ aimEdit=true; aimSel=(state.aims||[]).slice(); render(); try{ window.scrollTo({top:0}); }catch(e){} });
+const mdGo=n=>{ mdStep=n; mdEdit=null; renderAims(); try{ window.scrollTo({top:0}); }catch(e){} };
+$('mdNext1').addEventListener('click',()=>mdGo(2));
+$('mdBack2').addEventListener('click',()=>mdGo(1));
+$('mdNext2').addEventListener('click',()=>mdGo(3));
+$('mdBack3').addEventListener('click',()=>mdGo(2));
+$('mdBoard').addEventListener('click',e=>{
+  const ok=e.target.closest('[data-mdok]'); if(ok){ const id=ok.dataset.mdok; const nm=($('md-name').value||'').trim(); mdPick[id]=Object.assign({},mdPick[id],{name:nm||undefined,time:$('md-time').value||undefined}); mdEdit=null; renderAims(); return; }
+  if(e.target.closest('.mdedit')) return;
+  const pen=e.target.closest('[data-mdedit]'); if(pen){ mdEdit=mdEdit===pen.dataset.mdedit?null:pen.dataset.mdedit; renderAims(); return; }
+  const add=e.target.closest('[data-mdadd]'); if(add){ const id='c'+Date.now().toString(36); mdCustom.push({id,name:'Meu hábito',attr:'equilibrio',xp:20,target:1,b:add.dataset.mdadd,tags:[],aims:[]}); mdPick[id]={}; mdEdit=id; renderAims(); setTimeout(()=>{ const f=$('md-name'); if(f){ f.focus(); f.select(); } },30); return; }
+  const c=e.target.closest('[data-md]'); if(!c||c.disabled) return; const id=c.dataset.md;
+  if(mdPick[id]){ delete mdPick[id]; if(mdEdit===id) mdEdit=null; } else { const ex=mdExisting(); if(ex.size+Object.keys(mdPick).length>=MAXHABITS){ toast(`Limite de ${MAXHABITS} hábitos na rotina.`); return; } mdPick[id]={}; }
+  renderAims(); });
+$('aimGo').addEventListener('click',()=>{ const editing=aimEdit; applyAims(aimSel); aimEdit=false; mdStep=1; save(); render(); toast(editing?'Rotina atualizada':'Pacto fechado! Sua rotina está pronta'); jump(); });
+$('classBack').addEventListener('click',()=>{ mdStart(true); render(); try{ window.scrollTo({top:0}); }catch(e){} });
+$('classCancel').addEventListener('click',()=>{ if(!swapPrev) return; state.cls=swapPrev.cls; state.spec=swapPrev.spec; swapPrev=null; save(); render(); toast('Troca de classe cancelada'); });
+$('aimSkip').addEventListener('click',()=>{ if(aimEdit){ aimEdit=false; mdStep=1; render(); return; } state.aims=[]; save(); render(); });
+$('cfg-aims').addEventListener('click',()=>{ mdStart(true); render(); try{ window.scrollTo({top:0}); }catch(e){} });
 const syncNewKind=()=>{ const k=$('nf-kind').value; $('nf-startW').hidden=k!=='reduce'; $('nf-goalW').hidden=k!=='reduce'; $('nf-targetW').hidden=k!=='do'; };
 $('nf-kind').addEventListener('change',syncNewKind);
 $('gf-habit').addEventListener('change',()=>{ syncGoalForm(); if($('gf-habit').value&&!$('gf-unit').value) $('gf-unit').value='dias'; });
@@ -2309,6 +2489,8 @@ $('goalList').addEventListener('click',onGoalClick); $('wonList').addEventListen
 
 const CODECH='ABCDEFGHJKMNPQRSTUVWXYZ23456789';
 const newCode=()=>Array.from({length:6},()=>CODECH[Math.floor(Math.random()*CODECH.length)]).join('');
+['','2'].forEach(sx=>{ $('fr-sel'+sx).addEventListener('change',e=>{ const v=e.target.value; if(v==='__outro'){ $('fr-otherW'+sx).hidden=false; $('fr-other'+sx).focus(); return; } state.famRole=v; save(); render(); });
+  $('fr-other'+sx).addEventListener('change',e=>{ state.famRole=e.target.value.trim().slice(0,16); save(); render(); }); });
 $('famCreateForm').addEventListener('submit',async e=>{ e.preventDefault(); $('famErr').textContent=''; const name=$('fc-name').value.trim(); if(!name) return;
   try{ const code=newCode(); await B.famCreate(code,{name,createdBy:uid,createdAt:Date.now()}); state.familyId=code; save(); watchFamily(); render(); toast('Família criada'); }catch(err){ $('famErr').textContent='Não foi possível criar a família ('+(err&&err.code||'erro')+').'; } });
 $('famJoinForm').addEventListener('submit',async e=>{ e.preventDefault(); $('famErr').textContent=''; const code=$('fj-code').value.trim().toUpperCase().replace(/[^A-Z0-9]/g,''); if(code.length!==6){ $('famErr').textContent='O código tem 6 letras e números.'; return; }
@@ -2386,6 +2568,7 @@ $('habSugs').addEventListener('click',e=>{ const b=e.target.closest('[data-hsug]
   state.habits.push(nh); syncTodaySum(); save(); render(); toast(`Hábito criado: ${h.name}`); });
 document.querySelector('.charseg').addEventListener('click',e=>{ const b=e.target.closest('[data-sub]'); if(!b) return; charSub=b.dataset.sub; render(); });
 $('miniAv').addEventListener('click',()=>{ charSub='ficha'; goTab('char'); });
+$('raceCard').addEventListener('click',e=>{ if(e.target.closest('[data-gofam]')) goTab('fam'); });
 $('ultOpts').addEventListener('click',e=>{ const b=e.target.closest('[data-uo]'); if(!b||b.disabled) return; const c=compute(); if(c.ultCharge>0) return;
   state.ult=Object.assign({},state.ult||{},{choice:b.dataset.uo}); save(); render(); toast(`Especial: ${curUlt().n}`); });
 function applyTheme(t){ if(t==='light') document.documentElement.dataset.theme='light'; else delete document.documentElement.dataset.theme;
@@ -2442,7 +2625,7 @@ $('prestCard').addEventListener('click',e=>{ const b=e.target.closest('#btnPrest
   state.prestige=(state.prestige||0)+1; state.prestigeOffset=c.total; save(); render(); toast(`Prestígio ${state.prestige}: armadura de ${prestName(state.prestige).toLowerCase()}!`); jump(); });
 $('cfg-name').addEventListener('change',e=>{ state.name=e.target.value.trim()||'Herói'; save(); render(); });
 $('cfg-goal').addEventListener('change',e=>{ state.dailyGoal=Math.max(1,Math.min(20,parseInt(e.target.value)||4)); save(); render(); });
-$('cfg-swap').addEventListener('click',e=>{ const b=e.currentTarget; if(!b.dataset.confirm){ b.dataset.confirm='1'; b.textContent='Confirmar troca'; setTimeout(()=>{ delete b.dataset.confirm; b.textContent='Trocar classe'; },3000); return; } delete b.dataset.confirm; b.textContent='Trocar classe'; state.cls=null; state.spec=null; save(); render(); });
+$('cfg-swap').addEventListener('click',e=>{ const b=e.currentTarget; if(!b.dataset.confirm){ b.dataset.confirm='1'; b.textContent='Confirmar troca'; setTimeout(()=>{ delete b.dataset.confirm; b.textContent='Trocar classe'; },3000); return; } delete b.dataset.confirm; b.textContent='Trocar classe'; swapPrev={cls:state.cls,spec:state.spec}; state.cls=null; state.spec=null; save(); render(); try{ window.scrollTo({top:0}); }catch(err){} });
 $('cfg-tour').addEventListener('click',()=>{ state.tour=false; tourStep=0; render(); });
 $('rm-time').addEventListener('change',e=>{ state.reminder=e.target.value||'21:00'; save(); render(); });
 $('ult-hab').addEventListener('change',e=>{ const v=e.target.value||null; if((state.ult||{}).hid===v) return; state.ult={hid:v,start:today(),choice:(state.ult||{}).choice||null}; save(); render(); if(v) toast('Hábito do especial escolhido'); });
