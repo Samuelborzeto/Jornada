@@ -349,6 +349,13 @@ input,select{background:var(--panel2);border:1px solid var(--inline);border-radi
 @keyframes infoin{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
 .ibtn{display:inline-grid;place-items:center;width:24px;height:24px;margin-left:8px;border-radius:50%;border:1.5px solid var(--boxline);background:none;color:var(--muted);font:700 13px/1 var(--body);vertical-align:3px;padding:0}
 .card.open .ibtn{background:var(--gold);color:var(--ink);border-color:var(--gold);font-size:16px}
+.btn.editbtn{background:none;border:1.5px solid var(--accent);color:var(--accent)}
+.btn.editbtn.on{background:var(--accent);color:#1a0d14}
+:root[data-theme="light"] .btn.editbtn{color:var(--accent)}
+:root[data-theme="light"] .btn.editbtn.on{color:#fff}
+.habit{-webkit-touch-callout:none}
+.habit.hold{transform:scale(.97);box-shadow:0 0 0 2px var(--accent)}
+.edit.focus{box-shadow:0 0 0 2px var(--gold)}
 .pinrow{display:flex;gap:8px}.pinrow input{flex:1;letter-spacing:.4em;font-family:var(--display);font-size:22px;text-align:center}
 .mlist{display:flex;flex-direction:column;gap:6px}
 .mrow{display:flex;justify-content:space-between;align-items:center;gap:8px;background:var(--panel2);border-radius:8px;padding:8px 10px}
@@ -624,7 +631,7 @@ input,select{background:var(--panel2);border:1px solid var(--inline);border-radi
         </div>
       </div>
       <div class="goal" id="goal"></div>
-      <div class="head"><h3 class="sec">Hábitos</h3><span style="display:flex;gap:10px;align-items:center"><span class="small num" id="habCount"></span><button class="btn ghost sm" id="btnEdit" type="button">Editar</button></span></div>
+      <div class="head"><h3 class="sec">Hábitos</h3><span style="display:flex;gap:10px;align-items:center"><span class="small num" id="habCount"></span><button class="btn sm editbtn" id="btnEdit" type="button">Editar</button></span></div>
       <div class="habits" id="habits"></div>
       <div id="editWrap" hidden>
         <div class="small">Mude nome, horário, tamanho e quantas vezes por dia. Todos os hábitos juntos valem cerca de 250 XP por dia, então criar mais hábitos não acelera o nível.</div>
@@ -918,6 +925,15 @@ input,select{background:var(--panel2);border:1px solid var(--inline);border-radi
   <h2 id="hfTitle"></h2>
   <p id="hfText"></p>
   <div class="head" style="width:100%"><button class="btn ghost" type="button" id="hfLater">Depois</button><button class="btn gold" type="button" id="hfUse">Usar agora</button></div>
+</div></div>
+<div class="overlay" id="taskEdit" hidden><div class="tourcard" role="dialog" aria-modal="true" aria-labelledby="teTitle">
+  <h2 id="teTitle">Editar tarefa</h2>
+  <div class="form">
+    <label class="full">Tarefa<input id="te-name" maxlength="70"></label>
+    <label class="full">Para quando (opcional)<input id="te-date" type="date"></label>
+  </div>
+  <div class="head"><button class="btn ghost" type="button" id="te-cancel">Cancelar</button><button class="btn" type="button" id="te-save">Salvar</button></div>
+  <button class="linkbtn" type="button" id="te-del" style="color:#ff8fa5">Apagar tarefa</button>
 </div></div>
 <div class="overlay" id="pinBox" hidden><div class="tourcard" role="dialog" aria-modal="true" aria-labelledby="pinTitle">
   <h2 id="pinTitle">Senha dos pais</h2>
@@ -2483,6 +2499,7 @@ function renderSettings(c){
   $('pauseBox').innerHTML=pz?`<div class="head"><span>Em pausa até <b>${pz.end.split('-').reverse().slice(0,2).join('/')}</b></span><button class="btn ghost sm" data-pause="end" type="button">Encerrar pausa</button></div>`
     :`<div class="head"><select id="pz-days" style="width:auto"><option value="3">3 dias</option><option value="7" selected>7 dias</option><option value="14">14 dias</option></select><button class="btn ghost sm" data-pause="start" type="button">Pausar a partir de hoje</button></div>`;
 }
+let editOnly=null;
 function renderHabEdit(){
   const xps=[10,20,30,40,60];
   const nAct=state.habits.filter(h=>!h.archived).length;
@@ -2496,8 +2513,10 @@ function renderHabEdit(){
     ${isAvoid(h)?(h.mode==='reduce'?`<label>Começo/dia<input id="e-s-${h.id}" data-f="start" type="number" min="1" max="50" value="${h.start||1}"></label><label>Limite final/dia<input id="e-g-${h.id}" data-f="goal" type="number" min="0" max="49" value="${h.goal||0}"></label>`:'<span></span>'):`<label>Vezes por dia<input id="e-t-${h.id}" data-f="target" type="number" min="1" max="50" value="${h.target||1}"></label>`}
     <div class="row"><span class="small">${isAvoid(h)?(h.mode==='reduce'?'Vício para diminuir · '+esc(h.unit||''):'Vício para parar de vez'):((h.target||1)>1?esc(h.unit||''):'Marcar uma vez')}</span><span style="display:flex;gap:6px"><button class="btn ghost sm" data-arch="${h.id}">${h.archived?'Restaurar':'Arquivar'}</button><button class="btn ghost sm" data-hdel="${h.id}" type="button">Excluir</button></span></div>
   </div>`;
-  $('editList').innerHTML=state.habits.filter(h=>!h.archived).map(card).join('');
-  const arch=state.habits.filter(h=>h.archived&&!h.deleted);
+  const only=editOnly&&state.habits.find(h=>h.id===editOnly&&!h.archived);
+  $('editList').innerHTML=(only?[only]:state.habits.filter(h=>!h.archived)).map(card).join('')+(only?'<button class="linkbtn" type="button" id="editAll">Editar todos os hábitos</button>':'');
+  if(only){ const el=document.querySelector(`[data-eid="${only.id}"]`); if(el) el.classList.add('focus'); }
+  const arch=only?[]:state.habits.filter(h=>h.archived&&!h.deleted);
   $('archivedWrap').hidden=!arch.length; $('archList').innerHTML=arch.map(card).join('');
 }
 
@@ -2534,7 +2553,7 @@ function renderQuick(){
   $('qa-hint').textContent=qaMode==='task'?`Tarefa é algo pontual: some da lista quando você conclui e vale +${TASKXP} XP (até ${TASKMAX} por dia).`:'Hábito é algo que se repete todo dia e conta para o dia cheio, o boss e a família.';
 }
 function renderEditMode(){
-  $('btnEdit').textContent=editMode?'Pronto':'Editar';
+  $('btnEdit').textContent=editMode?'Pronto':'Editar'; $('btnEdit').classList.toggle('on',editMode); if(!editMode) editOnly=null;
   $('editWrap').hidden=!editMode; $('habits').hidden=editMode;
   if(editMode) renderHabEdit(); else $('habCount').textContent='';
   const sg=habSugList().slice(0,3), act=state.habits.filter(h=>!h.archived).length;
@@ -2811,13 +2830,34 @@ $('qaForm').addEventListener('submit',e=>{
   $('qa-name').value=''; $('nf-unit').value=''; $('nf-target').value=1; $('nf-time').value=''; $('nf-kind').value='do'; syncNewKind(); qaMore=false; qaMode='task';
   syncTodaySum(); save(); render(); toast('Hábito criado');
 });
+/* Segurar meio segundo num hábito ou tarefa abre a edição só daquele item */
+let lp=null, lpFired=0;
+function lpStart(e){ const row=e.target.closest('[data-hid],[data-tid]'); if(!row||(e.button!=null&&e.button>0)) return; if(e.target.closest('.counter button,[data-tact="del"]')) return;
+  lpEnd(); lp={row,x:e.clientX,y:e.clientY,t:setTimeout(()=>{ lpFired=Date.now(); row.classList.remove('hold'); try{ navigator.vibrate&&navigator.vibrate(30); }catch(err){} lp=null;
+    if(row.dataset.tid) openTaskEdit(row.dataset.tid); else openHabEdit(row.dataset.hid); },500)};
+  row.classList.add('hold'); }
+function lpMove(e){ if(lp&&(Math.abs(e.clientX-lp.x)>10||Math.abs(e.clientY-lp.y)>10)) lpEnd(); }
+function lpEnd(){ if(lp){ clearTimeout(lp.t); lp.row.classList.remove('hold'); lp=null; } }
+['habits','avoidList','taskList'].forEach(id=>{ const el=$(id);
+  el.addEventListener('pointerdown',lpStart); el.addEventListener('pointermove',lpMove); ['pointerup','pointercancel','pointerleave'].forEach(ev=>el.addEventListener(ev,lpEnd));
+  el.addEventListener('contextmenu',e=>{ if(e.target.closest('[data-hid],[data-tid]')) e.preventDefault(); });
+  el.addEventListener('click',e=>{ if(Date.now()-lpFired<700){ e.stopImmediatePropagation(); e.preventDefault(); } },true); });
+window.addEventListener('scroll',lpEnd,{passive:true});
+function openHabEdit(hid){ editMode=true; editOnly=hid; render(); const el=document.querySelector(`[data-eid="${hid}"]`); if(el) try{ el.scrollIntoView({block:'center',behavior:'smooth'}); }catch(err){} }
+let teId=null;
+function openTaskEdit(tid){ const t=(state.tasks||[]).find(x=>x.id===tid); if(!t) return; teId=tid; $('te-name').value=t.name; $('te-date').value=t.date||''; $('taskEdit').hidden=false; }
+$('te-cancel').addEventListener('click',()=>{ $('taskEdit').hidden=true; });
+$('te-save').addEventListener('click',()=>{ const t=(state.tasks||[]).find(x=>x.id===teId); const n=$('te-name').value.trim(); if(!t||!n){ $('taskEdit').hidden=true; return; }
+  t.name=n.slice(0,70); t.date=$('te-date').value||null; $('taskEdit').hidden=true; save(); render(); toast('Tarefa salva'); });
+$('te-del').addEventListener('click',()=>{ state.tasks=(state.tasks||[]).filter(x=>x.id!==teId); $('taskEdit').hidden=true; save(); render(); toast('Tarefa apagada'); });
+$('editList').addEventListener('click',e=>{ if(e.target.closest('#editAll')){ editOnly=null; render(); } });
 $('taskList').addEventListener('click',e=>{ const row=e.target.closest('[data-tid]'); if(!row) return; const t=(state.tasks||[]).find(x=>x.id===row.dataset.tid); if(!t) return;
   const b=e.target.closest('[data-tact]'); const act=b?b.dataset.tact:'done';
   if(act==='del'){ state.tasks=state.tasks.filter(x=>x!==t); save(); render(); toast('Tarefa apagada'); return; }
   const before=compute(); t.done=true; t.doneAt=today(); save(); const after=compute(); render();
   const gain=after.total-before.total; toast(gain>0?`Feito! +${gain} XP`:'Feito!'); celebrate(before,after); });
 $('taskDone').addEventListener('click',e=>{ const b=e.target.closest('[data-tundo]'); if(!b) return; const t=(state.tasks||[]).find(x=>x.id===b.dataset.tundo); if(!t) return; t.done=false; delete t.doneAt; save(); render(); toast('Tarefa voltou para a lista'); });
-$('btnEdit').addEventListener('click',()=>{ editMode=!editMode; render(); });
+$('btnEdit').addEventListener('click',()=>{ editMode=!editMode; editOnly=null; render(); });
 $('habSugs').addEventListener('click',e=>{ const b=e.target.closest('[data-hsug]'); if(!b) return; const h=habSugList().find(x=>x.id===b.dataset.hsug); if(!h) return;
   if(state.habits.filter(x=>!x.archived).length>=MAXHABITS){ toast(`Limite de ${MAXHABITS} hábitos ativos.`); return; }
   const ex=state.habits.find(x=>x.id===h.id); const nh=Object.assign(JSON.parse(JSON.stringify(h)),{created:today()}); if(ex) nh.id=h.id+'_'+Date.now().toString(36);
