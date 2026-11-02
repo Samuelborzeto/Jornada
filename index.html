@@ -343,6 +343,10 @@ input,select{background:var(--panel2);border:1px solid var(--inline);border-radi
 .mic svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .mic.on{background:var(--accent);border-color:var(--accent);color:#fff;animation:micp 1s ease-in-out infinite}
 @keyframes micp{50%{box-shadow:0 0 0 6px color-mix(in srgb,var(--accent) 30%,transparent)}}
+.pinrow{display:flex;gap:8px}.pinrow input{flex:1;letter-spacing:.4em;font-family:var(--display);font-size:22px;text-align:center}
+.mlist{display:flex;flex-direction:column;gap:6px}
+.mrow{display:flex;justify-content:space-between;align-items:center;gap:8px;background:var(--panel2);border-radius:8px;padding:8px 10px}
+.mrow b{font-weight:700}.mrow .acts{display:flex;gap:6px;flex:none}
 .heroes{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .hero{display:flex;flex-direction:column;gap:4px;background:var(--panel2);border:2px solid var(--line);border-radius:8px;padding:6px;text-align:left;min-width:0}
 .hero .prev{aspect-ratio:24/26;border-radius:4px;overflow:hidden;background:var(--bg)}
@@ -739,6 +743,11 @@ input,select{background:var(--panel2);border:1px solid var(--inline);border-radi
           <div class="err" id="famErr"></div>
         </div>
       </div>
+      <div class="card" id="famWait" hidden>
+        <h2>Pedido enviado</h2>
+        <div class="small" id="famWaitTxt"></div>
+        <button class="btn ghost" id="famWaitCancel" type="button">Cancelar o pedido</button>
+      </div>
       <div id="famIn" hidden>
         <div class="card">
           <div class="head"><h2>Casa da família</h2><select id="famScene" style="width:auto" hidden aria-label="Cenário da casa"></select></div>
@@ -785,6 +794,12 @@ input,select{background:var(--panel2);border:1px solid var(--inline);border-radi
         <div class="form roleui" data-rolebox="2"><label>Quem é você na família<select id="fr-sel2"></select></label><label id="fr-otherW2" hidden>Como chamar<input id="fr-other2" maxlength="16" placeholder="Ex.: Papai, Vovó"></label></div>
         <div class="small">Código para quem vai entrar (inclusive os outros perfis desta conta):</div>
         <div class="head"><span class="code" id="famCode"></span><button class="btn ghost sm" id="famCopy" type="button">Copiar</button></div>
+        <div class="small" id="famGateTxt"></div>
+        <div id="famAdmin" hidden>
+          <div id="famPendW" hidden><h3 class="small" style="font-weight:700;color:var(--fg)">Pedidos para entrar</h3><div class="mlist" id="famPend"></div></div>
+          <h3 class="small" style="font-weight:700;color:var(--fg)">Quem está na família</h3>
+          <div class="mlist" id="famMembers"></div>
+        </div>
       </div>
     </section>
 
@@ -835,6 +850,12 @@ input,select{background:var(--panel2);border:1px solid var(--inline);border-radi
         <div id="pauseBox"></div>
       </div>
       <div class="card">
+        <h2>Senha dos pais</h2>
+        <div class="small" id="pinLine"></div>
+        <div class="pinrow"><input id="pin-new" type="password" inputmode="numeric" maxlength="6" autocomplete="off" placeholder="4 a 6 números" aria-label="Nova senha dos pais"><button class="btn sm" id="pin-save" type="button">Salvar</button></div>
+        <button class="linkbtn" id="pin-del" type="button" hidden>Tirar a senha</button>
+      </div>
+      <div class="card">
         <h2>Conta</h2>
         <div class="small" id="whoLine"></div>
         <div class="small" id="acctLine2"></div>
@@ -862,6 +883,14 @@ input,select{background:var(--panel2);border:1px solid var(--inline);border-radi
 </div>
 
 <div class="ultfx" id="ultFx" hidden></div>
+<div class="overlay" id="pinBox" hidden><div class="tourcard" role="dialog" aria-modal="true" aria-labelledby="pinTitle">
+  <h2 id="pinTitle">Senha dos pais</h2>
+  <p id="pinWhy"></p>
+  <div class="pinrow"><input id="pin-in" type="password" inputmode="numeric" maxlength="6" autocomplete="off" aria-label="Senha dos pais"></div>
+  <div class="err" id="pin-err"></div>
+  <div class="head"><button class="btn ghost" type="button" id="pin-cancel">Cancelar</button><button class="btn" type="button" id="pin-ok">Confirmar</button></div>
+  <button class="linkbtn" type="button" id="pin-forgot">Esqueci a senha</button>
+</div></div>
 <div class="overlay" id="delAcct" hidden><div class="tourcard" role="dialog" aria-modal="true" aria-labelledby="daTitle">
   <h2 id="daTitle">Apagar a conta</h2>
   <p>Isso apaga de vez todos os perfis desta conta (adultos e crianças), hábitos, histórico, diário, prêmios da casa e avisos, e tira os perfis da família. Não dá para desfazer.</p>
@@ -1685,7 +1714,18 @@ let fam=null, members=[], duos=[], house={rewards:[],requests:[]}, unsubHouse=nu
 let jrDraft=null, plan={}, unsubPlan=null;
 function premium(){ if(!BILLING) return true; const now=Date.now();
   if(plan.until&&plan.until>now) return true; if(plan.trialStart&&now-plan.trialStart<TRIAL_DAYS*864e5) return true; return false; }
-function openPlan(why){ $('pvWhy').textContent=why||'Libere tudo para a casa inteira. Uma assinatura vale para todos os perfis da conta.'; $('planView').hidden=false; }
+function openPlan(why){ if(!pinFree()){ askPin('A tela do plano é só para os adultos da casa.',()=>openPlan(why)); return; } $('pvWhy').textContent=why||'Libere tudo para a casa inteira. Uma assinatura vale para todos os perfis da conta.'; $('planView').hidden=false; }
+/* Senha dos pais: guardada só como resumo (hash) no documento da casa */
+let pinUntil=0;
+try{ const f=+sessionStorage.getItem('jornada-pinfresh')||0; if(Date.now()-f<15*60e3) pinUntil=Date.now()+15*60e3; }catch(e){}
+const pinSet=()=>!!(house&&house.pin&&house.pin.h);
+const pinFree=()=>!pinSet()||Date.now()<pinUntil;
+async function pinHash(pin,salt){ const txt=salt+':'+pin;
+  try{ const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(txt)); return Array.from(new Uint8Array(b),x=>x.toString(16).padStart(2,'0')).join(''); }
+  catch(e){ let h=0; for(const ch of txt) h=(h*31+ch.charCodeAt(0))|0; return 'x'+h; } }
+let pinCb=null;
+function askPin(why,cb){ if(pinFree()){ cb(); return; } pinCb=cb; $('pinWhy').textContent=why; $('pin-in').value=''; $('pin-err').textContent=''; $('pinBox').hidden=false; setTimeout(()=>{ try{ $('pin-in').focus(); }catch(e){} },50); }
+const markFresh=()=>{ try{ sessionStorage.setItem('jornada-pinfresh',String(Date.now())); }catch(e){} };
 function needPlan(why){ if(premium()) return false; openPlan(why); return true; }
 function planLimitProfile(kid){ if(premium()) return false; const n=profiles.filter(p=>!!p.kid===!!kid).length;
   if(n>=(kid?FREE_KIDS:FREE_ADULTS)){ openPlan(kid?'No plano grátis cabe 1 criança. Com o Plano Família, entram todos os filhos.':'No plano grátis cabe 1 adulto. Com o Plano Família, entra a família toda.'); return true; } return false; }
@@ -1734,11 +1774,24 @@ window.addEventListener('pagehide',()=>{ if(dirty){ clearTimeout(timer); flush()
 document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==='hidden'&&dirty){ clearTimeout(timer); flush(); } if(document.visibilityState==='visible'&&view==='app') render(); });
 
 const pidKey=()=>'jornada-pid-'+uid;
+/* Aprovação de quem entra: quem criou a família aprova; perfis da mesma conta entram direto */
+let membersAll=[];
+const famOwner=()=>!!(fam&&fam.createdBy===uid);
+/* A aprovação vale por conta (uid): assim as regras do banco conseguem conferir */
+const uidOf=id=>String(id).split('_')[0];
+function memberOk(id){ if(!fam||!fam.gate) return true; const u=uidOf(id); if(fam.removed&&fam.removed[u]) return false; if(u===fam.createdBy) return true; return !!(fam.approved&&fam.approved[u]); }
+function myFamStatus(){ if(!fam) return 'loading'; if(fam.removed&&fam.removed[uid]) return 'removed'; return memberOk(uid+'_'+pid)?'in':'wait'; }
+function applyMembers(){ members=fam&&myFamStatus()!=='in'?[]:membersAll.filter(m=>memberOk(m.id)); }
+let famGateDone=null;
+function famGateUpgrade(){ if(!famOwner()||fam.gate||famGateDone===state.familyId||!B.famUpdate) return; famGateDone=state.familyId;
+  const approved={}; membersAll.forEach(m=>approved[uidOf(m.id)]=true); fam.gate=true; fam.approved=approved; fam.removed=fam.removed||{};
+  B.famUpdate(state.familyId,{gate:true,approved,removed:fam.removed}).catch(()=>{ famGateDone=null; }); }
+function famKicked(){ const fid=state.familyId; if(!fid) return; B.memberDelete(fid,uid+'_'+pid).catch(()=>{}); state.familyId=null; save(); watchFamily(); render(); toast('Seu pedido para entrar na família não foi aceito.'); }
 function watchFamily(){
-  if(unsubFam){ unsubFam(); unsubFam=null; } if(unsubDuos){ unsubDuos(); unsubDuos=null; } fam=null; members=[]; duos=[];
+  if(unsubFam){ unsubFam(); unsubFam=null; } if(unsubDuos){ unsubDuos(); unsubDuos=null; } fam=null; members=[]; membersAll=[]; duos=[];
   if(!state.familyId) return;
   const fid=state.familyId;
-  unsubFam=B.famWatch(fid,f=>{ fam=f; if(view==='app') render(); },m=>{ members=m; if(view==='app') render(); });
+  unsubFam=B.famWatch(fid,f=>{ fam=f; applyMembers(); if(view==='app') render(); },m=>{ membersAll=m; applyMembers(); if(view==='app') render(); });
   if(unsubDuos){ unsubDuos(); unsubDuos=null; } duos=[];
   unsubDuos=B.duosWatch(fid,d=>{ duos=d; if(view==='app') render(); });
 }
@@ -1891,6 +1944,7 @@ function renderSheet(c){
   $('avatar').innerHTML=myAvatar(c); $('avatar').classList.toggle('ghost',c.boss.dead);
   $('pname').innerHTML=esc(state.name||'Herói')+(state.prestige?` <span class="pchip" style="--pc:${prestOf(state.prestige).M}">Prestígio ${state.prestige}</span>`:'');
   $('whoLine').textContent=`Perfil: ${state.name||''}`;
+  $('pinLine').textContent=pinSet()?'Ligada. É pedida para abrir Ajustes, aprovar e cadastrar prêmios, abrir a tela do plano e apagar perfil ou conta. Depois de digitar, fica liberada por 10 minutos.':'Desligada. Com a senha, só os adultos abrem Ajustes, aprovam prêmios e mexem no plano. Vale para todos os perfis da conta.'; $('pin-del').hidden=!pinSet(); $('pin-save').textContent=pinSet()?'Trocar':'Salvar';
   $('ptitle').textContent=c.boss.dead?'Fantasma':`${roleName(state.cls,state.spec,c.p.lvl,isF(state.equipped))}${state.prestige?' · '+prestName(state.prestige):''}`;
   $('ptier').textContent=c.boss.dead?'':tierName(tier,isF(state.equipped));
   $('pnext').textContent=tier<9?`nova roupa no ${(tier+1)*10}`:(c.p.lvl<MAXLVL?'rumo ao prestígio no 100':'');
@@ -2158,11 +2212,30 @@ function renderGoals(){
   $('goalList').innerHTML=act.length?act.map(card).join(''):'<div class="card small">Nenhum objetivo ainda. Use uma sugestão acima ou escreva o seu.</div>';
   $('wonWrap').hidden=!won.length; $('wonList').innerHTML=won.map(card).join('');
 }
+function renderFamAdmin(){
+  const own=famOwner(); $('famAdmin').hidden=!own;
+  $('famGateTxt').textContent=own?'Quem entrar com o código só vê a família depois que você aceitar.':'Quem entrar com o código só vê a família depois que quem criou aceitar.';
+  if(!own) return;
+  const me=uid+'_'+pid, nm=m=>esc(m.name||'Sem nome')+(m.role?` <span class="small">${esc(m.role)}</span>`:'')+(m.kid?' <span class="small">criança</span>':'');
+  const pend=membersAll.filter(m=>!memberOk(m.id)&&!(fam.removed&&fam.removed[uidOf(m.id)]));
+  $('famPendW').hidden=!pend.length;
+  $('famPend').innerHTML=pend.map(m=>`<div class="mrow"><span>${nm(m)}</span><span class="acts"><button class="btn sm" type="button" data-fapp="${esc(m.id)}">Aceitar</button><button class="btn ghost sm" type="button" data-fdeny="${esc(m.id)}">Recusar</button></span></div>`).join('');
+  $('famMembers').innerHTML=members.map(m=>`<div class="mrow"><span>${nm(m)}${m.id===me?' <span class="small">(você)</span>':''}</span>${m.id.startsWith(uid+'_')?'':`<span class="acts"><button class="btn ghost sm" type="button" data-frem="${esc(m.id)}">Remover</button></span>`}</div>`).join('');
+}
+function famSet(mid,ok){ if(!famOwner()) return; mid=uidOf(mid); if(mid===uid) return; const approved=Object.assign({},fam.approved||{}), removed=Object.assign({},fam.removed||{});
+  if(ok){ approved[mid]=true; delete removed[mid]; } else { delete approved[mid]; removed[mid]=true; }
+  fam.approved=approved; fam.removed=removed; fam.gate=true; applyMembers(); render();
+  B.famUpdate(state.familyId,{gate:true,approved,removed}).catch(()=>toast('Não foi possível salvar. Tente de novo.')); }
 function renderFamily(c){
   renderRoleUI();
   const inF=!!state.familyId;
-  $('famNone').hidden=inF; $('famIn').hidden=!inF; $('famCodeCard').hidden=!inF;
+  $('famNone').hidden=inF; $('famIn').hidden=!inF; $('famCodeCard').hidden=!inF; $('famWait').hidden=true;
   if(!inF) return;
+  const fst=myFamStatus();
+  if(fst==='removed'){ setTimeout(famKicked,0); return; }
+  if(fst==='wait'){ $('famIn').hidden=true; $('famCodeCard').hidden=true; $('famWait').hidden=false;
+    $('famWaitTxt').textContent=`Você pediu para entrar em ${fam.name||'uma família'}. Quem criou a família precisa aceitar. Assim que aceitar, a casa aparece aqui.`; return; }
+  famGateUpgrade(); renderFamAdmin();
   $('famCode').textContent=state.familyId;
   if(!fam){ $('famName').textContent='Família'; $('famMission').innerHTML='<div class="small">Carregando a família…</div>'; $('famRank').innerHTML=''; return; }
   $('famName').textContent=fam.name||'Família';
@@ -2516,7 +2589,7 @@ function render(){
   if(tab==='hab') renderSettings(c);
   renderDaily(c); if(state.tour) checkMilestone(c);
 }
-function goTab(t){ tab=t; document.querySelectorAll('.tab').forEach(x=>x.setAttribute('aria-selected',x.id==='t-'+t)); render(); try{ window.scrollTo({top:0}); }catch(e){} }
+function goTab(t){ if(t==='hab'&&tab!=='hab'&&!pinFree()){ askPin('Os Ajustes são só para os adultos da casa.',()=>goTab(t)); return; } tab=t; document.querySelectorAll('.tab').forEach(x=>x.setAttribute('aria-selected',x.id==='t-'+t)); render(); try{ window.scrollTo({top:0}); }catch(e){} }
 
 /* ---------- eventos ---------- */
 document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{ if(b.id==='t-hoje'&&tab==='hoje') editMode=false; goTab(b.id.slice(2)); }));
@@ -2581,13 +2654,14 @@ function onGoalClick(e){
 $('goalList').addEventListener('click',onGoalClick); $('wonList').addEventListener('click',onGoalClick);
 
 const CODECH='ABCDEFGHJKMNPQRSTUVWXYZ23456789';
-const newCode=()=>Array.from({length:6},()=>CODECH[Math.floor(Math.random()*CODECH.length)]).join('');
+const newCode=()=>{ const r=new Uint32Array(6); crypto.getRandomValues(r); return Array.from(r,x=>CODECH[x%CODECH.length]).join(''); };
 ['','2'].forEach(sx=>{ $('fr-sel'+sx).addEventListener('change',e=>{ const v=e.target.value; if(v==='__outro'){ $('fr-otherW'+sx).hidden=false; $('fr-other'+sx).focus(); return; } state.famRole=v; save(); render(); });
   $('fr-other'+sx).addEventListener('change',e=>{ state.famRole=e.target.value.trim().slice(0,16); save(); render(); }); });
 $('famCreateForm').addEventListener('submit',async e=>{ e.preventDefault(); $('famErr').textContent=''; const name=$('fc-name').value.trim(); if(!name) return;
-  try{ const code=newCode(); await B.famCreate(code,{name,createdBy:uid,createdAt:Date.now()}); state.familyId=code; save(); watchFamily(); render(); toast('Família criada'); }catch(err){ $('famErr').textContent='Não foi possível criar a família ('+(err&&err.code||'erro')+').'; } });
+  try{ const code=newCode(); await B.famCreate(code,{name,createdBy:uid,createdAt:Date.now(),gate:true,approved:{},removed:{}}); state.familyId=code; save(); watchFamily(); render(); toast('Família criada'); }catch(err){ $('famErr').textContent='Não foi possível criar a família ('+(err&&err.code||'erro')+').'; } });
 $('famJoinForm').addEventListener('submit',async e=>{ e.preventDefault(); $('famErr').textContent=''; const code=$('fj-code').value.trim().toUpperCase().replace(/[^A-Z0-9]/g,''); if(code.length!==6){ $('famErr').textContent='O código tem 6 letras e números.'; return; }
-  try{ const f=await B.famGet(code); if(!f){ $('famErr').textContent='Não achei nenhuma família com esse código.'; return; } state.familyId=code; save(); watchFamily(); render(); toast(`Você entrou em ${f.name}`); }catch(err){ $('famErr').textContent='Não foi possível entrar ('+(err&&err.code||'erro')+').'; } });
+  try{ const f=await B.famGet(code); if(!f){ $('famErr').textContent='Não achei nenhuma família com esse código.'; return; } if(f.removed&&f.removed[uid]){ $('famErr').textContent='Quem criou essa família não aceitou o pedido.'; return; }
+    state.familyId=code; save(); watchFamily(); render(); const direct=!f.gate||f.createdBy===uid; toast(direct?`Você entrou em ${f.name}`:`Pedido enviado para ${f.name}. Falta quem criou aceitar.`); }catch(err){ $('famErr').textContent='Não foi possível entrar ('+(err&&err.code||'erro')+').'; } });
 $('duoForm').addEventListener('submit',e=>{ e.preventDefault(); if(!duSel.length||!state.familyId) return; if(needPlan('Os desafios em família fazem parte do Plano Família.')) return;
   const m=famMission(compute()), me=uid+'_'+pid, wk=weekKey();
   const ppl=duSel.map(id=>m.list.find(x=>x.id===id)).filter(Boolean); if(!ppl.length) return;
@@ -2598,11 +2672,12 @@ $('duoForm').addEventListener('submit',e=>{ e.preventDefault(); if(!duSel.length
   B.duoCreate(state.familyId,did,{members:ids,names,a:me,b:ppl[0].id,aName:state.name,bName:ppl[0].name||'',attr:$('du-attr').value,target:Math.max(2,Math.min(200,parseInt($('du-target').value)||8)),week:wk,createdBy:uid,createdAt:Date.now()})
     .then(()=>{ duSel=[]; duTouched=false; render(); toast(ppl.length>1?`Desafio lançado para ${ppl.length} pessoas`:`Desafio lançado para ${ppl[0].name}`); }).catch(()=>toast('Não foi possível criar o desafio')); });
 $('duoList').addEventListener('click',e=>{ const b=e.target.closest('[data-duodel]'); if(!b) return; B.duoDelete(state.familyId,b.dataset.duodel).catch(()=>{}); });
-$('rwForm').addEventListener('submit',e=>{ e.preventDefault(); const n=$('rw-name').value.trim(); if(!n) return; if(needPlan('Os Prêmios da casa fazem parte do Plano Família.')) return; const ultR=$('rw-ult').checked; house.rewards=(house.rewards||[]).concat([{id:'r'+Date.now().toString(36),name:n,cost:ultR?0:Math.max(10,parseInt($('rw-cost').value)||500),ult:ultR}]); $('rw-name').value=''; $('rw-ult').checked=false; saveHouse(); toast('Prêmio criado'); });
+$('rwForm').addEventListener('submit',e=>{ e.preventDefault(); const n=$('rw-name').value.trim(); if(!n) return; if(!pinFree()){ askPin('Cadastrar prêmio é com os adultos da casa.',()=>$('rwForm').requestSubmit()); return; } if(needPlan('Os Prêmios da casa fazem parte do Plano Família.')) return; const ultR=$('rw-ult').checked; house.rewards=(house.rewards||[]).concat([{id:'r'+Date.now().toString(36),name:n,cost:ultR?0:Math.max(10,parseInt($('rw-cost').value)||500),ult:ultR}]); $('rw-name').value=''; $('rw-ult').checked=false; saveHouse(); toast('Prêmio criado'); });
 $('houseCard').addEventListener('click',e=>{ const t=e.target.closest('button'); if(!t) return; const d=t.dataset;
   if(d.rwask&&needPlan('Os Prêmios da casa fazem parte do Plano Família.')) return;
   if(d.rwask){ const r=(house.rewards||[]).find(x=>x.id===d.rwask); const c=compute(); if(!r||c.coins<r.cost) return;
     house.requests=(house.requests||[]).concat([{id:'q'+Date.now().toString(36),rid:r.id,name:r.name,cost:r.cost,uid,pid,pname:state.name,status:'pending',at:Date.now()}]).slice(-200); saveHouse(); toast('Pedido enviado'); }
+  if((d.rwdel||d.rqok||d.rqno)&&!pinFree()){ const el=e.target.closest('[data-rwdel],[data-rqok],[data-rqno]'); askPin('Aprovar pedidos e mexer nos prêmios é com os adultos da casa.',()=>el&&el.click()); return; }
   if(d.rwdel){ house.rewards=(house.rewards||[]).filter(x=>x.id!==d.rwdel); saveHouse(); }
   if(d.rqcancel){ house.requests=(house.requests||[]).filter(x=>x.id!==d.rqcancel); saveHouse(); }
   if(d.rqok||d.rqno){ const q=(house.requests||[]).find(x=>x.id===(d.rqok||d.rqno)); if(q){ q.status=d.rqok?'ok':'no'; q.by=state.name; saveHouse(); toast(d.rqok?'Pedido aprovado':'Pedido recusado'); } }
@@ -2635,6 +2710,22 @@ $('shop').addEventListener('click',e=>{
 $('qa-task').addEventListener('click',()=>{ qaMode='task'; render(); $('qa-name').focus(); });
 $('qa-hab').addEventListener('click',()=>{ qaMode='hab'; render(); $('qa-name').focus(); });
 $('qa-more').addEventListener('click',()=>{ qaMore=!qaMore; render(); });
+$('famAdmin').addEventListener('click',e=>{ const a=e.target.closest('[data-fapp]'), dn=e.target.closest('[data-fdeny]'), rm=e.target.closest('[data-frem]');
+  if(a){ famSet(a.dataset.fapp,true); toast('Entrada aceita'); }
+  if(dn){ famSet(dn.dataset.fdeny,false); toast('Pedido recusado'); }
+  if(rm){ if(!rm.dataset.confirm){ rm.dataset.confirm='1'; rm.textContent='Confirmar'; setTimeout(()=>{ if(rm.isConnected){ delete rm.dataset.confirm; rm.textContent='Remover'; } },3000); return; } famSet(rm.dataset.frem,false); toast('Pessoa removida da família'); } });
+$('famWaitCancel').addEventListener('click',()=>{ const fid=state.familyId; if(!fid) return; B.memberDelete(fid,uid+'_'+pid).catch(()=>{}); state.familyId=null; save(); watchFamily(); render(); toast('Pedido cancelado'); });
+async function pinTry(){ const v=$('pin-in').value.trim(); if(!house.pin) { $('pinBox').hidden=true; return; }
+  const h=await pinHash(v,house.pin.s); if(h!==house.pin.h){ $('pin-err').textContent='Senha errada.'; $('pin-in').value=''; return; }
+  pinUntil=Date.now()+10*60e3; $('pinBox').hidden=true; const cb=pinCb; pinCb=null; if(cb) cb(); }
+$('pin-ok').addEventListener('click',pinTry);
+$('pin-in').addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); pinTry(); } });
+$('pin-cancel').addEventListener('click',()=>{ pinCb=null; $('pinBox').hidden=true; });
+$('pin-forgot').addEventListener('click',()=>{ $('pin-err').textContent='Saia da conta e entre de novo com o e-mail e a senha (ou o Google) da conta. Logo depois de entrar, dá para trocar a senha dos pais sem pedir a antiga.'; });
+$('pin-save').addEventListener('click',async()=>{ const v=$('pin-new').value.trim(); if(!/^\d{4,6}$/.test(v)){ toast('Use de 4 a 6 números.'); return; }
+  const r=new Uint32Array(2); crypto.getRandomValues(r); const salt=Array.from(r,x=>x.toString(36)).join('');
+  house.pin={s:salt,h:await pinHash(v,salt),at:Date.now()}; pinUntil=Date.now()+10*60e3; $('pin-new').value=''; saveHouse(); toast('Senha dos pais salva'); });
+$('pin-del').addEventListener('click',()=>{ delete house.pin; saveHouse(); toast('Senha dos pais removida'); });
 document.addEventListener('click',e=>{ const b=e.target.closest('[data-hero]'); if(!b) return; const id=b.dataset.hero;
   if(id&&!(state.heroes||{})[id]) return; state.equipped.hero=id||''; save(); render(); toast(id?`Agora você é ${HERO[id].n}`:'Voltou para o seu avatar'); });
 $('heroDemo').addEventListener('click',()=>{ heroDemoAll=true; render(); });
@@ -2689,7 +2780,8 @@ function applyTheme(t){ if(t==='light') document.documentElement.dataset.theme='
 const curTheme=()=>{ try{ return localStorage.getItem('jornada-theme')||'dark'; }catch(e){ return 'dark'; } };
 applyTheme(curTheme());
 $('themeSeg').addEventListener('click',e=>{ const b=e.target.closest('[data-theme]'); if(!b) return; try{ localStorage.setItem('jornada-theme',b.dataset.theme); }catch(err){} applyTheme(b.dataset.theme); });
-document.addEventListener('click',e=>{ if(e.target.closest('[data-delacct]')){ $('da-ok').checked=false; $('da-go').disabled=true; $('da-msg').textContent=''; $('delAcct').hidden=false; }
+document.addEventListener('click',e=>{ if(e.target.closest('[data-delacct]')&&!pinFree()){ const el=e.target.closest('[data-delacct]'); askPin('Apagar a conta é com os adultos da casa.',()=>el.click()); return; }
+  if(e.target.closest('[data-delacct]')){ $('da-ok').checked=false; $('da-go').disabled=true; $('da-msg').textContent=''; $('delAcct').hidden=false; }
   if(e.target.closest('[data-openplan]')) openPlan(); });
 $('da-ok').addEventListener('change',()=>{ $('da-go').disabled=!$('da-ok').checked; });
 $('da-cancel').addEventListener('click',()=>{ $('delAcct').hidden=true; });
@@ -2782,9 +2874,9 @@ const loginErrors={
   'auth/popup-closed-by-user':'Login cancelado.'
 };
 const showErr=e=>{ $('loginErr').textContent=loginErrors[e&&e.code]||('Não deu certo: '+(e&&e.code||e)); };
-$('btnGoogle').addEventListener('click',()=>{ $('loginErr').textContent=''; B.google().catch(showErr); });
-$('emailForm').addEventListener('submit',e=>{ e.preventDefault(); $('loginErr').textContent=''; B.emailIn($('lf-email').value.trim(),$('lf-pass').value).catch(showErr); });
-$('btnSignup').addEventListener('click',()=>{ $('loginErr').textContent=''; if(!$('emailForm').reportValidity()) return; B.signup($('lf-email').value.trim(),$('lf-pass').value).catch(showErr); });
+$('btnGoogle').addEventListener('click',()=>{ $('loginErr').textContent=''; markFresh(); B.google().catch(showErr); });
+$('emailForm').addEventListener('submit',e=>{ e.preventDefault(); $('loginErr').textContent=''; markFresh(); B.emailIn($('lf-email').value.trim(),$('lf-pass').value).catch(showErr); });
+$('btnSignup').addEventListener('click',()=>{ $('loginErr').textContent=''; markFresh(); if(!$('emailForm').reportValidity()) return; B.signup($('lf-email').value.trim(),$('lf-pass').value).catch(showErr); });
 $('btnReset').addEventListener('click',()=>{ const em=$('lf-email').value.trim(); if(!em){ $('loginErr').textContent='Digite seu e-mail acima e toque de novo.'; return; } B.reset(em).then(()=>{ $('loginErr').textContent='Enviamos um link para redefinir a senha.'; }).catch(showErr); });
 const doLogout=()=>{ if(dirty){ clearTimeout(timer); flush(); } B.logout(); };
 $('btnLogout1').addEventListener('click',doLogout); $('btnLogout2').addEventListener('click',doLogout);
@@ -2804,6 +2896,7 @@ $('profForm').addEventListener('submit',async e=>{ e.preventDefault(); const n=$
   if(planLimitProfile(newKid)) return; const b=e.submitter; if(b) b.disabled=true; try{ await createProfile(n,newKid,newFem); $('pf-name').value=''; $('pf-consent').checked=false; }catch(err){ toast('Não foi possível criar o perfil'); } if(b) b.disabled=false; });
 $('plist').addEventListener('click',e=>{
   const d=e.target.closest('[data-pdel]');
+  if(d&&!pinFree()){ askPin('Apagar perfil é com os adultos da casa.',()=>d.click()); return; }
   if(d){ const p=profiles.find(x=>x.id===d.dataset.pdel); if(!p) return;
     if(!d.dataset.confirm){ d.dataset.confirm='1'; d.classList.add('arm'); d.textContent=`Toque de novo para apagar ${p.name||'este perfil'} de vez`; setTimeout(()=>{ if(d.isConnected){ delete d.dataset.confirm; d.classList.remove('arm'); d.textContent='Apagar perfil'; } },4000); return; }
     if(p.familyId) B.memberDelete(p.familyId,uid+'_'+p.id).catch(()=>{});

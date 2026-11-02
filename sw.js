@@ -21,7 +21,8 @@ self.addEventListener('push',e=>{
 });
 self.addEventListener('notificationclick',e=>{
   e.notification.close();
-  const url=(e.notification.data&&e.notification.data.url)||self.registration.scope;
+  const raw=(e.notification.data&&e.notification.data.url)||'';
+  const url=raw.startsWith(self.registration.scope)?raw:self.registration.scope;
   e.waitUntil(self.clients.matchAll({type:'window',includeUncontrolled:true}).then(ws=>{
     for(const w of ws){ if(w.url.startsWith(self.registration.scope)&&'focus' in w) return w.focus(); }
     return self.clients.openWindow(url);

@@ -1,0 +1,23 @@
+{
+  "hosting": {
+    "public": ".",
+    "ignore": ["firebase.json", ".firebaserc", "**/.*", "**/node_modules/**", "push.js", "grid.png", "*.md", "package.json", "package-lock.json"],
+    "cleanUrls": false,
+    "headers": [
+      {
+        "source": "**",
+        "headers": [
+          {"key": "X-Content-Type-Options", "value": "nosniff"},
+          {"key": "Referrer-Policy", "value": "strict-origin-when-cross-origin"},
+          {"key": "X-Frame-Options", "value": "DENY"},
+          {"key": "Permissions-Policy", "value": "microphone=(self), camera=(), geolocation=(), payment=(self)"},
+          {"key": "Content-Security-Policy-Report-Only", "value": "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.gstatic.com https://apis.google.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self' https://*.googleapis.com https://www.gstatic.com wss://*.firebaseio.com https://*.firebaseio.com; frame-src https://*.firebaseapp.com https://*.web.app https://accounts.google.com; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'"}
+        ]
+      },
+      {
+        "source": "sw.js",
+        "headers": [{"key": "Cache-Control", "value": "no-cache"}]
+      }
+    ]
+  }
+}
