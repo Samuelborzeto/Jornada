@@ -1,0 +1,24 @@
+name: Play Console
+on:
+  workflow_dispatch:
+    inputs:
+      comando:
+        description: 'O que fazer'
+        required: true
+        default: status
+        type: choice
+        options: [status]
+permissions:
+  contents: read
+jobs:
+  play:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm install --no-save google-auth-library@9.15.1
+      - run: node play.js "${{ inputs.comando }}"
+        env:
+          PLAY_SA: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
