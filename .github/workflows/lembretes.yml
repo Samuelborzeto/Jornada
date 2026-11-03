@@ -22,5 +22,9 @@ jobs:
         # O GitHub desliga agendamentos de repositório público após 60 dias sem alteração.
         # Uma vez por dia, reativa este próprio agendamento para zerar essa contagem.
         if: github.event_name == 'schedule'
-        run: | if [ "$(date -u +%H%M)" \< "0310" ] && [ "$(date -u +%H%M)" \> "0259" ]; then gh api -X PUT "repos/${{ github.repository }}/actions/workflows/lembretes.yml/enable" && echo "agendamento reativado" fi         env:
+        run: |
+          if [ "$(date -u +%H%M)" \< "0310" ] && [ "$(date -u +%H%M)" \> "0259" ]; then
+            gh api -X PUT "repos/${{ github.repository }}/actions/workflows/lembretes.yml/enable" && echo "agendamento reativado"
+          fi
+        env:
           GH_TOKEN: ${{ github.token }}
