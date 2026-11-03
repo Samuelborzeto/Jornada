@@ -1,11 +1,14 @@
 [
   {
-    "relation": ["delegate_permission/common.handle_all_urls"],
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
     "target": {
       "namespace": "android_app",
       "package_name": "io.github.samuelborzeto.familia",
       "sha256_cert_fingerprints": [
-        "2B:82:63:88:01:29:5B:C5:25:F6:78:B0:04:E8:7A:1D:AD:53:EC:26:C7:6E:1D:C6:EB:CE:15:D8:62:08:DD:B6"
+        "2B:82:63:88:01:29:5B:C5:25:F6:78:B0:04:E8:7A:1D:AD:53:EC:26:C7:6E:1D:C6:EB:CE:15:D8:62:08:DD:B6",
+        "84:17:10:8A:82:F1:58:6E:68:69:6C:E3:31:0D:82:BD:14:A4:5F:04:6B:E1:0D:A8:1A:D1:A6:7C:98:32:50:4A"
       ]
     }
   }
