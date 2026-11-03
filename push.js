@@ -33,5 +33,29 @@ function agora(tz){
     if(ruins.size){ tokens=tokens.filter(t=>!ruins.has(t)); upd.tokens=tokens; }
     if(Object.keys(upd).length) await doc.ref.update(upd);
   }
+  // Placar da família: 1 aviso por dia às 19h (hora local de cada conta), para quem tem família e não desligou em Ajustes.
+  const hUtc=d0.getUTCHours();
+  if(hUtc>=20&&hUtc<=23){
+    const todos=await db.collection('pushSchedules').get(); const famCache={};
+    const segunda=dia=>{ const [y,m,dd]=dia.split('-').map(Number); const dt=new Date(Date.UTC(y,m-1,dd)); const k=(dt.getUTCDay()+6)%7; dt.setUTCDate(dt.getUTCDate()-k); return dt.toISOString().slice(0,10); };
+    for(const doc of todos.docs){
+      const d=doc.data(); const tokens=d.tokens||[]; if(!tokens.length) continue;
+      const {dia,min}=agora(d.tz||'America/Sao_Paulo'); if(min<19*60||min>19*60+40||d.placarSent===dia) continue;
+      const wk=segunda(dia); let mandou=false;
+      for(const [pid,prof] of Object.entries(d.byProfile||{})){
+        if(!prof.placar||!prof.fid||!prof.mid) continue;
+        if(!famCache[prof.fid]){ try{ const ms=await db.collection(`families/${prof.fid}/members`).get(); famCache[prof.fid]=ms.docs.map(x=>Object.assign({id:x.id},x.data())); }catch(e){ famCache[prof.fid]=[]; } }
+        const lista=famCache[prof.fid].filter(m=>m.week===wk).sort((a,b)=>(b.weekPts||0)-(a.weekPts||0)); if(lista.length<2) continue;
+        const pos=lista.findIndex(m=>m.id===prof.mid); if(pos<0) continue; const eu=lista[pos];
+        let body;
+        if(pos===0){ const seg=lista[1]; const gap=(eu.weekPts||0)-(seg.weekPts||0); body=gap>0?`Você lidera a semana, ${gap} pontos à frente de ${seg.name||'alguém'}. Marque hoje para segurar a liderança.`:`Empate na liderança com ${seg.name||'alguém'}. Quem fechar o dia cheio sai na frente.`; }
+        else { const fr=lista[pos-1]; const gap=(fr.weekPts||0)-(eu.weekPts||0); body=`Você está em ${pos+1}º, ${gap} pontos atrás de ${fr.name||'alguém'}. Um dia cheio vale até 100.`; }
+        const titulo=Object.keys(d.byProfile).length>1?`Placar da casa · ${prof.name||''}`:'Placar da casa';
+        const res=await admin.messaging().sendEachForMulticast({tokens,data:{title:titulo,body,url:d.appUrl||'',tag:`placar_${pid}`},webpush:{headers:{Urgency:'normal',TTL:'7200'}}});
+        enviados+=res.successCount; mandou=true;
+      }
+      if(mandou) await doc.ref.update({placarSent:dia});
+    }
+  }
   console.log('avisos enviados:',enviados);
 })().catch(e=>{ console.error(e); process.exit(1); });
