@@ -4,7 +4,7 @@ name: Publicar no Firebase Hosting
 on:
   push:
     branches: [main]
-    paths-ignore: ['push.js', 'play.js', '.github/workflows/lembretes.yml', '.github/workflows/play.yml', '**.md']
+    paths-ignore: ['push.js', 'play.js', 'firestore.rules', '.github/firebase-regras.js', '.github/workflows/firebase-regras.yml', '.github/workflows/lembretes.yml', '.github/workflows/play.yml', '**.md']
   workflow_dispatch:
 jobs:
   publicar:

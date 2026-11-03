@@ -1,0 +1,34 @@
+name: Firebase - regras do banco
+# Mantém as regras do Firestore versionadas neste repositório.
+# - Se firestore.rules ainda não existe aqui: lê as regras que estão no Firebase e salva neste repositório.
+# - Se firestore.rules foi alterado: publica as regras novas no Firebase.
+on:
+  push:
+    paths:
+      - 'firestore.rules'
+      - '.github/workflows/firebase-regras.yml'
+  workflow_dispatch:
+jobs:
+  regras:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm install firebase-admin@12.7.0 --no-save
+      - name: Ler ou publicar regras
+        id: regras
+        run: node .github/firebase-regras.js
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+      - name: Salvar regras lidas no repositório
+        if: steps.regras.outputs.lidas == '1'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add firestore.rules
+          git commit -m "Copia das regras atuais do Firestore" || echo "nada a salvar"
+          git push
