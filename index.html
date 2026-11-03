@@ -356,6 +356,33 @@ input,select{background:var(--panel2);border:1px solid var(--inline);border-radi
 .habit{-webkit-touch-callout:none}
 .habit.hold{transform:scale(.97);box-shadow:0 0 0 2px var(--accent)}
 .edit.focus{box-shadow:0 0 0 2px var(--gold)}
+.donesep{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);display:flex;align-items:center;gap:8px;margin-top:6px}
+.donesep::after{content:"";flex:1;height:1px;background:var(--line)}
+.habit.later{opacity:.72}
+.editbar{display:flex;gap:8px;margin-top:10px}.editbar .btn{flex:1}
+.tab{position:relative}
+.tbadge{position:absolute;top:2px;right:calc(50% - 22px);min-width:18px;height:18px;border-radius:9px;background:var(--accent);color:#fff;font-size:11px;font-weight:800;display:grid;place-items:center;padding:0 5px}
+.mgroup{font-size:12.5px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-top:4px}
+.homeseg{margin-bottom:2px}
+#p-hoje.casa > *:not(.mini):not(#homeSeg):not(#casaPanel){display:none!important}
+.kcard{display:flex;flex-direction:column;gap:8px}
+.khead{display:grid;grid-template-columns:52px 1fr auto;gap:10px;align-items:center}
+.khead .prev{width:52px;aspect-ratio:24/26;border-radius:8px;overflow:hidden;background:var(--panel2)}
+.khead b{font-family:var(--display);font-size:18px;display:block}
+.krow{display:grid;grid-template-columns:6px 1fr auto;align-items:center;background:var(--panel2);border:1px solid var(--line);border-radius:10px;overflow:hidden;width:100%;text-align:left;padding:0;cursor:pointer}
+.krow .stripe{align-self:stretch;background:var(--c)}
+.krow .kn{padding:10px 12px;font-weight:700}
+.krow .box{width:30px;height:30px;margin-right:10px}
+.krow.done{background:color-mix(in srgb,var(--c) 14%,var(--panel2));border-color:color-mix(in srgb,var(--c) 45%,var(--line))}
+.krow.done .box{background:var(--c);border-color:var(--c)}.krow.done .box svg{display:block}
+.krow .cv{margin-right:10px;font-family:var(--display)}
+.agechips{display:flex;flex-wrap:wrap;gap:6px}
+.agechips button{background:var(--panel2);border:1px solid var(--line);border-radius:999px;padding:5px 11px;font-size:13.5px;font-weight:700}
+.agechips button[aria-pressed="true"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.showkid{text-align:center;align-items:center}
+.showkid .prev{width:190px;aspect-ratio:24/26;border-radius:10px;overflow:hidden;animation:fxjump 1s ease 2}
+.showkid h2{font-family:var(--display);font-weight:700;font-size:30px}
+.showkid ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:4px;font-size:15px}
 .pinrow{display:flex;gap:8px}.pinrow input{flex:1;letter-spacing:.4em;font-family:var(--display);font-size:22px;text-align:center}
 .mlist{display:flex;flex-direction:column;gap:6px}
 .mrow{display:flex;justify-content:space-between;align-items:center;gap:8px;background:var(--panel2);border-radius:8px;padding:8px 10px}
@@ -516,6 +543,7 @@ input,select{background:var(--panel2);border:1px solid var(--inline);border-radi
           <button type="button" id="pf-m" aria-pressed="true">Masculino</button>
           <button type="button" id="pf-f" aria-pressed="false">Feminino</button>
         </div>
+        <div class="full" id="pf-ageW" hidden><div class="small" style="margin-bottom:6px">Idade da criança</div><div class="agechips" id="pf-age"></div></div>
         <label class="full consent" id="pf-consentW" hidden><input type="checkbox" id="pf-consent"> <span>Sou pai, mãe ou responsável por esta criança e autorizo o uso dos dados dela no app, como explica a <a href="politica.html" target="_blank" rel="noopener">política de privacidade</a>.</span></label>
         <div class="small full" id="pf-hint">Começa leve, com 3 hábitos (água, leitura e sono). Na jornada você escolhe o que quer mudar.</div>
         <button class="btn full" type="submit">Criar perfil</button>
@@ -577,6 +605,9 @@ input,select{background:var(--panel2);border:1px solid var(--inline);border-radi
         <button class="linkbtn mini-sw" id="btnSwitch" type="button">Trocar</button>
       </div>
       <div class="ult" id="ultMini" hidden></div>
+      <div class="seg homeseg" id="homeSeg" role="group" aria-label="Ver" hidden><button type="button" data-home="eu" aria-pressed="true">Eu</button><button type="button" data-home="casa" aria-pressed="false" id="homeCasaBtn">Casa</button></div>
+      <div class="view" id="casaPanel" hidden></div>
+      <div class="card" id="ageAsk" hidden></div>
       <button class="herostrip" id="heroStrip" type="button" hidden></button>
       <div class="card racecard" id="raceCard" hidden></div>
 
@@ -640,6 +671,7 @@ input,select{background:var(--panel2);border:1px solid var(--inline);border-radi
           <h3 class="sec" style="margin:8px 0">Arquivados</h3>
           <div class="habits" id="archList"></div>
         </div>
+        <div class="editbar"><button class="btn ghost" type="button" id="editCancel">Cancelar</button><button class="btn" type="button" id="editDone">Pronto</button></div>
       </div>
       <div class="sugs" id="habSugs"></div>
       <div id="avoidWrap" hidden><h3 class="sec" style="margin-bottom:8px">Para largar</h3><div class="habits" id="avoidList"></div></div>
@@ -911,7 +943,7 @@ input,select{background:var(--panel2);border:1px solid var(--inline);border-radi
       <button class="tab" role="tab" id="t-hoje" aria-selected="true" aria-controls="p-hoje"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.6 2.6L16.5 9"/></svg><span>Hoje</span></button>
       <button class="tab" role="tab" id="t-obj" aria-selected="false" aria-controls="p-obj"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/></svg><span>Objetivos</span></button>
       <button class="tab" role="tab" id="t-char" aria-selected="false" aria-controls="p-char"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4.5 20c1.2-4 4.2-6 7.5-6s6.3 2 7.5 6"/></svg><span>Personagem</span></button>
-      <button class="tab" role="tab" id="t-fam" aria-selected="false" aria-controls="p-fam"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 11L12 4l8.5 7"/><path d="M6 9.5V20h12V9.5"/><path d="M10 20v-5h4v5"/></svg><span>Família</span></button>
+      <button class="tab" role="tab" id="t-fam" aria-selected="false" aria-controls="p-fam"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 11L12 4l8.5 7"/><path d="M6 9.5V20h12V9.5"/><path d="M10 20v-5h4v5"/></svg><span>Família</span><span class="tbadge" id="famBadge" hidden></span></button>
       <button class="tab" role="tab" id="t-hab" aria-selected="false" aria-controls="p-hab"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"/></svg><span>Ajustes</span></button>
     </nav>
   </div>
@@ -925,6 +957,15 @@ input,select{background:var(--panel2);border:1px solid var(--inline);border-radi
   <h2 id="hfTitle"></h2>
   <p id="hfText"></p>
   <div class="head" style="width:100%"><button class="btn ghost" type="button" id="hfLater">Depois</button><button class="btn gold" type="button" id="hfUse">Usar agora</button></div>
+</div></div>
+<div class="overlay" id="showKid" hidden><div class="tourcard showkid" role="dialog" aria-modal="true" aria-labelledby="skName">
+  <span class="prev" id="skArt"></span>
+  <h2 id="skName"></h2>
+  <div class="small num" id="skLvl"></div>
+  <div class="xpbar" style="width:100%"><i id="skBar" style="width:0%"></i></div>
+  <ul id="skDone"></ul>
+  <div class="small" id="skNext"></div>
+  <button class="btn gold" type="button" id="skClose" style="width:100%">Fechar</button>
 </div></div>
 <div class="overlay" id="taskEdit" hidden><div class="tourcard" role="dialog" aria-modal="true" aria-labelledby="teTitle">
   <h2 id="teTitle">Editar tarefa</h2>
@@ -1523,13 +1564,56 @@ function seasonDays(){ const a=SEASON.start, b=SEASON.end; let n=0; Object.entri
 let heroDemoAll=false;
 function heroStatus(h,days){ const t=today(); const got=!!(state.heroes&&state.heroes[h.id]);
   if(got) return 'got'; if(!heroDemoAll&&heroRelDate(h)>t) return 'soon'; if(heroDemoAll||days>=h.days) return 'ready'; return 'lock'; }
+function checkHeroArrival(){ if(!$('heroFx').hidden||!$('tour').hidden||!state.created||state.created>=today()) return; state.heroSeen=state.heroSeen||{}; const t=today();
+  const h=HEROES.find(x=>heroRelDate(x)<=t&&!state.heroSeen[x.id]&&!(state.heroes||{})[x.id]); if(!h) return;
+  HEROES.forEach(x=>{ if(heroRelDate(x)<=t) state.heroSeen[x.id]=true; }); save();
+  heroFxId=null; $('hfFrom').textContent=`Nova lenda na temporada · ${h.from}`; $('hfArt').innerHTML=`<span style="display:block;width:100%;height:100%;filter:brightness(0) invert(.5)">${avatarSVG({eq:{bg:'none',hero:h.id}})}</span>`;
+  $('hfTitle').textContent=`${h.n} chegou!`; $('hfText').textContent=`Libera com ${h.days} dias de uso na temporada: qualquer dia com pelo menos 1 hábito marcado conta. Acompanhe na aba Lendas.`;
+  $('hfUse').textContent='Ver Lendas'; $('hfLater').textContent='Depois'; $('heroFx').hidden=false; }
 function checkHeroes(){ const days=seasonDays(); state.heroes=state.heroes||{}; let fresh=null;
   HEROES.forEach(h=>{ if(heroStatus(h,days)==='ready'){ state.heroes[h.id]=today(); fresh=h; } });
-  if(fresh){ save(); showHeroFx(fresh); } }
+  if(fresh){ save(); showHeroFx(fresh); } else if(view==='app'&&tab==='hoje') setTimeout(checkHeroArrival,600); }
 let heroFxId=null;
-function showHeroFx(h){ heroFxId=h.id; $('hfFrom').textContent=`Nova lenda liberada · ${h.from}`; $('hfArt').innerHTML=avatarSVG({eq:{bg:'bg_noite',hero:h.id}}); $('hfTitle').textContent=h.n;
+function showHeroFx(h){ heroFxId=h.id; $('hfUse').textContent='Usar agora'; state.heroSeen=state.heroSeen||{}; state.heroSeen[h.id]=true; $('hfFrom').textContent=`Nova lenda liberada · ${h.from}`; $('hfArt').innerHTML=avatarSVG({eq:{bg:'bg_noite',hero:h.id}}); $('hfTitle').textContent=h.n;
   $('hfText').textContent=`${h.t}. Liberada com ${h.days} dias de uso, a lenda é sua para sempre. Classe, nível e XP continuam iguais.`; $('heroFx').hidden=false; }
 function nextHero(days){ for(const h of HEROES){ const st=heroStatus(h,days); if(st==='lock'||st==='soon') return {h,st}; } return null; }
+const AGES=[['0-3','Até 3 anos'],['4-6','4 a 6'],['7-10','7 a 10'],['11-14','11 a 14'],['15-17','15 a 17']];
+const ageChips=(cur,attr)=>AGES.map(([k,n])=>`<button type="button" ${attr}="${k}" aria-pressed="${cur===k}">${n}</button>`).join('');
+let newAge=null;
+function renderAgeAsk(){ const el=$('ageAsk'); const show=!!state.kid&&!state.ageBand; el.hidden=!show; if(!show) return;
+  el.innerHTML=`<b>Qual a idade de ${esc(state.name||'quem joga aqui')}?</b><div class="small">Ajuda o app a sugerir hábitos certos para a idade.</div><div class="agechips">${ageChips(null,'data-ageset')}</div>`; }
+/* Painel da casa: o adulto marca o dia dos outros perfis da conta sem trocar de perfil */
+let homeMode='eu'; const profOver={};
+function otherProfiles(){ return (rawProfiles||[]).filter(d=>d.id!==pid).map(d=>({id:d.id,raw:profOver[d.id]&&profOver[d.id].t>((d.data||{}).updatedAt||0)?profOver[d.id].data:d.data})).filter(x=>x.raw).sort((a,b)=>(b.raw.kid?1:0)-(a.raw.kid?1:0)||(a.raw.name||'').localeCompare(b.raw.name||'')); }
+function withProfile(opid,raw,fn){ if(dirty){ clearTimeout(timer); flush(); } const keepS=state, keepP=pid; const o=JSON.parse(JSON.stringify(raw)); delete o.summary; delete o.updatedAt;
+  state=normalize(o); pid=opid; quietToast=true; try{ return fn(); } finally{ state=keepS; pid=keepP; quietToast=false; } }
+function renderCasa(){ const can=!state.kid&&otherProfiles().length>0; $('homeSeg').hidden=!can; if(!can) homeMode='eu';
+  document.querySelectorAll('#homeSeg [data-home]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.home===homeMode));
+  $('p-hoje').classList.toggle('casa',homeMode==='casa'); $('casaPanel').hidden=homeMode!=='casa'; if(homeMode!=='casa') return;
+  const tk=today();
+  $('casaPanel').innerHTML=otherProfiles().map(({id,raw})=>{ const s=raw, log=(s.log||{})[tk]||{}, act=(s.habits||[]).filter(h=>!h.archived&&!h.deleted&&!isAvoid(h)), BO={m:0,t:1,n:2};
+    act.sort((x,y)=>(BO[x.block]??3)-(BO[y.block]??3));
+    const done=act.filter(h=>(log[h.id]||0)>=(h.target||1)).length, g=s.dailyGoal||3, sm=s.summary||{};
+    const rows=act.map(h=>{ const t=h.target||1, n=Math.min(t,log[h.id]||0), ok=n>=t, a=ATTRS[h.attr]||ATTRS.equilibrio;
+      return `<button class="krow${ok?' done':''}" type="button" data-opid="${id}" data-ohid="${h.id}" style="--c:${a.c}"><span class="stripe"></span><span class="kn">${esc(h.name)}</span>${t>1?`<span class="cv num">${n}/${t}</span>`:`<span class="box">${check}</span>`}</button>`; }).join('');
+    const age=s.kid&&!s.ageBand?`<div class="small">Idade de ${esc(s.name||'')}:</div><div class="agechips">${ageChips(null,`data-oage="${id}" data-age`)}</div>`:'';
+    return `<div class="card kcard"><div class="khead"><span class="prev">${avatarSVG({eq:s.equipped||{},level:sm.lvl||1,cls:s.cls,spec:s.spec,wstage:sm.ws||0,prestige:s.prestige||0})}</span><span><b>${esc(s.name||'Perfil')}</b><span class="small num">${Math.min(done,g)} de ${g} para o dia cheio${s.kid?' · criança':''}</span></span><button class="btn ghost sm" type="button" data-show="${id}">Mostrar</button></div>${age}<div class="kcard">${rows||'<div class="small">Sem hábitos ainda. Entre no perfil para montar o dia.</div>'}</div></div>`; }).join('')
+    +'<div class="small">Toque para marcar o que cada um fez hoje. O XP vai para o personagem de cada um.</div>'; }
+function markFor(opid,hid){ const o=otherProfiles().find(x=>x.id===opid); if(!o) return; let gain=0, nm='';
+  withProfile(opid,o.raw,()=>{ const h=state.habits.find(x=>x.id===hid); if(!h) return; const t=h.target||1, d=today(); const cur=(state.log[d]||{})[hid]||0; const val=cur>=t?0:cur+1;
+    const before=compute(); state.log[d]=state.log[d]||{}; if(!state.quests[d]){ const q=questPick(d); if(q) state.quests[d]=q; } if(!state.daySum[d]) state.daySum[d]=activeWeights();
+    if(val) state.log[d][hid]=val; else delete state.log[d][hid]; if(!Object.keys(state.log[d]).length) delete state.log[d];
+    checkGoals(); const after=compute(); checkRace(before,after); gain=after.total-before.total; nm=state.name||'';
+    const body=JSON.parse(JSON.stringify(state)); body.updatedAt=Date.now(); body.summary={lvl:after.p.lvl,ws:after.ws,cls:state.cls,spec:state.spec,equipped:state.equipped,prestige:state.prestige||0,dead:after.boss.dead,familyId:state.familyId||null};
+    profOver[opid]={t:body.updatedAt,data:body};
+    B.saveProfile(uid,opid,body).catch(()=>toast('Não foi possível salvar'));
+    if(state.familyId) B.memberWrite(state.familyId,uid+'_'+opid,memberData(after)).catch(()=>{}); });
+  render(); if(gain>0) toast(`Feito para ${nm}! +${gain} XP`); }
+function showKid(opid){ const o=otherProfiles().find(x=>x.id===opid); if(!o) return; let info=null;
+  withProfile(opid,o.raw,()=>{ const c=compute(), tk=today(), log=state.log[tk]||{}; info={art:myAvatar(c),name:state.name,lvl:c.p.lvl,pct:c.p.pct,coins:c.coins,tier:tierName(tierOf(c.p.lvl),isF(state.equipped)),
+    done:state.habits.filter(h=>!h.archived&&!isAvoid(h)&&(log[h.id]||0)>=(h.target||1)).map(h=>h.name), next:(()=>{ const nx=nextHero(seasonDays()); return nx&&nx.st==='lock'?`Próxima lenda: ${nx.h.n}, ${seasonDays()} de ${nx.h.days} dias`:''; })()}; });
+  $('skArt').innerHTML=info.art; $('skName').textContent=info.name||''; $('skLvl').textContent=`${info.tier} · Nível ${info.lvl} · ${info.coins} moedas`; $('skBar').style.width=info.pct+'%';
+  $('skDone').innerHTML=info.done.length?info.done.map(n=>`<li>✓ ${esc(n)}</li>`).join(''):'<li class="small">Nada marcado hoje ainda.</li>'; $('skNext').textContent=info.next; $('showKid').hidden=false; }
 function renderHeroStrip(){ const el=$('heroStrip'); const days=seasonDays(); const nx=nextHero(days); if(!nx){ el.hidden=true; return; }
   const {h,st}=nx; el.hidden=false;
   if(st==='soon'){ const d=parseKey(heroRelDate(h)); el.innerHTML=`<span class="prev soon">?</span><span><b>Nova lenda chega em ${MESES[d.getMonth()]}/${d.getFullYear()}</b><span class="small">${days} dias de uso na temporada</span></span><span class="go">Lendas ›</span>`; return; }
@@ -1798,7 +1882,8 @@ function syncJournal(){ const d=viewDay, jr=state.journal[d]||{}, dr=jrDraft||{m
 let tab='hoje', slotFilter='all', viewDay=today(), tourStep=0, charSub='ficha', editMode=false, qaMode='task', qaMore=false, dailyShown=null;
 const setSync=t=>{ $('sync').textContent=t; };
 const toastQ=[]; let toastOn=false;
-function toast(msg){ toastQ.push(msg); if(!toastOn) nextToast(); }
+let quietToast=false;
+function toast(msg){ if(quietToast) return; toastQ.push(msg); if(!toastOn) nextToast(); }
 function nextToast(){ const m=toastQ.shift(); const t=$('toast'); if(!m){ t.hidden=true; toastOn=false; return; } toastOn=true; t.textContent=m; t.hidden=false; setTimeout(nextToast,2600); }
 function jump(){ ['avatar','miniAv'].forEach(id=>{ const a=$(id); if(!a) return; a.classList.remove('jump'); void a.offsetWidth; a.classList.add('jump'); }); }
 
@@ -1877,7 +1962,7 @@ function goProfiles(){
   view='profiles'; render();
 }
 async function createProfile(name,kid,fem){
-  const id=B.newId(uid); const s=DEFAULT(name,kid,fem); if(kid) s.consent={at:Date.now(),by:uid};
+  const id=B.newId(uid); const s=DEFAULT(name,kid,fem); if(kid){ s.consent={at:Date.now(),by:uid}; if(newAge) s.ageBand=newAge; }
   await B.saveProfile(uid,id,Object.assign({},s,{summary:{lvl:1,ws:0,cls:null,spec:null,equipped:s.equipped},updatedAt:Date.now()}));
   openProfile(id);
 }
@@ -1978,6 +2063,7 @@ function setCount(hid,val){
   const prev=state.log[d][hid]||0;
   if(val) state.log[d][hid]=val; else delete state.log[d][hid];
   if(!Object.keys(state.log[d]).length) delete state.log[d];
+  if(!isAvoid(h)&&val>=t&&prev<t){ justDone[hid]=Date.now(); setTimeout(()=>{ if(view==='app') render(); },760); }
   const won=checkGoals();
   checkRace(before,compute()); save(); const after=compute(); render();
   const gain=after.total-before.total;
@@ -2094,11 +2180,13 @@ function renderToday(c){
   const BO={m:0,t:1,n:2}; const act=state.habits.filter(h=>!h.archived&&!isAvoid(h)).sort((x,y)=>(BO[x.block]??3)-(BO[y.block]??3)), avs=state.habits.filter(h=>!h.archived&&isAvoid(h));
   $('avoidWrap').hidden=!avs.length;
   $('avoidList').innerHTML=avs.map(h=>avoidRow(h,c,d,entries,q,fx)).join('');
-  $('habits').innerHTML=act.length?act.map(h=>{
+  const isDoneH=h=>Math.min(h.target||1,entries[h.id]||0)>=(h.target||1), fresh=h=>justDone[h.id]&&Date.now()-justDone[h.id]<700;
+  const todoH=act.filter(h=>!isDoneH(h)||fresh(h)), doneH=act.filter(h=>isDoneH(h)&&!fresh(h));
+  const hrow=(h,later)=>{
     const t=h.target||1, cnt=Math.min(t,entries[h.id]||0), done=cnt>=t, a=ATTRS[h.attr]||ATTRS.equilibrio;
     const st=habitStreak(h.id), isQ=h.id===q, base=xpFor(h,d), qm=fx.quest||2, boosted=mult(h.attr)>1;
     const side=t>1?`<div class="counter"><button data-act="minus" aria-label="Tirar 1">−</button><span class="cv num">${cnt}/${t}</span><button data-act="plus" aria-label="Somar 1" ${cnt>=t?'disabled':''}>+</button></div>`:`<div class="box">${check}</div>`;
-    return `<div class="habit${done?' done':''}" data-hid="${h.id}" style="--c:${a.c}">
+    return `<div class="habit${done?' done':''}${later?' later':''}" data-hid="${h.id}" style="--c:${a.c}">
       <span class="stripe"></span>
       <button class="main" data-act="${t>1?(done?'none':'plus'):'toggle'}" aria-pressed="${done}">
         ${isQ?`<span class="quest">Missão do dia ×${qm}</span>`:''}
@@ -2107,9 +2195,10 @@ function renderToday(c){
       </button>
       <div class="side">${side}</div>
       ${t>1?`<div class="prog"><i style="width:${Math.min(100,cnt/t*100)}%"></i></div>`:''}
-    </div>`;
-  }).join(''):'<div class="card small">Nenhum hábito ativo. Use o "+ Adicionar" acima e escolha Hábito.</div>';
+    </div>`; };
+  $('habits').innerHTML=act.length?todoH.map(h=>hrow(h,false)).join('')+(doneH.length?`<div class="donesep">${d===tk?'Feitos hoje':'Feitos'} (${doneH.length})</div>`+doneH.map(h=>hrow(h,true)).join(''):''):'<div class="card small">Nenhum hábito ativo. Use o "+ Adicionar" acima e escolha Hábito.</div>';
 }
+const justDone={};
 
 function avoidRow(h,c,d,entries,q,fx){
   const cnt=entries[h.id]||0, a=ATTRS[h.attr]||ATTRS.equilibrio, v=c.vices[h.id]||{streak:0,hp:VICE_HP}, base=xpFor(h,d), isQ=h.id===q, qm=fx.quest||2;
@@ -2272,6 +2361,7 @@ function renderGoals(){
   $('goalList').innerHTML=act.length?act.map(card).join(''):'<div class="card small">Nenhum objetivo ainda. Use uma sugestão acima ou escreva o seu.</div>';
   $('wonWrap').hidden=!won.length; $('wonList').innerHTML=won.map(card).join('');
 }
+function renderFamBadge(){ const b=$('famBadge'); if(!b) return; const n=(fam&&famOwner()&&fam.gate)?membersAll.filter(m=>!memberOk(m.id)&&!(fam.removed&&fam.removed[uidOf(m.id)])).length:0; b.hidden=!n; b.textContent=n; }
 function renderFamAdmin(){
   const own=famOwner(); $('famAdmin').hidden=!own;
   $('famGateTxt').textContent=own?'Quem entrar com o código só vê a família depois que você aceitar.':'Quem entrar com o código só vê a família depois que quem criou aceitar.';
@@ -2280,10 +2370,14 @@ function renderFamAdmin(){
   const pend=membersAll.filter(m=>!memberOk(m.id)&&!(fam.removed&&fam.removed[uidOf(m.id)]));
   $('famPendW').hidden=!pend.length;
   $('famPend').innerHTML=pend.map(m=>`<div class="mrow"><span>${nm(m)}</span><span class="acts"><button class="btn sm" type="button" data-fapp="${esc(m.id)}">Aceitar</button><button class="btn ghost sm" type="button" data-fdeny="${esc(m.id)}">Recusar</button></span></div>`).join('');
-  $('famMembers').innerHTML=members.map(m=>`<div class="mrow"><span>${nm(m)}${m.id===me?' <span class="small">(você)</span>':''}</span>${m.id.startsWith(uid+'_')?'':`<span class="acts"><button class="btn ghost sm" type="button" data-frem="${esc(m.id)}">Remover</button></span>`}</div>`).join('');
+  const mine=members.filter(m=>m.id.startsWith(uid+'_')), outros=members.filter(m=>!m.id.startsWith(uid+'_'));
+  const rem=Object.entries(fam.removed||{});
+  $('famMembers').innerHTML=`<div class="mgroup">Perfis desta conta</div>`+mine.map(m=>`<div class="mrow"><span>${nm(m)}${m.id===me?' <span class="small">(você)</span>':''}</span></div>`).join('')
+    +(outros.length?`<div class="mgroup">Entraram com o código</div>`+outros.map(m=>`<div class="mrow"><span>${nm(m)}</span><span class="acts"><button class="btn ghost sm" type="button" data-frem="${esc(m.id)}">Remover</button></span></div>`).join(''):'')
+    +(rem.length?`<div class="mgroup">Recusados ou removidos</div>`+rem.map(([u,v])=>`<div class="mrow"><span>${esc((v&&v.name)||'Conta sem nome')}</span><span class="acts"><button class="btn ghost sm" type="button" data-fundo="${esc(u)}">Desfazer</button></span></div>`).join(''):'');
 }
 function famSet(mid,ok){ if(!famOwner()) return; mid=uidOf(mid); if(mid===uid) return; const approved=Object.assign({},fam.approved||{}), removed=Object.assign({},fam.removed||{});
-  if(ok){ approved[mid]=true; delete removed[mid]; } else { delete approved[mid]; removed[mid]=true; }
+  if(ok){ approved[mid]=true; delete removed[mid]; } else { const m=membersAll.find(x=>uidOf(x.id)===mid); delete approved[mid]; removed[mid]={at:Date.now(),name:(m&&m.name)||''}; }
   fam.approved=approved; fam.removed=removed; fam.gate=true; applyMembers(); render();
   B.famUpdate(state.familyId,{gate:true,approved,removed}).catch(()=>toast('Não foi possível salvar. Tente de novo.')); }
 function renderFamily(c){
@@ -2335,7 +2429,7 @@ function renderVillage(m){
   const al=r.al||{};
   $('memberDetail').innerHTML=`<div class="mdet"><span class="prev${dead?' ghost':''}">${avatarSVG({eq:r.eq||{},level:r.lvl||1,cls:r.cls,spec:r.spec,wstage:r.ws||0,prestige:r.prestige||0})}</span>
     <div style="display:flex;flex-direction:column;gap:6px;min-width:0">
-      <h3>${esc(r.name||'Sem nome')}${r.prestige?` <span class="pchip" style="--pc:${prestOf(r.prestige).M}">Prestígio ${r.prestige}</span>`:''}</h3>
+      <h3>${esc(r.name||'Sem nome')}${r.prestige?` <span class="pchip" style="--pc:${prestOf(r.prestige).M}">Prestígio ${r.prestige}</span>`:''}</h3><div class="small">${r.id.startsWith(uid+'_')?'Perfil desta conta':'Conta própria, entrou com o código'}</div>
       <div class="title">${role}</div>
       <div class="chips"><span class="chip num">Nível <b>${r.lvl||1}</b></span><span class="chip num"><b>${r.weekXP||0}</b> XP na semana</span><span class="chip num"><b>${r.streak||0}</b> ${(r.streak||0)===1?'dia seguido':'dias seguidos'}</span>${r.won?`<span class="chip num"><span class="trophy"></span><b>${r.won}</b></span>`:''}</div>
       ${cl?`<div class="small">Arma: ${cl.stages[r.ws||0]}${r.achs?` · ${r.achs} conquistas`:''}</div>`:''}
@@ -2499,7 +2593,8 @@ function renderSettings(c){
   $('pauseBox').innerHTML=pz?`<div class="head"><span>Em pausa até <b>${pz.end.split('-').reverse().slice(0,2).join('/')}</b></span><button class="btn ghost sm" data-pause="end" type="button">Encerrar pausa</button></div>`
     :`<div class="head"><select id="pz-days" style="width:auto"><option value="3">3 dias</option><option value="7" selected>7 dias</option><option value="14">14 dias</option></select><button class="btn ghost sm" data-pause="start" type="button">Pausar a partir de hoje</button></div>`;
 }
-let editOnly=null;
+let editOnly=null, editSnap=null;
+function editOpen(){ editSnap=JSON.stringify({habits:state.habits,ult:state.ult}); }
 function renderHabEdit(){
   const xps=[10,20,30,40,60];
   const nAct=state.habits.filter(h=>!h.archived).length;
@@ -2643,8 +2738,8 @@ function render(){
   renderTour(c);
   if(aiming){ $('tour').hidden=true; $('daily').hidden=true; renderAims(); return; }
   if(picking){ $('daily').hidden=true; renderClassPick(); return; }
-  checkHeroes();
-  if(tab==='hoje'){ renderToday(c); renderHeroStrip(); renderRace(c); renderQuick(); renderTasks(); renderEditMode(); }
+  checkHeroes(); renderFamBadge();
+  if(tab==='hoje'){ renderToday(c); renderHeroStrip(); renderAgeAsk(); renderCasa(); renderRace(c); renderQuick(); renderTasks(); renderEditMode(); }
   if(tab==='obj'){ renderVices(c); renderGoals(); }
   if(tab==='char'){ document.querySelectorAll('.charseg [data-sub]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.sub===charSub)); ['ficha','lendas','vis','hist'].forEach(k=>$('sub-'+k).hidden=k!==charSub);
     if(charSub==='vis') renderVisual(c); if(charSub==='lendas') renderHeroes(); if(charSub==='hist'){ renderHist(c); renderTaskHist(); } }
@@ -2782,6 +2877,7 @@ document.querySelectorAll('.card').forEach(card=>{ const infos=card.querySelecto
 $('famAdmin').addEventListener('click',e=>{ const a=e.target.closest('[data-fapp]'), dn=e.target.closest('[data-fdeny]'), rm=e.target.closest('[data-frem]');
   if(a){ famSet(a.dataset.fapp,true); toast('Entrada aceita'); }
   if(dn){ famSet(dn.dataset.fdeny,false); toast('Pedido recusado'); }
+  const un=e.target.closest('[data-fundo]'); if(un&&famOwner()){ const u=un.dataset.fundo; const approved=Object.assign({},fam.approved||{}), removed=Object.assign({},fam.removed||{}); delete removed[u]; approved[u]=true; fam.approved=approved; fam.removed=removed; applyMembers(); render(); B.famUpdate(state.familyId,{gate:true,approved,removed}).catch(()=>toast('Não foi possível salvar. Tente de novo.')); toast('Pronto: essa pessoa pode entrar de novo com o código'); }
   if(rm){ if(!rm.dataset.confirm){ rm.dataset.confirm='1'; rm.textContent='Confirmar'; setTimeout(()=>{ if(rm.isConnected){ delete rm.dataset.confirm; rm.textContent='Remover'; } },3000); return; } famSet(rm.dataset.frem,false); toast('Pessoa removida da família'); } });
 $('famWaitCancel').addEventListener('click',()=>{ const fid=state.familyId; if(!fid) return; B.memberDelete(fid,uid+'_'+pid).catch(()=>{}); state.familyId=null; save(); watchFamily(); render(); toast('Pedido cancelado'); });
 async function pinTry(){ const v=$('pin-in').value.trim(); if(!house.pin) { $('pinBox').hidden=true; return; }
@@ -2799,8 +2895,15 @@ document.addEventListener('click',e=>{ const b=e.target.closest('[data-hero]'); 
   if(id&&!(state.heroes||{})[id]) return; state.equipped.hero=id||''; save(); render(); toast(id?`Agora você é ${HERO[id].n}`:'Voltou para o seu avatar'); });
 $('heroDemo').addEventListener('click',()=>{ heroDemoAll=true; render(); });
 $('heroStrip').addEventListener('click',()=>{ charSub='lendas'; goTab('char'); });
+$('homeSeg').addEventListener('click',e=>{ const b=e.target.closest('[data-home]'); if(!b) return; homeMode=b.dataset.home; editMode=false; render(); try{ window.scrollTo({top:0}); }catch(err){} });
+$('casaPanel').addEventListener('click',e=>{ const r=e.target.closest('[data-ohid]'); if(r){ markFor(r.dataset.opid,r.dataset.ohid); return; }
+  const sh=e.target.closest('[data-show]'); if(sh){ showKid(sh.dataset.show); return; }
+  const ag=e.target.closest('[data-oage]'); if(ag){ const o=otherProfiles().find(x=>x.id===ag.dataset.oage); if(!o) return; const body=JSON.parse(JSON.stringify(o.raw)); body.ageBand=ag.dataset.age; body.updatedAt=Date.now(); profOver[o.id]={t:body.updatedAt,data:body}; B.saveProfile(uid,o.id,body).catch(()=>{}); render(); } });
+$('skClose').addEventListener('click',()=>{ $('showKid').hidden=true; });
+$('ageAsk').addEventListener('click',e=>{ const b=e.target.closest('[data-ageset]'); if(!b) return; state.ageBand=b.dataset.ageset; save(); render(); toast('Idade salva'); });
+$('pf-age').addEventListener('click',e=>{ const b=e.target.closest('[data-agepick]'); if(!b) return; newAge=b.dataset.agepick; $('pf-age').innerHTML=ageChips(newAge,'data-agepick'); });
 $('hfLater').addEventListener('click',()=>{ $('heroFx').hidden=true; });
-$('hfUse').addEventListener('click',()=>{ $('heroFx').hidden=true; if(heroFxId&&(state.heroes||{})[heroFxId]){ state.equipped.hero=heroFxId; save(); render(); toast(`Agora você é ${HERO[heroFxId].n}`); } });
+$('hfUse').addEventListener('click',()=>{ $('heroFx').hidden=true; if(!heroFxId){ charSub='lendas'; goTab('char'); return; } if(heroFxId&&(state.heroes||{})[heroFxId]){ state.equipped.hero=heroFxId; save(); render(); toast(`Agora você é ${HERO[heroFxId].n}`); } });
 (function(){ const SR=window.SpeechRecognition||window.webkitSpeechRecognition; const mic=$('qa-mic'); if(!SR||!mic) return; mic.hidden=false;
   let rec=null, base='';
   const stop=()=>{ mic.classList.remove('on'); mic.setAttribute('aria-label','Falar em vez de escrever'); $('qa-name').placeholder='+ Adicionar algo para hoje'; rec=null; };
@@ -2843,7 +2946,7 @@ function lpEnd(){ if(lp){ clearTimeout(lp.t); lp.row.classList.remove('hold'); l
   el.addEventListener('contextmenu',e=>{ if(e.target.closest('[data-hid],[data-tid]')) e.preventDefault(); });
   el.addEventListener('click',e=>{ if(Date.now()-lpFired<700){ e.stopImmediatePropagation(); e.preventDefault(); } },true); });
 window.addEventListener('scroll',lpEnd,{passive:true});
-function openHabEdit(hid){ editMode=true; editOnly=hid; render(); const el=document.querySelector(`[data-eid="${hid}"]`); if(el) try{ el.scrollIntoView({block:'center',behavior:'smooth'}); }catch(err){} }
+function openHabEdit(hid){ editMode=true; editOnly=hid; editOpen(); render(); const el=document.querySelector(`[data-eid="${hid}"]`); if(el) try{ el.scrollIntoView({block:'center',behavior:'smooth'}); }catch(err){} }
 let teId=null;
 function openTaskEdit(tid){ const t=(state.tasks||[]).find(x=>x.id===tid); if(!t) return; teId=tid; $('te-name').value=t.name; $('te-date').value=t.date||''; $('taskEdit').hidden=false; }
 $('te-cancel').addEventListener('click',()=>{ $('taskEdit').hidden=true; });
@@ -2857,7 +2960,9 @@ $('taskList').addEventListener('click',e=>{ const row=e.target.closest('[data-ti
   const before=compute(); t.done=true; t.doneAt=today(); save(); const after=compute(); render();
   const gain=after.total-before.total; toast(gain>0?`Feito! +${gain} XP`:'Feito!'); celebrate(before,after); });
 $('taskDone').addEventListener('click',e=>{ const b=e.target.closest('[data-tundo]'); if(!b) return; const t=(state.tasks||[]).find(x=>x.id===b.dataset.tundo); if(!t) return; t.done=false; delete t.doneAt; save(); render(); toast('Tarefa voltou para a lista'); });
-$('btnEdit').addEventListener('click',()=>{ editMode=!editMode; editOnly=null; render(); });
+$('btnEdit').addEventListener('click',()=>{ editMode=!editMode; editOnly=null; if(editMode) editOpen(); render(); });
+$('editDone').addEventListener('click',()=>{ editMode=false; editOnly=null; render(); });
+$('editCancel').addEventListener('click',()=>{ const now=JSON.stringify({habits:state.habits,ult:state.ult}); if(editSnap&&now!==editSnap){ const o=JSON.parse(editSnap); state.habits=o.habits; state.ult=o.ult; syncTodaySum(); save(); toast('Mudanças desfeitas'); } editMode=false; editOnly=null; render(); });
 $('habSugs').addEventListener('click',e=>{ const b=e.target.closest('[data-hsug]'); if(!b) return; const h=habSugList().find(x=>x.id===b.dataset.hsug); if(!h) return;
   if(state.habits.filter(x=>!x.archived).length>=MAXHABITS){ toast(`Limite de ${MAXHABITS} hábitos ativos.`); return; }
   const ex=state.habits.find(x=>x.id===h.id); const nh=Object.assign(JSON.parse(JSON.stringify(h)),{created:today()}); if(ex) nh.id=h.id+'_'+Date.now().toString(36);
@@ -2982,10 +3087,11 @@ $('btnDelProf').addEventListener('click',e=>{ const b=e.currentTarget; if(!b.dat
 let newFem=false;
 $('pf-m').addEventListener('click',()=>{ newFem=false; $('pf-m').setAttribute('aria-pressed','true'); $('pf-f').setAttribute('aria-pressed','false'); });
 $('pf-f').addEventListener('click',()=>{ newFem=true; $('pf-f').setAttribute('aria-pressed','true'); $('pf-m').setAttribute('aria-pressed','false'); });
-$('pf-adult').addEventListener('click',()=>{ newKid=false; $('pf-consentW').hidden=true; $('pf-adult').setAttribute('aria-pressed','true'); $('pf-kid').setAttribute('aria-pressed','false'); $('pf-hint').textContent='Começa leve, com 3 hábitos (água, leitura e sono). Na jornada você escolhe o que quer mudar.'; });
-$('pf-kid').addEventListener('click',()=>{ newKid=true; $('pf-consentW').hidden=false; $('pf-kid').setAttribute('aria-pressed','true'); $('pf-adult').setAttribute('aria-pressed','false'); $('pf-hint').textContent='Começa com escovar os dentes, arrumar o quarto, ler 10 min, ajudar em casa, brincar ao ar livre e dormir no horário.'; });
+$('pf-adult').addEventListener('click',()=>{ newKid=false; $('pf-consentW').hidden=true; $('pf-ageW').hidden=true; $('pf-adult').setAttribute('aria-pressed','true'); $('pf-kid').setAttribute('aria-pressed','false'); $('pf-hint').textContent='Começa leve, com 3 hábitos (água, leitura e sono). Na jornada você escolhe o que quer mudar.'; });
+$('pf-kid').addEventListener('click',()=>{ newKid=true; $('pf-consentW').hidden=false; $('pf-ageW').hidden=false; $('pf-age').innerHTML=ageChips(newAge,'data-agepick'); $('pf-kid').setAttribute('aria-pressed','true'); $('pf-adult').setAttribute('aria-pressed','false'); $('pf-hint').textContent='Começa com escovar os dentes, arrumar o quarto, ler 10 min, ajudar em casa, brincar ao ar livre e dormir no horário.'; });
 $('profForm').addEventListener('submit',async e=>{ e.preventDefault(); const n=$('pf-name').value.trim(); if(!n) return;
   if(newKid&&!$('pf-consent').checked){ toast('Para perfil de criança, marque a autorização do responsável'); return; }
+  if(newKid&&!newAge){ toast('Escolha a idade da criança'); return; }
   if(planLimitProfile(newKid)) return; const b=e.submitter; if(b) b.disabled=true; try{ await createProfile(n,newKid,newFem); $('pf-name').value=''; $('pf-consent').checked=false; }catch(err){ toast('Não foi possível criar o perfil'); } if(b) b.disabled=false; });
 $('plist').addEventListener('click',e=>{
   const d=e.target.closest('[data-pdel]');
@@ -3031,6 +3137,7 @@ function startAuth(){
         if(profiles.length===1&&!fromCache){ openProfile(profiles[0].id); return; }
         view='profiles'; if(!profiles.length&&u.first) $('pf-name').value=u.first; }
       if(view==='profiles'){ render(); if(B.demo) setSync(u.label); }
+      if(view==='app'&&homeMode==='casa') render();
     },e=>setSync('Erro ao carregar perfis: '+(e&&e.code||'')));
   });
 }
