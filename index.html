@@ -383,6 +383,20 @@ input,select{background:var(--panel2);border:1px solid var(--inline);border-radi
 .showkid .prev{width:190px;aspect-ratio:24/26;border-radius:10px;overflow:hidden;animation:fxjump 1s ease 2}
 .showkid h2{font-family:var(--display);font-weight:700;font-size:30px}
 .showkid ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:4px;font-size:15px}
+.calhead{display:grid;grid-template-columns:44px 1fr 44px;align-items:center;text-align:center}
+.calhead button{background:var(--panel2);border:1px solid var(--line);border-radius:8px;height:40px;font-size:20px;font-weight:800}
+.calgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.calgrid .dh{font-size:11.5px;color:var(--muted);text-align:center;font-weight:700}
+.cday{aspect-ratio:1;border-radius:8px;background:var(--panel2);border:1px solid transparent;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;padding:0;position:relative;min-width:0}
+.cday .dn{font-size:11px;color:var(--muted);line-height:1}
+.cday .cn{font-family:var(--display);font-size:16px;line-height:1}
+.cday.l1{background:color-mix(in srgb,var(--accent) 22%,var(--panel2))}.cday.l2{background:color-mix(in srgb,var(--accent) 45%,var(--panel2))}.cday.l3{background:color-mix(in srgb,var(--accent) 70%,var(--panel2))}.cday.full{background:var(--gold);color:var(--ink)}.cday.full .dn{color:var(--ink)}
+.cday.today{border-color:var(--fg)}.cday.sel{box-shadow:0 0 0 2px var(--gold)}
+.cday .dot{position:absolute;top:4px;right:4px;width:6px;height:6px;border-radius:50%;background:var(--vigor)}
+.cday.out{visibility:hidden}
+.evrow{display:flex;justify-content:space-between;align-items:center;gap:8px;background:var(--panel2);border-radius:8px;padding:8px 10px}
+.piggy{display:grid;grid-template-columns:1fr auto;gap:6px 10px;align-items:center;background:var(--panel);border:1px solid color-mix(in srgb,var(--vigor) 45%,var(--line));border-radius:12px;padding:10px 12px}
+.piggy b{font-weight:800}.piggy .hb{grid-column:1/-1;height:8px;border-radius:2px;background:var(--panel2);overflow:hidden}.piggy .hb i{display:block;height:100%;background:var(--vigor)}
 .pinrow{display:flex;gap:8px}.pinrow input{flex:1;letter-spacing:.4em;font-family:var(--display);font-size:22px;text-align:center}
 .mlist{display:flex;flex-direction:column;gap:6px}
 .mrow{display:flex;justify-content:space-between;align-items:center;gap:8px;background:var(--panel2);border-radius:8px;padding:8px 10px}
@@ -609,6 +623,7 @@ input,select{background:var(--panel2);border:1px solid var(--inline);border-radi
       <div class="view" id="casaPanel" hidden></div>
       <div class="card" id="ageAsk" hidden></div>
       <button class="herostrip" id="heroStrip" type="button" hidden></button>
+      <div class="piggy" id="piggy" hidden></div>
       <div class="card racecard" id="raceCard" hidden></div>
 
       <form class="qa" id="qaForm" autocomplete="off">
@@ -683,16 +698,38 @@ input,select{background:var(--panel2);border:1px solid var(--inline);border-radi
       </div>
     </section>
 
-    <section role="tabpanel" id="p-obj" aria-labelledby="t-obj" hidden>
+    <section role="tabpanel" id="p-cal" aria-labelledby="t-cal" hidden>
+      <div class="card">
+        <div class="calhead"><button type="button" id="calPrev" aria-label="Mês anterior">‹</button><h2 id="calTitle"></h2><button type="button" id="calNext" aria-label="Próximo mês">›</button></div>
+        <div class="calgrid" id="calGrid"></div>
+        <div class="legend"><span><i style="background:var(--panel2)"></i>nada</span><span><i style="background:color-mix(in srgb,var(--accent) 45%,var(--panel2))"></i>alguns hábitos</span><span><i style="background:var(--gold)"></i>dia cheio de todos</span><span><i style="background:var(--vigor);border-radius:50%"></i>tarefa ou data</span></div>
+      </div>
+      <div class="card" id="calDay"></div>
+      <div class="card">
+        <h2>Datas da casa</h2>
+        <div class="small info">Aniversários, consultas, provas, viagens. Aparecem no calendário de todos os perfis desta conta.</div>
+        <div class="goals" id="evList"></div>
+        <form class="form" id="evForm">
+          <label class="full">O quê<input id="ev-name" maxlength="50" required placeholder="Ex.: Aniversário da Emily"></label>
+          <label>Quando<input id="ev-date" type="date" required></label>
+          <label style="flex-direction:row;align-items:center;gap:8px;align-self:end"><input id="ev-year" type="checkbox" style="width:auto"> Todo ano</label>
+          <button class="btn full" type="submit">Adicionar data</button>
+        </form>
+      </div>
+      <button class="linkbtn" type="button" id="goMetas">Metas e bosses dos vícios ›</button>
+    </section>
+
+    <section role="tabpanel" id="p-obj" hidden>
+      <button class="btn ghost sm backbtn" id="metasBack" type="button">← Voltar</button>
       <div class="card" id="viceCard" hidden><h2>Bosses dos vícios</h2><div class="vices" id="viceList"></div></div>
       <h2>Em andamento</h2>
       <div class="goals" id="goalList"></div>
       <div class="card">
-        <h2>Novo objetivo</h2>
-        <div class="small">Para alvos maiores, que levam semanas ou meses. Para algo do dia, use o "+ Adicionar" na aba Hoje.</div>
+        <h2>Nova meta</h2>
+        <div class="small">Para alvos com número, que levam semanas ou meses (ex.: ler 12 livros). Para algo do dia, use o "+ Adicionar" na aba Hoje.</div>
         <div class="sugs" id="sugs"></div>
         <form class="form" id="goalForm">
-          <label class="full">Objetivo<input id="gf-name" required maxlength="70" placeholder="Ex.: Ler 12 livros em 2026"></label>
+          <label class="full">Meta<input id="gf-name" required maxlength="70" placeholder="Ex.: Ler 12 livros em 2026"></label>
           <label class="full">Como avança<select id="gf-habit"></select></label>
           <label>Meta<input id="gf-target" type="number" min="1" max="1000" value="10"></label>
           <label>Unidade<input id="gf-unit" maxlength="20" placeholder="livros, vezes, km"></label>
@@ -704,7 +741,7 @@ input,select{background:var(--panel2);border:1px solid var(--inline);border-radi
             <option value="1000">Épica · 1000 XP</option>
           </select></label>
           <label class="full" id="gf-attrWrap">Atributo que ganha o XP<select id="gf-attr"></select></label>
-          <button class="btn full" type="submit">Criar objetivo</button>
+          <button class="btn full" type="submit">Criar meta</button>
         </form>
       </div>
       <div id="wonWrap" hidden><h2 style="margin-bottom:8px">Conquistados</h2><div class="goals" id="wonList"></div></div>
@@ -718,6 +755,7 @@ input,select{background:var(--panel2);border:1px solid var(--inline);border-radi
         <button type="button" data-sub="hist" aria-pressed="false">Status</button>
       </div>
       <div id="sub-ficha" class="view">
+        <button class="linkbtn" type="button" data-gometas="1">Metas e bosses dos vícios ›</button>
         <div class="sheet">
           <div class="avatar" id="avatar" aria-label="Seu avatar"></div>
           <div class="who">
@@ -859,7 +897,7 @@ input,select{background:var(--panel2);border:1px solid var(--inline);border-radi
         <div class="head"><h2 id="famName">Família</h2><button class="btn ghost sm" id="famLeave" type="button">Sair da família</button></div>
         <div class="form roleui" data-rolebox="2"><label>Quem é você na família<select id="fr-sel2"></select></label><label id="fr-otherW2" hidden>Como chamar<input id="fr-other2" maxlength="16" placeholder="Ex.: Papai, Vovó"></label></div>
         <div class="small">Código para quem vai entrar (inclusive os outros perfis desta conta):</div>
-        <div class="head"><span class="code" id="famCode"></span><button class="btn ghost sm" id="famCopy" type="button">Copiar</button></div>
+        <div class="head"><span class="code" id="famCode"></span><span style="display:flex;gap:6px"><button class="btn ghost sm" id="famCopy" type="button">Copiar</button><button class="btn sm" id="famWa" type="button">WhatsApp</button></span></div>
         <div class="small" id="famGateTxt"></div>
         <div id="famAdmin" hidden>
           <div id="famPendW" hidden><h3 class="small" style="font-weight:700;color:var(--fg)">Pedidos para entrar</h3><div class="mlist" id="famPend"></div></div>
@@ -928,6 +966,7 @@ input,select{background:var(--panel2);border:1px solid var(--inline);border-radi
         <div class="small" id="whoLine"></div>
         <div class="small" id="acctLine2"></div>
         <div class="head"><button class="btn ghost sm" id="btnSwitch2" type="button">Trocar perfil</button><button class="btn ghost sm" id="btnLogout2" type="button">Sair da conta</button></div>
+        <button class="linkbtn" id="btnExport" type="button">Baixar meus dados</button>
         <button class="linkbtn" id="btnDelProf" type="button">Apagar este perfil</button>
         <button class="linkbtn" data-delacct="1" type="button">Apagar minha conta e todos os dados</button>
         <div class="legal" style="justify-content:flex-start"><a href="politica.html" target="_blank" rel="noopener">Política de privacidade</a><a href="excluir-conta.html" target="_blank" rel="noopener">Como apagar a conta</a></div>
@@ -941,7 +980,7 @@ input,select{background:var(--panel2);border:1px solid var(--inline);border-radi
 
     <nav class="tabs" role="tablist" id="tabs" aria-label="Menu">
       <button class="tab" role="tab" id="t-hoje" aria-selected="true" aria-controls="p-hoje"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.6 2.6L16.5 9"/></svg><span>Hoje</span></button>
-      <button class="tab" role="tab" id="t-obj" aria-selected="false" aria-controls="p-obj"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/></svg><span>Objetivos</span></button>
+      <button class="tab" role="tab" id="t-cal" aria-selected="false" aria-controls="p-cal"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg><span>Calendário</span></button>
       <button class="tab" role="tab" id="t-char" aria-selected="false" aria-controls="p-char"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4.5 20c1.2-4 4.2-6 7.5-6s6.3 2 7.5 6"/></svg><span>Personagem</span></button>
       <button class="tab" role="tab" id="t-fam" aria-selected="false" aria-controls="p-fam"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 11L12 4l8.5 7"/><path d="M6 9.5V20h12V9.5"/><path d="M10 20v-5h4v5"/></svg><span>Família</span><span class="tbadge" id="famBadge" hidden></span></button>
       <button class="tab" role="tab" id="t-hab" aria-selected="false" aria-controls="p-hab"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"/></svg><span>Ajustes</span></button>
@@ -1614,6 +1653,37 @@ function showKid(opid){ const o=otherProfiles().find(x=>x.id===opid); if(!o) ret
     done:state.habits.filter(h=>!h.archived&&!isAvoid(h)&&(log[h.id]||0)>=(h.target||1)).map(h=>h.name), next:(()=>{ const nx=nextHero(seasonDays()); return nx&&nx.st==='lock'?`Próxima lenda: ${nx.h.n}, ${seasonDays()} de ${nx.h.days} dias`:''; })()}; });
   $('skArt').innerHTML=info.art; $('skName').textContent=info.name||''; $('skLvl').textContent=`${info.tier} · Nível ${info.lvl} · ${info.coins} moedas`; $('skBar').style.width=info.pct+'%';
   $('skDone').innerHTML=info.done.length?info.done.map(n=>`<li>✓ ${esc(n)}</li>`).join(''):'<li class="small">Nada marcado hoje ainda.</li>'; $('skNext').textContent=info.next; $('showKid').hidden=false; }
+/* Calendário da casa */
+let calMonth=null, calSel=null;
+function casaProfiles(){ return [{id:pid,raw:state}].concat(otherProfiles()); }
+function dayStats(k,profs){ let n=0, full=0, ppl=0; const det=[];
+  profs.forEach(({id,raw})=>{ const log=(raw.log||{})[k]||{}; const hs=(raw.habits||[]).filter(h=>!isAvoid(h)); const done=hs.filter(h=>(log[h.id]||0)>=(h.target||1));
+    if(hs.length) ppl++; n+=done.length; if(done.length>=(raw.dailyGoal||3)&&done.length) full++; if(done.length) det.push({name:raw.name,items:done.map(h=>h.name)}); });
+  return {n,full,ppl,det}; }
+const evOn=(e,k)=>e.yearly?e.date.slice(5)===k.slice(5)&&e.date<=k:e.date===k;
+function renderCal(){ const tk=today(); if(!calMonth) calMonth=tk.slice(0,7); if(!calSel) calSel=tk;
+  const [y,m]=calMonth.split('-').map(Number); const first=new Date(y,m-1,1), days=new Date(y,m,0).getDate(); const lead=(first.getDay()+6)%7;
+  $('calTitle').textContent=`${['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'][m-1]} ${y}`;
+  const profs=casaProfiles(), evs=house.events||[]; let cells='';
+  ['S','T','Q','Q','S','S','D'].forEach(d=>cells+=`<span class="dh">${d}</span>`);
+  for(let i=0;i<lead;i++) cells+='<span class="cday out"></span>';
+  for(let d=1;d<=days;d++){ const k=`${y}-${pad(m)}-${pad(d)}`, st=k<=tk?dayStats(k,profs):{n:0,full:0,ppl:0};
+    const tasks=profs.some(p=>(p.raw.tasks||[]).some(t=>t.date===k)), ev=evs.some(e=>evOn(e,k));
+    const lv=st.ppl&&st.full>=st.ppl?'full':st.n>=6?'l3':st.n>=3?'l2':st.n>0?'l1':'';
+    cells+=`<button type="button" class="cday ${lv}${k===tk?' today':''}${k===calSel?' sel':''}" data-cal="${k}"><span class="dn">${d}</span><span class="cn num">${st.n||''}</span>${tasks||ev?'<span class="dot"></span>':''}</button>`; }
+  $('calGrid').innerHTML=cells;
+  const st=calSel<=tk?dayStats(calSel,profs):{n:0,det:[]}; const [sy,sm,sd]=calSel.split('-');
+  const tasks=[]; profs.forEach(p=>(p.raw.tasks||[]).filter(t=>t.date===calSel).forEach(t=>tasks.push({who:p.raw.name,t})));
+  const ev=evs.filter(e=>evOn(e,calSel));
+  $('calDay').innerHTML=`<h2>${sd}/${sm}${calSel===tk?' · hoje':''}</h2>`
+    +(ev.length?ev.map(e=>`<div class="evrow"><span>📅 ${esc(e.name)}</span></div>`).join(''):'')
+    +(tasks.length?`<h3 class="small">Tarefas</h3>`+tasks.map(x=>`<div class="small">${x.t.done?'✓':'○'} ${esc(x.t.name)} · ${esc(x.who||'')}</div>`).join(''):'')
+    +(calSel<=tk?(st.det.length?`<h3 class="small">Quem fez o quê (${st.n} ${st.n===1?'hábito':'hábitos'})</h3>`+st.det.map(x=>`<div class="small"><b style="color:var(--fg)">${esc(x.name||'')}</b>: ${x.items.map(esc).join(', ')}</div>`).join(''):'<div class="small">Nenhum hábito marcado neste dia.</div>'):'<div class="small">Dia que ainda não chegou.</div>');
+  const up=evs.slice().sort((a,b)=>a.date.slice(5)<b.date.slice(5)?-1:1);
+  $('evList').innerHTML=up.length?up.map(e=>`<div class="evrow"><span>${esc(e.name)} · ${e.date.split('-').reverse().slice(0,e.yearly?2:3).join('/')}${e.yearly?' (todo ano)':''}</span><button class="btn ghost sm" type="button" data-evdel="${e.id}">Apagar</button></div>`).join(''):'<div class="small">Nenhuma data cadastrada.</div>'; }
+/* Cofrinho: guardar moedas para um prêmio da casa */
+function renderPiggy(c){ const el=$('piggy'); const r=state.piggy&&(house.rewards||[]).find(x=>x.id===state.piggy&&!x.ult); el.hidden=!r; if(!r) return;
+  const got=Math.min(c.coins,r.cost); el.innerHTML=`<span><b>Cofrinho: ${esc(r.name)}</b><span class="small num" style="display:block">${got} de ${r.cost} moedas${c.coins>=r.cost?' · já dá para pedir na aba Família':''}</span></span><button class="linkbtn" type="button" data-piggyoff="1">Trocar</button><span class="hb"><i style="width:${Math.round(100*got/Math.max(1,r.cost))}%"></i></span>`; }
 function renderHeroStrip(){ const el=$('heroStrip'); const days=seasonDays(); const nx=nextHero(days); if(!nx){ el.hidden=true; return; }
   const {h,st}=nx; el.hidden=false;
   if(st==='soon'){ const d=parseKey(heroRelDate(h)); el.innerHTML=`<span class="prev soon">?</span><span><b>Nova lenda chega em ${MESES[d.getMonth()]}/${d.getFullYear()}</b><span class="small">${days} dias de uso na temporada</span></span><span class="go">Lendas ›</span>`; return; }
@@ -1940,6 +2010,9 @@ function watchFamily(){
   if(unsubDuos){ unsubDuos(); unsubDuos=null; } duos=[];
   unsubDuos=B.duosWatch(fid,d=>{ duos=d; if(view==='app') render(); });
 }
+function runShortcut(){ const m=location.search.match(/[?&]acao=(\w+)/); if(!m||runShortcut.done) return; runShortcut.done=true;
+  if(m[1]==='familia') goTab('fam'); else if(m[1]==='casa'){ homeMode='casa'; goTab('hoje'); } else if(m[1]==='adicionar'){ goTab('hoje'); setTimeout(()=>{ try{ $('qa-name').focus(); }catch(e){} },200); }
+  try{ history.replaceState(null,'',location.pathname); }catch(e){} }
 function openProfile(id){
   if(dirty){ clearTimeout(timer); flush(); }
   if(unsubProf) unsubProf();
@@ -1950,7 +2023,7 @@ function openProfile(id){
     if(meta.hasPendingWrites||dirty) return;
     if(d){ delete d.summary; delete d.updatedAt; state=normalize(d); view='app';
       if(first||famId!==state.familyId){ famId=state.familyId; watchFamily(); }
-      render(); if(first) setTimeout(syncPush,1500); if(first) setSync(B.demo?'Modo demonstração: salvo só neste aparelho':(meta.fromCache?'Carregado do aparelho':'Salvo na sua conta')); }
+      render(); if(first) setTimeout(runShortcut,300); if(first) setTimeout(syncPush,1500); if(first) setSync(B.demo?'Modo demonstração: salvo só neste aparelho':(meta.fromCache?'Carregado do aparelho':'Salvo na sua conta')); }
     else if(first&&!meta.fromCache) goProfiles();
     first=false;
   },e=>setSync('Erro ao carregar: '+(e&&e.code||'')));
@@ -2487,7 +2560,7 @@ function renderHouse(c){
   const adult=!state.kid, rw=house.rewards||[], reqs=house.requests||[];
   $('hcoins').textContent=c.coins;
   $('houseHint').textContent=rw.length?'Troque moedas por prêmios combinados em casa. O pedido fica guardado até um adulto aprovar.':(adult?'Cadastre prêmios combinados com a família, como escolher o filme de sábado. Os perfis desta conta pedem com moedas e um adulto aprova.':'Ainda não tem prêmios cadastrados. Peça para um adulto criar alguns.');
-  $('rewardList').innerHTML=rw.map(r=>r.ult?`<div class="gl" style="--c:var(--accent)"><div class="grow"><span class="gn">${esc(r.name)}</span><span style="display:flex;gap:6px;align-items:center"><span class="small">Ganha ao soltar o especial</span>${adult?`<button class="btn ghost sm" data-rwdel="${r.id}" type="button">Remover</button>`:''}</span></div></div>`:`<div class="gl" style="--c:var(--gold)"><div class="grow"><span class="gn">${esc(r.name)}</span><span style="display:flex;gap:6px;align-items:center"><span class="small num">${r.cost} moedas</span><button class="btn sm" data-rwask="${r.id}" type="button" ${c.coins<r.cost||c.boss.dead?'disabled':''}>Pedir</button>${adult?`<button class="btn ghost sm" data-rwdel="${r.id}" type="button">Remover</button>`:''}</span></div></div>`).join('');
+  $('rewardList').innerHTML=rw.map(r=>r.ult?`<div class="gl" style="--c:var(--accent)"><div class="grow"><span class="gn">${esc(r.name)}</span><span style="display:flex;gap:6px;align-items:center"><span class="small">Ganha ao soltar o especial</span>${adult?`<button class="btn ghost sm" data-rwdel="${r.id}" type="button">Remover</button>`:''}</span></div></div>`:`<div class="gl" style="--c:var(--gold)"><div class="grow"><span class="gn">${esc(r.name)}${state.piggy===r.id?' <span class="small">· no cofrinho</span>':''}</span><span style="display:flex;gap:6px;align-items:center"><span class="small num">${r.cost} moedas</span><button class="btn ghost sm" data-piggy="${r.id}" type="button">${state.piggy===r.id?'Tirar do cofrinho':'Cofrinho'}</button><button class="btn sm" data-rwask="${r.id}" type="button" ${c.coins<r.cost||c.boss.dead?'disabled':''}>Pedir</button>${adult?`<button class="btn ghost sm" data-rwdel="${r.id}" type="button">Remover</button>`:''}</span></div></div>`).join('');
   const mine=reqs.filter(q=>q.pid===pid&&q.uid===uid).slice(-5).reverse();
   const st={pending:'aguardando aprovação',ok:'aprovado',no:'recusado, moedas devolvidas'};
   $('reqMine').innerHTML=mine.length?`<h3 class="small">Seus pedidos</h3><div class="goals">${mine.map(q=>`<div class="grow small"><span>${esc(q.name)} · ${q.cost} moedas</span><span style="display:flex;gap:6px;align-items:center"><span style="color:${q.status==='ok'?'var(--good)':q.status==='no'?'var(--accent)':'var(--muted)'}">${st[q.status]}</span>${q.status==='pending'?`<button class="btn ghost sm" data-rqcancel="${q.id}" type="button">Cancelar</button>`:''}</span></div>`).join('')}</div>`:'';
@@ -2739,8 +2812,9 @@ function render(){
   if(aiming){ $('tour').hidden=true; $('daily').hidden=true; renderAims(); return; }
   if(picking){ $('daily').hidden=true; renderClassPick(); return; }
   checkHeroes(); renderFamBadge();
-  if(tab==='hoje'){ renderToday(c); renderHeroStrip(); renderAgeAsk(); renderCasa(); renderRace(c); renderQuick(); renderTasks(); renderEditMode(); }
+  if(tab==='hoje'){ renderToday(c); renderHeroStrip(); renderPiggy(c); renderAgeAsk(); renderCasa(); renderRace(c); renderQuick(); renderTasks(); renderEditMode(); }
   if(tab==='obj'){ renderVices(c); renderGoals(); }
+  if(tab==='cal') renderCal();
   if(tab==='char'){ document.querySelectorAll('.charseg [data-sub]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.sub===charSub)); ['ficha','lendas','vis','hist'].forEach(k=>$('sub-'+k).hidden=k!==charSub);
     if(charSub==='vis') renderVisual(c); if(charSub==='lendas') renderHeroes(); if(charSub==='hist'){ renderHist(c); renderTaskHist(); } }
   if(tab==='fam'){ renderFamily(c); renderHouse(c); }
@@ -2850,6 +2924,8 @@ $('jr-save').addEventListener('click',()=>{ const d=viewDay; if(!jrDraft||d<minE
 $('sumBanner').addEventListener('click',e=>{ if(!e.target.closest('#sumClose')) return; const now=new Date(); const sk=now.getDay()===0?weekKey():keyOf(addDays(mondayOf(now),-7)); state.summarySeen[sk]=true; save(); render(); });
 $('village').addEventListener('click',e=>{ const b=e.target.closest('[data-mem]'); if(!b) return; selMember=selMember===b.dataset.mem?null:b.dataset.mem; render(); });
 $('famScene').addEventListener('change',e=>{ if(!state.familyId||!B.famUpdate) return; const v=e.target.value; if(fam) fam.scene=v; B.famUpdate(state.familyId,{scene:v}).catch(()=>toast('Só quem criou a família pode trocar o cenário')); render(); });
+$('famWa').addEventListener('click',()=>{ const url=location.origin+location.pathname; const msg=`Entra na nossa família no Nossa Jornada, o app de rotina da casa em forma de jogo! Abra ${url}, crie sua conta, vá na aba Família e use o código ${state.familyId}.`;
+  window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank','noopener'); });
 $('famCopy').addEventListener('click',async()=>{ try{ await navigator.clipboard.writeText(state.familyId); toast('Código copiado'); }catch(e){ const r=document.createRange(); r.selectNodeContents($('famCode')); const s=getSelection(); s.removeAllRanges(); s.addRange(r); } });
 $('famLeave').addEventListener('click',e=>{ const b=e.currentTarget; if(!b.dataset.confirm){ b.dataset.confirm='1'; b.textContent='Confirmar saída'; setTimeout(()=>{ delete b.dataset.confirm; b.textContent='Sair da família'; },3000); return; }
   delete b.dataset.confirm; b.textContent='Sair da família';
@@ -2895,6 +2971,19 @@ document.addEventListener('click',e=>{ const b=e.target.closest('[data-hero]'); 
   if(id&&!(state.heroes||{})[id]) return; state.equipped.hero=id||''; save(); render(); toast(id?`Agora você é ${HERO[id].n}`:'Voltou para o seu avatar'); });
 $('heroDemo').addEventListener('click',()=>{ heroDemoAll=true; render(); });
 $('heroStrip').addEventListener('click',()=>{ charSub='lendas'; goTab('char'); });
+$('calGrid').addEventListener('click',e=>{ const b=e.target.closest('[data-cal]'); if(!b) return; calSel=b.dataset.cal; renderCal(); });
+$('calPrev').addEventListener('click',()=>{ const [y,m]=calMonth.split('-').map(Number); const d=new Date(y,m-2,1); calMonth=`${d.getFullYear()}-${pad(d.getMonth()+1)}`; renderCal(); });
+$('calNext').addEventListener('click',()=>{ const [y,m]=calMonth.split('-').map(Number); const d=new Date(y,m,1); calMonth=`${d.getFullYear()}-${pad(d.getMonth()+1)}`; renderCal(); });
+$('evForm').addEventListener('submit',e=>{ e.preventDefault(); const n=$('ev-name').value.trim(), d=$('ev-date').value; if(!n||!d) return;
+  house.events=(house.events||[]).concat([{id:'e'+Date.now().toString(36),name:n.slice(0,50),date:d,yearly:$('ev-year').checked}]).slice(-200); $('ev-name').value=''; $('ev-date').value=''; $('ev-year').checked=false; saveHouse(); toast('Data adicionada'); });
+$('evList').addEventListener('click',e=>{ const b=e.target.closest('[data-evdel]'); if(!b) return; house.events=(house.events||[]).filter(x=>x.id!==b.dataset.evdel); saveHouse(); });
+$('goMetas').addEventListener('click',()=>goTab('obj'));
+document.addEventListener('click',e=>{ if(e.target.closest('[data-gometas]')) goTab('obj'); });
+$('metasBack').addEventListener('click',()=>{ goTab('cal'); });
+$('piggy').addEventListener('click',e=>{ if(e.target.closest('[data-piggyoff]')){ state.piggy=null; save(); render(); goTab('fam'); } });
+$('rewardList').addEventListener('click',e=>{ const b=e.target.closest('[data-piggy]'); if(!b) return; state.piggy=state.piggy===b.dataset.piggy?null:b.dataset.piggy; save(); render(); toast(state.piggy?'Prêmio no cofrinho: acompanhe na aba Hoje':'Cofrinho vazio'); });
+$('btnExport').addEventListener('click',()=>{ const data={exportadoEm:new Date().toISOString(),conta:uid,perfis:(rawProfiles||[]).map(d=>Object.assign({id:d.id},d.id===pid?state:d.data)),casa:Object.assign({},house,{pin:house.pin?'(guardada só como resumo)':undefined})};
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='nossa-jornada-meus-dados.json'; document.body.appendChild(a); a.click(); setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); },500); toast('Arquivo com seus dados baixado'); });
 $('homeSeg').addEventListener('click',e=>{ const b=e.target.closest('[data-home]'); if(!b) return; homeMode=b.dataset.home; editMode=false; render(); try{ window.scrollTo({top:0}); }catch(err){} });
 $('casaPanel').addEventListener('click',e=>{ const r=e.target.closest('[data-ohid]'); if(r){ markFor(r.dataset.opid,r.dataset.ohid); return; }
   const sh=e.target.closest('[data-show]'); if(sh){ showKid(sh.dataset.show); return; }
