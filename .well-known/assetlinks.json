@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "io.github.samuelborzeto.familia",
+      "sha256_cert_fingerprints": [
+        "2B:82:63:88:01:29:5B:C5:25:F6:78:B0:04:E8:7A:1D:AD:53:EC:26:C7:6E:1D:C6:EB:CE:15:D8:62:08:DD:B6"
+      ]
+    }
+  }
+]
