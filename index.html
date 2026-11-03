@@ -1814,6 +1814,7 @@ function compute(){
   (state.ultReleases||[]).forEach(r=>{ if(relEff(r)==='bless'){ extra[r.at]=(extra[r.at]||0)+BLESSXP; attr.familia+=BLESSXP; if(r.at>=wk) weekXP+=BLESSXP; } });
   for(const r of Object.values(state.blessRecv||{})){ extra[r.at]=(extra[r.at]||0)+r.xp; attr.familia+=r.xp; if(r.at>=wk) weekXP+=r.xp; }
   const taskDay={}; (state.tasks||[]).forEach(t=>{ if(t.done&&t.doneAt) taskDay[t.doneAt]=(taskDay[t.doneAt]||0)+1; }); Object.values(state.sharedDone||{}).forEach(dd=>{ taskDay[dd]=(taskDay[dd]||0)+1; });
+  Object.entries(state.sharedBonus||{}).forEach(([k,xp])=>{ const dd=k.split('|')[1]; extra[dd]=(extra[dd]||0)+xp; attr.familia+=xp; if(dd>=wk) weekXP+=xp; });
   for(const [d,n] of Object.entries(taskDay)) extra[d]=(extra[d]||0)+TASKXP*Math.min(n,TASKMAX);
   const vices={}; let vicesWon=0, viceBest=0;
   state.habits.filter(isAvoid).forEach(h=>{ const v=viceStats(h); vices[h.id]=v; viceBest=Math.max(viceBest,v.best);
@@ -2057,7 +2058,7 @@ function nextToast(){ const m=toastQ.shift(); const t=$('toast'); if(!m){ t.hidd
 function jump(){ ['avatar','miniAv'].forEach(id=>{ const a=$(id); if(!a) return; a.classList.remove('jump'); void a.offsetWidth; a.classList.add('jump'); }); }
 
 function memberData(c){
-  return {name:state.name,cls:state.cls,spec:state.spec,lvl:c.p.lvl,ws:c.ws,eq:state.equipped,kid:!!state.kid,prestige:state.prestige||0,bless:(state.ultReleases||[]).filter(r=>relEff(r)==='bless').slice(-10).map(r=>({id:r.id,at:r.at})),boss:c.boss.status,bossType:c.boss.type,streak:c.streak,al:Object.fromEntries(AKEYS.map(k=>[k,c.al[k].lvl])),won:c.won,achs:state.ach.length,week:weekKey(),weekXP:c.weekXP,weekAttr:c.weekAttr,weekPts:c.weekPts,prevPts:c.prevPts,todayPts:c.todayPts,fullAt:state.fullAt[today()]?{d:today(),at:state.fullAt[today()]}:null,role:state.famRole||'',duel:duelMemberData(),updatedAt:Date.now()};
+  return {name:state.name,cls:state.cls,spec:state.spec,lvl:c.p.lvl,ws:c.ws,eq:state.equipped,kid:!!state.kid,prestige:state.prestige||0,bless:(state.ultReleases||[]).filter(r=>relEff(r)==='bless').slice(-10).map(r=>({id:r.id,at:r.at})),boss:c.boss.status,bossType:c.boss.type,streak:c.streak,al:Object.fromEntries(AKEYS.map(k=>[k,c.al[k].lvl])),won:c.won,achs:state.ach.length,week:weekKey(),weekXP:c.weekXP,weekAttr:c.weekAttr,weekPts:c.weekPts,prevPts:c.prevPts,todayPts:c.todayPts,fullAt:state.fullAt[today()]?{d:today(),at:state.fullAt[today()]}:null,role:state.famRole||'',duel:duelMemberData(),shared:sharedMemberData(),updatedAt:Date.now()};
 }
 /* Contadores de uso para o relatório do teste: só números por dia, sem texto */
 function viaNow(){ try{ if(document.referrer.startsWith('android-app://')||sessionStorage.getItem('jornada-twa')){ sessionStorage.setItem('jornada-twa','1'); return 'loja'; } }catch(e){}
@@ -2219,7 +2220,7 @@ function checkFamily(c){
   members.filter(x=>x.id!==me).forEach(x=>(x.bless||[]).forEach(b=>{ if(!state.blessRecv[b.id]&&b.at>=state.created&&b.at>=keyOf(addDays(new Date(),-7))){ state.blessRecv[b.id]={xp:BLESSXP,at:today(),from:x.name}; toast(`${x.name||'Alguém'} usou Bênção: +${BLESSXP} XP para você`); save(); } }));
   const m=famMission(c);
   if(m.progress>=m.target&&!state.famRewards[m.wk]){ state.famRewards[m.wk]={xp:FAMREWARD,attr:m.attr,target:m.target,progress:m.progress}; toast(`Missão em família concluída! +${FAMREWARD} XP`); jump(); save(); }
-  checkDuels();
+  checkDuels(); checkSharedBonus();
   duoStatus(m).forEach(d=>{ if(d.mine&&d.done&&!state.duoRewards[d.id]){ state.duoRewards[d.id]={xp:DUOREWARD,attr:d.attr,at:today()}; toast(`Desafio em família concluído! +${DUOREWARD} XP`); jump(); save(); } });
 }
 function duoStatus(m){
@@ -2378,7 +2379,7 @@ function renderToday(c){
       <button class="main" data-act="${t>1?(done?'none':'plus'):'toggle'}" aria-pressed="${done}">
         ${isQ?`<span class="quest">Missão do dia ×${qm}</span>`:''}
         <span class="hn">${esc(h.name)}</span>${pendH?'<span class="pendnote">Esperando um adulto confirmar</span>':''}
-        <span class="meta"><span class="a">${a.n}</span>${h.block?`<span>${{m:'manhã',t:'tarde',n:'noite'}[h.block]}</span>`:''}${h.time?`<span>às ${h.time}</span>`:''}${h.why&&AIM_SHORT[h.why]?`<span class="whyc">${AIM_SHORT[h.why]}</span>`:''}${h.follow&&followTxt(h.follow)?`<span class="whyc">${esc(followTxt(h.follow))}</span>`:''}${h.wk?`<span>${wkMet?'meta da semana cumprida':`${wd} de ${h.wk} na semana`}</span>`:''}<span class="${boosted?'boost':''}">${wkMet?'sem XP extra esta semana':`+${isQ?base*qm:base} XP${boosted?' (classe)':''}`}</span>${t>1?`<span>${t} ${esc(h.unit||'')}</span>`:''}${st>1?`<span>${st} dias seguidos</span>`:''}</span>
+        <span class="meta"><span class="a">${a.n}</span>${h.block?`<span>${{m:'manhã',t:'tarde',n:'noite'}[h.block]}</span>`:''}${h.time?`<span>às ${h.time}</span>`:''}${h.why&&AIM_SHORT[h.why]?`<span class="whyc">${AIM_SHORT[h.why]}</span>`:''}${h.follow&&followTxt(h.follow)?`<span class="whyc">${esc(followTxt(h.follow))}</span>`:''}${h.shared&&d===today()&&sharedTxt(h)?`<span class="whyc">${esc(sharedTxt(h))}</span>`:''}${h.wk?`<span>${wkMet?'meta da semana cumprida':`${wd} de ${h.wk} na semana`}</span>`:''}<span class="${boosted?'boost':''}">${wkMet?'sem XP extra esta semana':`+${isQ?base*qm:base} XP${boosted?' (classe)':''}`}</span>${t>1?`<span>${t} ${esc(h.unit||'')}</span>`:''}${st>1?`<span>${st} dias seguidos</span>`:''}</span>
         ${dots}
       </button>
       <div class="side">${side}</div>
@@ -2681,7 +2682,9 @@ function renderDuos(m){
   $('duoForm').querySelector('button[type=submit]').disabled=!duSel.length||!hs.length;
 }
 function renderInvites(){ const me=myMid(), inv=myDuels().filter(d=>d.status==='convite'&&d.b===me); const tv=ftMine().filter(t=>!(t.acc||{})[me]&&!t.done);
-  $('inviteArea').innerHTML=inv.length?`<button class="banner invb" type="button" data-gofam="1">⚔️ ${esc(nameOf(inv[0].a,inv[0].names))} te desafiou para um duelo. Toque para ver</button>`:''; }
+  const hi=fhMine().filter(t=>!(t.acc||{})[me]);
+  $('inviteArea').innerHTML=(inv.length?`<button class="banner invb" type="button" data-gofam="1">⚔️ ${esc(nameOf(inv[0].a,inv[0].names))} te desafiou para um duelo. Toque para ver</button>`:'')
+    +hi.map(t=>{ const hb=t.hab||{}, per=hb.wk?`${hb.wk} vezes por semana`:hb.days&&hb.days.length<7?'alguns dias da semana':'todo dia'; return `<div class="habit task invite" data-ftid="${t.id}"><span class="stripe"></span><div class="main" style="cursor:default"><span class="hn">${esc(t.name)}</span><span class="meta"><span class="ttag junto">Hábito junto</span><span>${esc(nameOf(t.by,t.names))} quer fazer junto · ${per}</span></span></div><div class="side"><button class="btn ghost sm" data-ftno="1" type="button">Recusar</button><button class="btn sm" data-ftacc="1" type="button">Aceitar</button></div></div>`; }).join(''); }
 $('du-mems').addEventListener('click',e=>{ const b=e.target.closest('[data-dumem]'); if(!b||b.disabled) return; const id=b.dataset.dumem; duSel=duSel.includes(id)?[]:[id]; render(); });
 function renderHouse(c){
   const adult=!state.kid, rw=house.rewards||[], reqs=house.requests||[];
@@ -2840,7 +2843,19 @@ const myMid=()=>uid+'_'+pid;
 const joinN=ns=>ns.length<=1?(ns[0]||''):ns.slice(0,-1).join(', ')+' e '+ns[ns.length-1];
 function nameOf(mid,names){ const nk=(state.nicks||{})[mid]; if(nk) return nk; const m=members.find(x=>x.id===mid); return (m&&m.name)||(names||{})[mid]||'alguém'; }
 const famOthers=()=>state.familyId&&fam&&myFamStatus()==='in'?members.filter(m=>m.id!==myMid()):[];
-function ftMine(){ const me=myMid(); return famTasks.filter(t=>(t.mids||[]).includes(me)&&!(t.no||{})[me]); }
+function ftMine(){ const me=myMid(); return famTasks.filter(t=>t.kind!=='hab'&&(t.mids||[]).includes(me)&&!(t.no||{})[me]); }
+function fhMine(){ const me=myMid(); return famTasks.filter(t=>t.kind==='hab'&&(t.mids||[]).includes(me)&&!(t.no||{})[me]); }
+const SHARED_BONUS=10;
+function sharedMemberData(){ const out={}, tk=today(), lg=state.log[tk]||{}; state.habits.filter(h=>h.shared&&!h.archived).forEach(h=>{ out[h.shared]=(lg[h.id]||0)>=(h.target||1)?tk:''; }); return out; }
+function sharedPartners(h){ const me=myMid(), doc=famTasks.find(x=>x.id===h.shared); if(!doc) return []; const tk=today();
+  return (doc.mids||[]).filter(x=>x!==me&&!(doc.no||{})[x]).map(x=>{ const m=members.find(y=>y.id===x); return {id:x,name:nameOf(x,doc.names),acc:!!(doc.acc||{})[x],done:!!(m&&m.shared&&m.shared[h.shared]===tk)}; }); }
+function sharedTxt(h){ const ps=sharedPartners(h); if(!ps.length) return ''; return ps.map(p=>!p.acc?`esperando ${p.name} aceitar`:p.done?`✓ ${p.name} já fez hoje`:`${p.name} ainda não fez hoje`).join(' · '); }
+function checkSharedBonus(){ const tk=today(), lg=state.log[tk]||{}; state.habits.filter(h=>h.shared&&!h.archived&&(lg[h.id]||0)>=(h.target||1)).forEach(h=>{ const k=h.shared+'|'+tk; if((state.sharedBonus||{})[k]) return; const ps=sharedPartners(h).filter(p=>p.acc); if(!ps.length||!ps.every(p=>p.done)) return;
+  state.sharedBonus=Object.assign({},state.sharedBonus,{[k]:SHARED_BONUS}); save(); toast(`Vocês fizeram "${h.name}" juntos hoje: +${SHARED_BONUS} XP`); }); }
+function mkSharedHab(nh,withIds){ const me=myMid(), id=B.newColId(), names={[me]:state.name||''}; withIds.forEach(x=>{ const m=members.find(y=>y.id===x); names[x]=(m&&m.name)||''; });
+  const mids=[me].concat(withIds), uids=[...new Set(mids.map(uidOf))]; nh.shared=id;
+  const hab={name:nh.name,attr:nh.attr,xp:nh.xp,target:nh.target,unit:nh.unit||'',time:nh.time||null}; if(nh.days) hab.days=nh.days; if(nh.wk) hab.wk=nh.wk;
+  return B.colSet(state.familyId,'tasks',id,{kind:'hab',name:nh.name,hab,createdBy:uid,by:me,names,mids,uids,acc:{[me]:true},no:{},createdAt:Date.now()}); }
 function followTxt(f){ if(!f) return ''; const o=otherProfiles().find(x=>x.id===f.pid); if(!o) return ''; const nm=o.raw.name||'';
   if(f.kind==='task'){ const kt=(o.raw.tasks||[]).find(x=>x.id===f.id); if(!kt) return `${nm} apagou a tarefa`; return kt.done?`✓ ${nm} concluiu, falta você conferir`:`${nm} ainda não concluiu`; }
   const kh=(o.raw.habits||[]).find(x=>x.id===f.id); if(!kh) return ''; const n=((o.raw.log||{})[today()]||{})[f.id]||0, pd=(((o.raw.pend||{})[today()])||{})[f.id];
@@ -2864,6 +2879,9 @@ function renderTasks(){
   $('taskList').innerHTML=invH+sH+oH+dH+(lat.length?`<div class="small">${lat.length===1?'1 tarefa marcada':`${lat.length} tarefas marcadas`} para os próximos dias: ${lat.slice(0,3).join(', ')}${lat.length>3?'…':''}</div>`:'');
 }
 function ftAct(t,act){ const me=myMid(), fid=state.familyId; if(!fid) return;
+  if(act==='acc'&&t.kind==='hab'){ if(state.habits.filter(h=>!h.archived).length>=MAXHABITS){ toast(`Limite de ${MAXHABITS} hábitos ativos. Arquive um antes de aceitar.`); return; }
+    if(!state.habits.some(h=>h.shared===t.id)){ const hb=t.hab||{}; const nh={id:'h'+Date.now().toString(36)+Math.random().toString(36).slice(2,4),name:t.name,attr:hb.attr||'familia',xp:hb.xp||20,target:hb.target||1,unit:hb.unit||'',created:today(),time:hb.time||null,shared:t.id}; if(hb.days) nh.days=hb.days; if(hb.wk) nh.wk=hb.wk; state.habits.push(nh); syncTodaySum(); save(); render(); }
+    B.colUpdate(fid,'tasks',t.id,{[`acc.${me}`]:true,[`names.${me}`]:state.name||''}).then(()=>toast('Hábito aceito. Ele entrou na sua lista de hábitos')).catch(()=>toast('Não foi possível aceitar')); return; }
   if(act==='acc'){ B.colUpdate(fid,'tasks',t.id,{[`acc.${me}`]:true,[`names.${me}`]:state.name||''}).then(()=>toast('Tarefa aceita. Ela aparece para vocês 2')).catch(()=>toast('Não foi possível aceitar')); return; }
   if(act==='no'){ B.colUpdate(fid,'tasks',t.id,{[`no.${me}`]:true}).then(()=>toast('Convite recusado')).catch(()=>toast('Não foi possível recusar')); return; }
   if(act==='del'){ B.colDelete(fid,'tasks',t.id).then(()=>toast('Tarefa apagada para todos')).catch(()=>toast('Não foi possível apagar')); return; }
@@ -2907,7 +2925,7 @@ function renderQuick(){
   [...$('qa-when').children].forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.when===qaWhen)));
   [...$('qa-qmode').children].forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.qmode===qaQMode)));
   $('qa-dateW').hidden=!(T&&qaWhen==='outra');
-  const fo=T?famOthers():[]; qaWith=qaWith.filter(x=>fo.some(m=>m.id===x)); $('qa-withW').hidden=!fo.length;
+  const fo=T||Hb?famOthers():[]; qaWith=qaWith.filter(x=>fo.some(m=>m.id===x)); $('qa-withW').hidden=!fo.length;
   $('qa-with').innerHTML=fo.map(m=>`<button type="button" data-with="${esc(m.id)}" aria-pressed="${qaWith.includes(m.id)}">${esc(nameOf(m.id,{}))}</button>`).join('');
   $('qa-quitOpts').hidden=!(Q&&qaQMode!=='quit');
   $('nf-startW').hidden=$('nf-goalW').hidden=qaQMode!=='reduce'; $('nf-limW').hidden=qaQMode!=='week'; $('nf-qunitW').hidden=qaQMode==='quit';
@@ -2984,6 +3002,9 @@ function qaCreate(items){
     const one=items[0]; qaReset(); bump('add'); save(); render();
     toast(items.length>1?`${items.length} tarefas adicionadas`:one.date&&one.date>today()?`Tarefa marcada para ${whenLabel(one.date)}`:'Tarefa adicionada'); return; }
   const free=MAXHABITS-state.habits.filter(h=>!h.archived).length;
+  if(qaMode==='hab'&&qaWith.length&&state.familyId&&free>0){ const w=qaWith.slice(), nm=joinN(w.map(x=>nameOf(x,{}))), use=items.slice(0,free); const hs=use.map(it=>mkHabit(it.name)); hs.forEach(h=>state.habits.push(h));
+    Promise.all(hs.map(h=>mkSharedHab(h,w))).catch(()=>toast('Não foi possível enviar o convite'));
+    qaReset(); qaMode='task'; bump('junto'); syncTodaySum(); save(); render(); toast(`${use.length>1?`${use.length} hábitos criados`:'Hábito criado'}. Convite enviado para ${nm}`); return; }
   if(free<=0){ toast(`Limite de ${MAXHABITS} hábitos ativos. Arquive um para criar outro.`); return; }
   const use=items.slice(0,free); use.forEach(it=>state.habits.push(mkHabit(it.name)));
   const q=qaMode==='quit'; qaReset(); qaMode='task'; bump('add'); syncTodaySum(); save(); render();
@@ -3342,7 +3363,7 @@ $('qaForm').addEventListener('submit',e=>{
 });
 document.addEventListener('click',e=>{ if(!e.target.closest('[data-addquit]')) return; qaMode='quit'; qaPrev=null; if(tab!=='hoje') goTab('hoje'); homeMode='eu'; render(); setTimeout(()=>{ try{ $('qaForm').scrollIntoView({block:'center',behavior:'smooth'}); }catch(err){} $('qa-name').focus(); },60); });
 /* Sugestões e problemas enviados pelo app (lidos 1 vez por semana para a próxima rodada) */
-const APPVER='v16'; let fbKind='problema';
+const APPVER='v17'; let fbKind='problema';
 document.addEventListener('click',e=>{ if(!e.target.closest('[data-fb]')) return; fbKind='problema'; document.querySelectorAll('#fbKind [data-fbk]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.fbk===fbKind))); $('fbText').value=''; $('fbBox').hidden=false; setTimeout(()=>$('fbText').focus(),50); });
 $('fbKind').addEventListener('click',e=>{ const b=e.target.closest('[data-fbk]'); if(!b) return; fbKind=b.dataset.fbk; document.querySelectorAll('#fbKind [data-fbk]').forEach(x=>x.setAttribute('aria-pressed',String(x===b))); });
 $('fbCancel').addEventListener('click',()=>{ $('fbBox').hidden=true; });
@@ -3406,7 +3427,7 @@ $('habSugs').addEventListener('click',e=>{ const b=e.target.closest('[data-hsug]
 document.querySelector('.charseg').addEventListener('click',e=>{ const b=e.target.closest('[data-sub]'); if(!b) return; charSub=b.dataset.sub; if(charSub==='lendas') bump('lendas'); render(); });
 $('miniAv').addEventListener('click',()=>{ charSub='ficha'; goTab('char'); });
 $('raceCard').addEventListener('click',e=>{ if(e.target.closest('[data-gofam]')) goTab('fam'); });
-$('inviteArea').addEventListener('click',e=>{ if(e.target.closest('[data-gofam]')) goTab('fam'); });
+$('inviteArea').addEventListener('click',e=>{ if(e.target.closest('[data-gofam]')){ goTab('fam'); return; } const fr=e.target.closest('[data-ftid]'); if(!fr) return; const t=famTasks.find(x=>x.id===fr.dataset.ftid); const b=e.target.closest('[data-ftacc],[data-ftno]'); if(t&&b) ftAct(t,b.dataset.ftacc?'acc':'no'); });
 $('qa-with').addEventListener('click',e=>{ const b=e.target.closest('[data-with]'); if(!b) return; const id=b.dataset.with; qaWith=qaWith.includes(id)?qaWith.filter(x=>x!==id):qaWith.concat([id]); renderQuick(); });
 $('ultOpts').addEventListener('click',e=>{ const b=e.target.closest('[data-uo]'); if(!b||b.disabled) return; const c=compute(); if(c.ultCharge>0) return;
   state.ult=Object.assign({},state.ult||{},{choice:b.dataset.uo}); save(); render(); toast(`Especial: ${curUlt().n}`); });
