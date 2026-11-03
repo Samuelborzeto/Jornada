@@ -181,6 +181,10 @@ section[role=tabpanel],section.panel{display:flex;flex-direction:column;gap:12px
 .daybar button{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:6px 12px;font-size:14px;font-weight:600;color:var(--muted)}
 .daybar button[aria-pressed="true"]{color:var(--bg);background:var(--fg);border-color:var(--fg)}
 .daybar input{width:auto;padding:5px 6px;font-size:14px}
+.sugs button:disabled{opacity:.4;cursor:not-allowed}
+.fblink{align-self:center;margin:6px 0 2px;font-size:14px}
+#fbText{width:100%;resize:vertical;font:inherit;padding:10px;border-radius:8px;border:1px solid var(--line);background:var(--panel2);color:var(--fg)}
+.invb{width:100%;text-align:left;font-weight:700;cursor:pointer}
 .banner{background:color-mix(in srgb,var(--gold) 14%,var(--panel));border:1px solid color-mix(in srgb,var(--gold) 50%,var(--line));border-radius:10px;padding:12px 14px;font-size:15px}
 .goal{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:10px 12px;display:flex;flex-direction:column;gap:6px}
 .pips{display:flex;gap:4px}
@@ -437,6 +441,13 @@ input,select{background:var(--panel2);border:1px solid var(--inline);border-radi
 .herotag{font-size:12px;font-weight:800;border-radius:999px;padding:1px 8px;background:var(--gold);color:var(--ink);align-self:flex-start}
 .qa-row2{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
 .qa-seg{width:100%}
+.qa-with{display:flex;flex-direction:column;gap:6px}
+.chk{flex-direction:row!important;align-items:flex-start;gap:8px}.chk input{width:auto;margin-top:3px}
+.ttag.junto{background:color-mix(in srgb,var(--accent) 18%,transparent);color:var(--fg)}
+.habit.invite{border-style:solid;border-color:var(--gold);grid-template-columns:6px 1fr}
+.habit.invite .side{grid-column:2;justify-content:flex-end;padding:0 12px 12px;gap:8px}
+.duel{display:flex;flex-direction:column;gap:8px}.duel .side2{display:grid;grid-template-columns:1fr auto;gap:2px 8px;align-items:center}
+.duel .wdots i.on{background:var(--gold);border-color:var(--gold)}.duel .wdots i.no{background:var(--forca);border-color:var(--forca);opacity:.6}
 .qa-date{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--muted)}.qa-date input{flex:1}
 .metarow{display:grid;grid-template-columns:auto 72px 1fr;gap:8px;align-items:center}.metarow .mlabel{font-size:14px;color:var(--muted)}
 .qa-prev{display:flex;flex-direction:column;gap:6px;border:1px dashed var(--line);border-radius:10px;padding:10px}
@@ -646,6 +657,7 @@ input,select{background:var(--panel2);border:1px solid var(--inline);border-radi
       <button class="herostrip" id="heroStrip" type="button" hidden></button>
       <div class="piggy" id="piggy" hidden></div>
       <div class="card racecard" id="raceCard" hidden></div>
+      <div id="inviteArea"></div>
 
       <form class="qa" id="qaForm" autocomplete="off">
         <div class="qa-row">
@@ -664,6 +676,7 @@ input,select{background:var(--panel2);border:1px solid var(--inline);border-radi
           <button class="linkbtn" type="button" id="qa-more" hidden>Mais opções</button>
         </div>
         <label class="qa-date" id="qa-dateW" hidden>Data<input id="qa-date" type="date"></label>
+        <div class="qa-with" id="qa-withW" hidden><span class="small">Fazer junto com</span><div class="agechips" id="qa-with"></div></div>
         <div class="form" id="qa-quitOpts" hidden>
           <label id="nf-startW" hidden>Quanto por dia hoje<input id="nf-start" type="number" min="1" max="50" value="4"></label>
           <label id="nf-goalW" hidden>Limite final por dia<input id="nf-goal" type="number" min="0" max="49" value="1"></label>
@@ -723,6 +736,7 @@ input,select{background:var(--panel2);border:1px solid var(--inline);border-radi
         <input id="jr-text" maxlength="140" placeholder="Uma linha sobre o dia (opcional)">
         <div class="head"><span class="small" id="jr-status"></span><button class="btn sm" id="jr-save" type="button">Salvar</button></div>
       </div>
+      <button class="linkbtn fblink" type="button" data-fb="1">Enviar sugestão ou problema</button>
     </section>
 
     <section role="tabpanel" id="p-cal" aria-labelledby="t-cal" hidden>
@@ -893,14 +907,14 @@ input,select{background:var(--panel2);border:1px solid var(--inline);border-radi
           <div class="rank" id="famRank"></div>
         </div>
         <div class="card">
-          <div class="head"><h2>Desafio em família</h2><span class="small num">+100 XP e item exclusivo</span></div>
-          <div class="small info">Escolha quem entra no desafio desta semana: 1 pessoa ou a família toda. A soma de todo mundo conta.</div>
+          <div class="head"><h2>Duelo</h2><span class="small num">+100 XP para quem vencer</span></div>
+          <div class="small info">Escolha 1 pessoa e 1 hábito ou vício seu. Ela escolhe o dela ao aceitar. Durante 7 dias, vence quem cumprir o próprio item em mais dias. Vale hábito contra vício: conta o dia cumprido de cada um.</div>
           <div class="goals" id="duoList"></div>
           <form class="form" id="duoForm">
-            <div class="full" style="display:flex;flex-direction:column;gap:6px"><div class="head"><span class="small" style="font-weight:600">Quem participa com você</span><button class="linkbtn" type="button" id="du-all">Todos</button></div><div class="sugs" id="du-mems"></div></div>
-            <label>Atributo<select id="du-attr"></select></label>
-            <label>Juntos, quantos hábitos<input id="du-target" type="number" min="2" max="200" value="8"></label>
-            <button class="btn full" type="submit">Lançar desafio</button>
+            <div class="full" style="display:flex;flex-direction:column;gap:6px"><span class="small" style="font-weight:600">Quem você desafia</span><div class="sugs" id="du-mems"></div></div>
+            <label class="full">Seu hábito ou vício<select id="du-hab"></select></label>
+            <label class="full">Prêmio combinado (opcional)<input id="du-prize" maxlength="60" placeholder="Ex.: quem perder lava a louça no domingo"></label>
+            <button class="btn full" type="submit">Desafiar</button>
           </form>
         </div>
       </div>
@@ -936,7 +950,7 @@ input,select{background:var(--panel2);border:1px solid var(--inline);border-radi
 
     <section role="tabpanel" id="p-hab" aria-labelledby="t-hab" hidden>
       <div class="card">
-        <h2>Perfil</h2>
+        <div class="head"><h2>Perfil</h2><button class="linkbtn" type="button" data-fb="1">Enviar sugestão ou problema</button></div>
         <div class="form">
           <label>Nome do avatar<input id="cfg-name" maxlength="24"></label>
           <label>Hábitos para o dia cheio<input id="cfg-goal" type="number" min="1" max="20"></label>
@@ -1023,6 +1037,13 @@ input,select{background:var(--panel2);border:1px solid var(--inline);border-radi
   <div class="tpcols"><div class="tpcol" id="tpH" role="listbox" aria-label="Hora"></div><span class="tpsep">:</span><div class="tpcol" id="tpM" role="listbox" aria-label="Minuto"></div></div>
   <div class="tpbar"><button class="linkbtn" type="button" id="tpNone">Sem horário</button><span style="display:flex;gap:8px"><button class="btn ghost" type="button" id="tpCancel">Cancelar</button><button class="btn" type="button" id="tpOk">Definir</button></span></div>
 </div></div>
+<div class="overlay" id="fbBox" hidden><div class="tourcard" role="dialog" aria-modal="true" aria-labelledby="fbTitle">
+  <h2 id="fbTitle">Sugestão ou problema</h2>
+  <div class="small">Conta o que aconteceu ou o que faria o app melhor para a sua família. Vai junto o nome do perfil, a tela em que você está e a versão do app.</div>
+  <div class="agechips" id="fbKind" role="group" aria-label="Tipo"><button type="button" data-fbk="problema" aria-pressed="true">Problema</button><button type="button" data-fbk="sugestao" aria-pressed="false">Sugestão</button><button type="button" data-fbk="duvida" aria-pressed="false">Dúvida</button></div>
+  <textarea id="fbText" maxlength="1000" rows="5" placeholder="Ex.: ao marcar a tarefa da Emily, ela não sumiu da lista"></textarea>
+  <div class="head"><button class="btn ghost" type="button" id="fbCancel">Cancelar</button><button class="btn" type="button" id="fbSend">Enviar</button></div>
+</div></div>
 <div class="overlay" id="heroFx" hidden><div class="tourcard herofx" role="dialog" aria-modal="true" aria-labelledby="hfTitle">
   <span class="small" id="hfFrom"></span>
   <span class="prev" id="hfArt"></span>
@@ -1036,7 +1057,8 @@ input,select{background:var(--panel2);border:1px solid var(--inline);border-radi
   <div class="form">
     <label class="full">O quê<input id="af-name" maxlength="60" placeholder="Ex.: Guardar os brinquedos"></label>
     <label class="full" id="af-blockW" hidden>Quando<select id="af-block"><option value="m">Manhã</option><option value="t">Tarde</option><option value="n" selected>Noite</option></select></label>
-    <label class="full">Para quando (tarefa, opcional)<input id="af-date" type="date"></label>
+    <label class="full" id="af-dateW">Para quando (tarefa, opcional)<input id="af-date" type="date"></label>
+    <label class="full chk"><input type="checkbox" id="af-follow" checked> <span>Acompanhar: aparece para mim um "Conferir", que mostra quando a criança marcou</span></label>
   </div>
   <div class="head"><button class="btn ghost" type="button" id="af-cancel">Cancelar</button><button class="btn" type="button" id="af-save">Criar</button></div>
 </div></div>
@@ -1791,7 +1813,7 @@ function compute(){
   for(const [w,r] of Object.entries(state.famRewards)){ famDone++; extra[w]=(extra[w]||0)+r.xp; if(attr[r.attr]!==undefined) attr[r.attr]+=r.xp; if(w===wk) weekXP+=r.xp; }
   (state.ultReleases||[]).forEach(r=>{ if(relEff(r)==='bless'){ extra[r.at]=(extra[r.at]||0)+BLESSXP; attr.familia+=BLESSXP; if(r.at>=wk) weekXP+=BLESSXP; } });
   for(const r of Object.values(state.blessRecv||{})){ extra[r.at]=(extra[r.at]||0)+r.xp; attr.familia+=r.xp; if(r.at>=wk) weekXP+=r.xp; }
-  const taskDay={}; (state.tasks||[]).forEach(t=>{ if(t.done&&t.doneAt) taskDay[t.doneAt]=(taskDay[t.doneAt]||0)+1; });
+  const taskDay={}; (state.tasks||[]).forEach(t=>{ if(t.done&&t.doneAt) taskDay[t.doneAt]=(taskDay[t.doneAt]||0)+1; }); Object.values(state.sharedDone||{}).forEach(dd=>{ taskDay[dd]=(taskDay[dd]||0)+1; });
   for(const [d,n] of Object.entries(taskDay)) extra[d]=(extra[d]||0)+TASKXP*Math.min(n,TASKMAX);
   const vices={}; let vicesWon=0, viceBest=0;
   state.habits.filter(isAvoid).forEach(h=>{ const v=viceStats(h); vices[h.id]=v; viceBest=Math.max(viceBest,v.best);
@@ -1932,7 +1954,13 @@ function localBackend(){
     duosWatch:(fid,cb)=>sub(dedupe(()=>({key:(db.families[fid]||{}).duos||null,emit:()=>{ const f=db.families[fid]; cb(f&&f.duos?Object.entries(f.duos).map(([id,d])=>Object.assign({id},d)):[]); }}))),
     duoCreate:(fid,did,data)=>{ const f=db.families[fid]; if(f){ f.duos=f.duos||{}; f.duos[did]=JSON.parse(JSON.stringify(data)); persist(); } return Promise.resolve(); },
     duoDelete:(fid,did)=>{ const f=db.families[fid]; if(f&&f.duos){ delete f.duos[did]; persist(); } return Promise.resolve(); },
-    newDuoId:()=>'d'+Date.now().toString(36)+Math.random().toString(36).slice(2,5)
+    newDuoId:()=>'d'+Date.now().toString(36)+Math.random().toString(36).slice(2,5),
+    colWatch:(fid,c,cb)=>sub(dedupe(()=>({key:(db.families[fid]||{})[c]||null,emit:()=>{ const f=db.families[fid]; cb(f&&f[c]?Object.entries(f[c]).map(([id,d])=>Object.assign({id},JSON.parse(JSON.stringify(d)))):[]); }}))),
+    colSet:(fid,c,id,data)=>{ const f=db.families[fid]; if(f){ f[c]=f[c]||{}; f[c][id]=JSON.parse(JSON.stringify(data)); persist(); } return Promise.resolve(); },
+    colUpdate:(fid,c,id,data)=>{ const f=db.families[fid]; const d=f&&f[c]&&f[c][id]; if(d){ Object.entries(data).forEach(([k,v])=>{ const ps=k.split('.'); let o=d; ps.slice(0,-1).forEach(x=>{ o[x]=o[x]&&typeof o[x]==='object'?o[x]:{}; o=o[x]; }); o[ps[ps.length-1]]=JSON.parse(JSON.stringify(v)); }); persist(); } return Promise.resolve(); },
+    colDelete:(fid,c,id)=>{ const f=db.families[fid]; if(f&&f[c]){ delete f[c][id]; persist(); } return Promise.resolve(); },
+    newColId:()=>'x'+Date.now().toString(36)+Math.random().toString(36).slice(2,6),
+    sendFeedback:data=>{ db.feedback=(db.feedback||[]).concat([JSON.parse(JSON.stringify(data))]); persist(); return Promise.resolve(); }
   };
 }
 function firebaseBackend(A,Au,F){
@@ -1980,7 +2008,13 @@ function firebaseBackend(A,Au,F){
     duosWatch:(fid,cb)=>F.onSnapshot(F.collection(fdb,'families',fid,'duos'),s=>cb(s.docs.map(d=>Object.assign({id:d.id},d.data()))),()=>{}),
     duoCreate:(fid,did,data)=>F.setDoc(F.doc(fdb,'families',fid,'duos',did),data),
     duoDelete:(fid,did)=>F.deleteDoc(F.doc(fdb,'families',fid,'duos',did)),
-    newDuoId:()=>F.doc(F.collection(fdb,'families','x','duos')).id
+    newDuoId:()=>F.doc(F.collection(fdb,'families','x','duos')).id,
+    colWatch:(fid,c,cb)=>F.onSnapshot(F.collection(fdb,'families',fid,c),s=>cb(s.docs.map(d=>Object.assign({id:d.id},d.data()))),()=>{}),
+    colSet:(fid,c,id,data)=>F.setDoc(F.doc(fdb,'families',fid,c,id),data),
+    colUpdate:(fid,c,id,data)=>F.updateDoc(F.doc(fdb,'families',fid,c,id),data),
+    colDelete:(fid,c,id)=>F.deleteDoc(F.doc(fdb,'families',fid,c,id)),
+    newColId:()=>F.doc(F.collection(fdb,'families','x','tasks')).id,
+    sendFeedback:data=>F.setDoc(F.doc(F.collection(fdb,'feedback')),data)
   };
 }
 
@@ -1988,6 +2022,7 @@ function firebaseBackend(A,Au,F){
 const $=id=>document.getElementById(id);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 let B=null, view='loading', user=null, uid=null, pid=null, profiles=[], unsubProf=null, unsubList=null, unsubFam=null;
+let famTasks=[], unsubFT=null;
 let fam=null, members=[], duos=[], house={rewards:[],requests:[]}, unsubHouse=null, unsubDuos=null, dirty=false, timer=null, newKid=false;
 let jrDraft=null, plan={}, unsubPlan=null;
 function premium(){ if(!BILLING) return true; const now=Date.now();
@@ -2022,7 +2057,7 @@ function nextToast(){ const m=toastQ.shift(); const t=$('toast'); if(!m){ t.hidd
 function jump(){ ['avatar','miniAv'].forEach(id=>{ const a=$(id); if(!a) return; a.classList.remove('jump'); void a.offsetWidth; a.classList.add('jump'); }); }
 
 function memberData(c){
-  return {name:state.name,cls:state.cls,spec:state.spec,lvl:c.p.lvl,ws:c.ws,eq:state.equipped,kid:!!state.kid,prestige:state.prestige||0,bless:(state.ultReleases||[]).filter(r=>relEff(r)==='bless').slice(-10).map(r=>({id:r.id,at:r.at})),boss:c.boss.status,bossType:c.boss.type,streak:c.streak,al:Object.fromEntries(AKEYS.map(k=>[k,c.al[k].lvl])),won:c.won,achs:state.ach.length,week:weekKey(),weekXP:c.weekXP,weekAttr:c.weekAttr,weekPts:c.weekPts,prevPts:c.prevPts,todayPts:c.todayPts,fullAt:state.fullAt[today()]?{d:today(),at:state.fullAt[today()]}:null,role:state.famRole||'',updatedAt:Date.now()};
+  return {name:state.name,cls:state.cls,spec:state.spec,lvl:c.p.lvl,ws:c.ws,eq:state.equipped,kid:!!state.kid,prestige:state.prestige||0,bless:(state.ultReleases||[]).filter(r=>relEff(r)==='bless').slice(-10).map(r=>({id:r.id,at:r.at})),boss:c.boss.status,bossType:c.boss.type,streak:c.streak,al:Object.fromEntries(AKEYS.map(k=>[k,c.al[k].lvl])),won:c.won,achs:state.ach.length,week:weekKey(),weekXP:c.weekXP,weekAttr:c.weekAttr,weekPts:c.weekPts,prevPts:c.prevPts,todayPts:c.todayPts,fullAt:state.fullAt[today()]?{d:today(),at:state.fullAt[today()]}:null,role:state.famRole||'',duel:duelMemberData(),updatedAt:Date.now()};
 }
 /* Contadores de uso para o relatório do teste: só números por dia, sem texto */
 function viaNow(){ try{ if(document.referrer.startsWith('android-app://')||sessionStorage.getItem('jornada-twa')){ sessionStorage.setItem('jornada-twa','1'); return 'loja'; } }catch(e){}
@@ -2073,12 +2108,13 @@ function famGateUpgrade(){ if(!famOwner()||fam.gate||famGateDone===state.familyI
   B.famUpdate(state.familyId,{gate:true,approved,removed:fam.removed}).catch(()=>{ famGateDone=null; }); }
 function famKicked(){ const fid=state.familyId; if(!fid) return; B.memberDelete(fid,uid+'_'+pid).catch(()=>{}); state.familyId=null; save(); watchFamily(); render(); toast('Seu pedido para entrar na família não foi aceito.'); }
 function watchFamily(){
-  if(unsubFam){ unsubFam(); unsubFam=null; } if(unsubDuos){ unsubDuos(); unsubDuos=null; } fam=null; members=[]; membersAll=[]; duos=[];
+  if(unsubFam){ unsubFam(); unsubFam=null; } if(unsubDuos){ unsubDuos(); unsubDuos=null; } if(unsubFT){ unsubFT(); unsubFT=null; } fam=null; members=[]; membersAll=[]; duos=[]; famTasks=[];
   if(!state.familyId) return;
   const fid=state.familyId;
   unsubFam=B.famWatch(fid,f=>{ fam=f; applyMembers(); if(view==='app') render(); },m=>{ membersAll=m; applyMembers(); if(view==='app') render(); });
   if(unsubDuos){ unsubDuos(); unsubDuos=null; } duos=[];
   unsubDuos=B.duosWatch(fid,d=>{ duos=d; if(view==='app') render(); });
+  unsubFT=B.colWatch(fid,'tasks',t=>{ famTasks=t; if(view==='app') render(); });
 }
 function runShortcut(){ const m=location.search.match(/[?&]acao=(\w+)/); if(!m||runShortcut.done) return; runShortcut.done=true;
   if(m[1]==='familia') goTab('fam'); else if(m[1]==='casa'){ homeMode='casa'; goTab('hoje'); } else if(m[1]==='adicionar'){ goTab('hoje'); setTimeout(()=>{ try{ $('qa-name').focus(); }catch(e){} },200); }
@@ -2183,11 +2219,12 @@ function checkFamily(c){
   members.filter(x=>x.id!==me).forEach(x=>(x.bless||[]).forEach(b=>{ if(!state.blessRecv[b.id]&&b.at>=state.created&&b.at>=keyOf(addDays(new Date(),-7))){ state.blessRecv[b.id]={xp:BLESSXP,at:today(),from:x.name}; toast(`${x.name||'Alguém'} usou Bênção: +${BLESSXP} XP para você`); save(); } }));
   const m=famMission(c);
   if(m.progress>=m.target&&!state.famRewards[m.wk]){ state.famRewards[m.wk]={xp:FAMREWARD,attr:m.attr,target:m.target,progress:m.progress}; toast(`Missão em família concluída! +${FAMREWARD} XP`); jump(); save(); }
+  checkDuels();
   duoStatus(m).forEach(d=>{ if(d.mine&&d.done&&!state.duoRewards[d.id]){ state.duoRewards[d.id]={xp:DUOREWARD,attr:d.attr,at:today()}; toast(`Desafio em família concluído! +${DUOREWARD} XP`); jump(); save(); } });
 }
 function duoStatus(m){
   const me=uid+'_'+pid, byId=Object.fromEntries(m.list.map(x=>[x.id,x]));
-  return duos.filter(d=>d.week===m.wk).map(d=>{ const ids=d.members||[d.a,d.b].filter(Boolean), names=d.names||{[d.a]:d.aName,[d.b]:d.bName};
+  return duos.filter(d=>d.type!=='duel'&&d.week===m.wk).map(d=>{ const ids=d.members||[d.a,d.b].filter(Boolean), names=d.names||{[d.a]:d.aName,[d.b]:d.bName};
     const parts=ids.map(id=>{ const x=byId[id]; return {id,name:x?x.name:(names[id]||'?'),n:x?((x.weekAttr||{})[d.attr]||0):0}; });
     const progress=parts.reduce((a,x)=>a+x.n,0);
     return Object.assign({},d,{parts,progress,done:progress>=d.target,mine:ids.includes(me)}); });
@@ -2341,7 +2378,7 @@ function renderToday(c){
       <button class="main" data-act="${t>1?(done?'none':'plus'):'toggle'}" aria-pressed="${done}">
         ${isQ?`<span class="quest">Missão do dia ×${qm}</span>`:''}
         <span class="hn">${esc(h.name)}</span>${pendH?'<span class="pendnote">Esperando um adulto confirmar</span>':''}
-        <span class="meta"><span class="a">${a.n}</span>${h.block?`<span>${{m:'manhã',t:'tarde',n:'noite'}[h.block]}</span>`:''}${h.time?`<span>às ${h.time}</span>`:''}${h.why&&AIM_SHORT[h.why]?`<span class="whyc">${AIM_SHORT[h.why]}</span>`:''}${h.wk?`<span>${wkMet?'meta da semana cumprida':`${wd} de ${h.wk} na semana`}</span>`:''}<span class="${boosted?'boost':''}">${wkMet?'sem XP extra esta semana':`+${isQ?base*qm:base} XP${boosted?' (classe)':''}`}</span>${t>1?`<span>${t} ${esc(h.unit||'')}</span>`:''}${st>1?`<span>${st} dias seguidos</span>`:''}</span>
+        <span class="meta"><span class="a">${a.n}</span>${h.block?`<span>${{m:'manhã',t:'tarde',n:'noite'}[h.block]}</span>`:''}${h.time?`<span>às ${h.time}</span>`:''}${h.why&&AIM_SHORT[h.why]?`<span class="whyc">${AIM_SHORT[h.why]}</span>`:''}${h.follow&&followTxt(h.follow)?`<span class="whyc">${esc(followTxt(h.follow))}</span>`:''}${h.wk?`<span>${wkMet?'meta da semana cumprida':`${wd} de ${h.wk} na semana`}</span>`:''}<span class="${boosted?'boost':''}">${wkMet?'sem XP extra esta semana':`+${isQ?base*qm:base} XP${boosted?' (classe)':''}`}</span>${t>1?`<span>${t} ${esc(h.unit||'')}</span>`:''}${st>1?`<span>${st} dias seguidos</span>`:''}</span>
         ${dots}
       </button>
       <div class="side">${side}</div>
@@ -2633,23 +2670,19 @@ function summaryHTML(w,title){
     ${lines.length?`<div class="small" style="display:flex;flex-direction:column;gap:4px">${lines.map(l=>`<span>${l}</span>`).join('')}</div>`:''}`;
 }
 function renderDuos(m){
-  const me=uid+'_'+pid, list=duoStatus(m);
-  const joinNames=ns=>ns.length<=1?(ns[0]||''):ns.slice(0,-1).join(', ')+' e '+ns[ns.length-1];
-  $('duoList').innerHTML=list.length?list.map(d=>{ const a=ATTRS[d.attr]||ATTRS.familia;
-    return `<div class="gl${d.done?' won':''}" style="--c:${a.c}"><span class="gn">${d.done?'<span class="trophy"></span>':''}${esc(joinNames(d.parts.map(x=>x.name||'?')))}: ${d.target} hábitos de ${a.n}</span>
-      <div class="gbar"><i style="width:${Math.min(100,d.progress/d.target*100)}%"></i></div>
-      <div class="grow small num"><span>${d.parts.map(x=>`${esc(x.name||'?')}: ${x.n}`).join(' · ')} · ${Math.min(d.progress,d.target)} de ${d.target}${d.done?' · concluído':''}</span>${d.createdBy===uid&&(d.a===me||(d.members||[])[0]===me)&&!d.done?`<button class="btn ghost sm" data-duodel="${d.id}" type="button">Cancelar</button>`:''}</div></div>`; }).join(''):'';
-  const others=m.list.filter(x=>!x.me);
-  duSel=duSel.filter(id=>others.some(x=>x.id===id));
-  $('du-mems').innerHTML=others.length?others.map(x=>`<button type="button" data-dumem="${x.id}" aria-pressed="${duSel.includes(x.id)}">${esc(x.name||'Sem nome')}</button>`).join(''):'<span class="small">Ninguém mais na família ainda</span>';
-  $('du-all').hidden=others.length<2;
-  if(!duTouched) $('du-target').value=Math.max(4,4*(duSel.length+1));
-  if(!$('du-attr').options.length) $('du-attr').innerHTML=attrOptions('familia');
-  $('duoForm').querySelector('button[type=submit]').disabled=!duSel.length;
+  const me=myMid(), legacy=duoStatus(m), dl=myDuels().filter(d=>!(d.status==='ativo'&&d.end&&d.end<keyOf(addDays(new Date(),-7)))).sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
+  const leg=legacy.map(d=>{ const a=ATTRS[d.attr]||ATTRS.familia; return `<div class="gl${d.done?' won':''}" style="--c:${a.c}"><span class="gn">${d.done?'<span class="trophy"></span>':''}${esc(joinN(d.parts.map(x=>x.name||'?')))}: ${d.target} hábitos de ${a.n}</span><div class="gbar"><i style="width:${Math.min(100,d.progress/d.target*100)}%"></i></div><div class="grow small num"><span>${Math.min(d.progress,d.target)} de ${d.target}${d.done?' · concluído':''}</span></div></div>`; }).join('');
+  $('duoList').innerHTML=dl.map(duelHTML).join('')+leg;
+  const others=m.list.filter(x=>!x.me), busy=new Set(myDuels().filter(d=>d.status==='convite'||(d.status==='ativo'&&!(d.end&&today()>d.end))).map(d=>d.a===me?d.b:d.a));
+  duSel=duSel.filter(id=>others.some(x=>x.id===id)&&!busy.has(id)).slice(0,1);
+  $('du-mems').innerHTML=others.length?others.map(x=>`<button type="button" data-dumem="${x.id}" aria-pressed="${duSel.includes(x.id)}" ${busy.has(x.id)?'disabled title="Já tem um duelo com essa pessoa"':''}>${esc(x.name||'Sem nome')}</button>`).join(''):'<span class="small">Ninguém mais na família ainda</span>';
+  const hs=state.habits.filter(h=>!h.archived&&!h.deleted), cur=$('du-hab').value;
+  $('du-hab').innerHTML=hs.length?hs.map(h=>`<option value="${h.id}" ${h.id===cur?'selected':''}>${esc(h.name)}${isAvoid(h)?' (largar)':''}</option>`).join(''):'<option value="">Crie um hábito primeiro</option>';
+  $('duoForm').querySelector('button[type=submit]').disabled=!duSel.length||!hs.length;
 }
-$('du-mems').addEventListener('click',e=>{ const b=e.target.closest('[data-dumem]'); if(!b) return; const id=b.dataset.dumem; duSel=duSel.includes(id)?duSel.filter(x=>x!==id):duSel.concat([id]); render(); });
-$('du-all').addEventListener('click',()=>{ const me=uid+'_'+pid; const ids=famMission(compute()).list.filter(x=>x.id!==me).map(x=>x.id); duSel=duSel.length===ids.length?[]:ids; render(); });
-$('du-target').addEventListener('input',()=>{ duTouched=true; });
+function renderInvites(){ const me=myMid(), inv=myDuels().filter(d=>d.status==='convite'&&d.b===me); const tv=ftMine().filter(t=>!(t.acc||{})[me]&&!t.done);
+  $('inviteArea').innerHTML=inv.length?`<button class="banner invb" type="button" data-gofam="1">⚔️ ${esc(nameOf(inv[0].a,inv[0].names))} te desafiou para um duelo. Toque para ver</button>`:''; }
+$('du-mems').addEventListener('click',e=>{ const b=e.target.closest('[data-dumem]'); if(!b||b.disabled) return; const id=b.dataset.dumem; duSel=duSel.includes(id)?[]:[id]; render(); });
 function renderHouse(c){
   const adult=!state.kid, rw=house.rewards||[], reqs=house.requests||[];
   $('hcoins').textContent=c.coins;
@@ -2803,17 +2836,69 @@ function habSugList(){
   return base.filter(h=>!isAvoid(h)&&!have.has(h.id)&&!seen.has(h.id)&&seen.add(h.id));
 }
 let lastTask=null;
+const myMid=()=>uid+'_'+pid;
+const joinN=ns=>ns.length<=1?(ns[0]||''):ns.slice(0,-1).join(', ')+' e '+ns[ns.length-1];
+function nameOf(mid,names){ const nk=(state.nicks||{})[mid]; if(nk) return nk; const m=members.find(x=>x.id===mid); return (m&&m.name)||(names||{})[mid]||'alguém'; }
+const famOthers=()=>state.familyId&&fam&&myFamStatus()==='in'?members.filter(m=>m.id!==myMid()):[];
+function ftMine(){ const me=myMid(); return famTasks.filter(t=>(t.mids||[]).includes(me)&&!(t.no||{})[me]); }
+function followTxt(f){ if(!f) return ''; const o=otherProfiles().find(x=>x.id===f.pid); if(!o) return ''; const nm=o.raw.name||'';
+  if(f.kind==='task'){ const kt=(o.raw.tasks||[]).find(x=>x.id===f.id); if(!kt) return `${nm} apagou a tarefa`; return kt.done?`✓ ${nm} concluiu, falta você conferir`:`${nm} ainda não concluiu`; }
+  const kh=(o.raw.habits||[]).find(x=>x.id===f.id); if(!kh) return ''; const n=((o.raw.log||{})[today()]||{})[f.id]||0, pd=(((o.raw.pend||{})[today()])||{})[f.id];
+  return n>=(kh.target||1)?`✓ ${nm} já marcou hoje`:pd?`${nm} marcou e espera confirmação`:`${nm} ainda não marcou hoje`; }
 function renderTasks(){
-  const tk=today(), d=viewDay;
+  const tk=today(), yk=keyOf(addDays(new Date(),-1)), d=viewDay, me=myMid();
   const open=(state.tasks||[]).filter(t=>!t.done&&(!t.date||t.date<=tk)).sort((a,b)=>(a.date||'9')<(b.date||'9')?-1:1);
   const later=(state.tasks||[]).filter(t=>!t.done&&t.date&&t.date>tk);
-  const show=d===tk&&(open.length||later.length);
+  const fm=ftMine(), inv=fm.filter(t=>!(t.acc||{})[me]&&!t.done), sOpen=fm.filter(t=>(t.acc||{})[me]&&!t.done&&(!t.date||t.date<=tk)), sLater=fm.filter(t=>(t.acc||{})[me]&&!t.done&&t.date&&t.date>tk), sDone=fm.filter(t=>(t.acc||{})[me]&&t.done&&t.done.at>=yk);
+  const show=d===tk&&(open.length||later.length||inv.length||sOpen.length||sLater.length||sDone.length);
   $('taskWrap').hidden=!show; if(!show){ $('taskList').innerHTML=''; return; }
-  const doneToday=(state.tasks||[]).filter(t=>t.done&&t.doneAt===tk).length;
-  $('taskList').innerHTML=open.map(t=>{ const late=t.date&&t.date<tk;
-    return `<div class="habit task${t.id===lastTask?' flash':''}" data-tid="${t.id}"><span class="stripe"></span><button class="main" data-tact="done"><span class="hn">${esc(t.name)}</span><span class="meta"><span class="ttag">Tarefa</span>${late?`<span class="late">Atrasada desde ${t.date.split('-').reverse().slice(0,2).join('/')}</span>`:t.date?'<span>Para hoje</span>':''}<span>${doneToday<TASKMAX?`+${TASKXP} XP`:'sem XP extra hoje'}</span></span></button><div class="side"><button class="del" data-tact="del" type="button" aria-label="Apagar tarefa">×</button><div class="box">${check}</div></div></div>`; }).join('')
-    +(later.length?`<div class="small">${later.length===1?'1 tarefa marcada':`${later.length} tarefas marcadas`} para os próximos dias: ${later.slice(0,3).map(t=>`${esc(t.name)} (${t.date.split('-').reverse().slice(0,2).join('/')})`).join(', ')}${later.length>3?'…':''}</div>`:'');
+  const doneToday=(state.tasks||[]).filter(t=>t.done&&t.doneAt===tk).length+Object.values(state.sharedDone||{}).filter(x=>x===tk).length;
+  const xpT=`<span>${doneToday<TASKMAX?`+${TASKXP} XP`:'sem XP extra hoje'}</span>`, dm=k=>k.split('-').reverse().slice(0,2).join('/');
+  const invH=inv.map(t=>`<div class="habit task invite" data-ftid="${t.id}"><span class="stripe"></span><div class="main" style="cursor:default"><span class="hn">${esc(t.name)}</span><span class="meta"><span class="ttag junto">Convite</span><span>${esc(nameOf(t.by,t.names))} quer fazer junto${t.date?` · ${esc(whenLabel(t.date))}`:''}</span></span></div><div class="side"><button class="btn ghost sm" data-ftno="1" type="button">Recusar</button><button class="btn sm" data-ftacc="1" type="button">Aceitar</button></div></div>`).join('');
+  const sH=sOpen.map(t=>{ const oth=(t.mids||[]).filter(x=>x!==me), wait=oth.filter(x=>!(t.acc||{})[x]&&!(t.no||{})[x]), late=t.date&&t.date<tk;
+    return `<div class="habit task" data-ftid="${t.id}"><span class="stripe"></span><button class="main" data-ftact="done"><span class="hn">${esc(t.name)}</span><span class="meta"><span class="ttag junto">Junto com ${esc(joinN(oth.map(x=>nameOf(x,t.names))))}</span>${late?`<span class="late">Atrasada desde ${dm(t.date)}</span>`:''}${wait.length?`<span>esperando ${esc(joinN(wait.map(x=>nameOf(x,t.names))))} aceitar</span>`:''}${xpT}</span></button><div class="side">${t.createdBy===uid&&t.by===me?`<button class="del" data-ftact="del" type="button" aria-label="Apagar tarefa">×</button>`:''}<div class="box">${check}</div></div></div>`; }).join('');
+  const oH=open.map(t=>{ const late=t.date&&t.date<tk, fl=followTxt(t.follow);
+    return `<div class="habit task${t.id===lastTask?' flash':''}" data-tid="${t.id}"><span class="stripe"></span><button class="main" data-tact="done"><span class="hn">${esc(t.name)}</span><span class="meta"><span class="ttag">${t.follow?'Conferir':'Tarefa'}</span>${fl?`<span>${esc(fl)}</span>`:''}${late?`<span class="late">Atrasada desde ${dm(t.date)}</span>`:t.date?'<span>Para hoje</span>':''}${xpT}</span></button><div class="side"><button class="del" data-tact="del" type="button" aria-label="Apagar tarefa">×</button><div class="box">${check}</div></div></div>`; }).join('');
+  const dH=sDone.map(t=>{ const mine=t.done.by===me; return `<div class="small" data-ftid="${t.id}">✓ ${esc(t.name)} · ${mine?'você concluiu':`concluída por ${esc(nameOf(t.done.by,Object.assign({},t.names,{[t.done.by]:t.done.name})))}`}${t.done.at===yk?' ontem':''}${mine&&t.done.at===tk?` <button class="linkbtn" data-ftact="undo" type="button">Desfazer</button>`:''}</div>`; }).join('');
+  const lat=later.map(t=>`${esc(t.name)} (${dm(t.date)})`).concat(sLater.map(t=>`${esc(t.name)} (${dm(t.date)}, junto)`));
+  $('taskList').innerHTML=invH+sH+oH+dH+(lat.length?`<div class="small">${lat.length===1?'1 tarefa marcada':`${lat.length} tarefas marcadas`} para os próximos dias: ${lat.slice(0,3).join(', ')}${lat.length>3?'…':''}</div>`:'');
 }
+function ftAct(t,act){ const me=myMid(), fid=state.familyId; if(!fid) return;
+  if(act==='acc'){ B.colUpdate(fid,'tasks',t.id,{[`acc.${me}`]:true,[`names.${me}`]:state.name||''}).then(()=>toast('Tarefa aceita. Ela aparece para vocês 2')).catch(()=>toast('Não foi possível aceitar')); return; }
+  if(act==='no'){ B.colUpdate(fid,'tasks',t.id,{[`no.${me}`]:true}).then(()=>toast('Convite recusado')).catch(()=>toast('Não foi possível recusar')); return; }
+  if(act==='del'){ B.colDelete(fid,'tasks',t.id).then(()=>toast('Tarefa apagada para todos')).catch(()=>toast('Não foi possível apagar')); return; }
+  if(act==='undo'){ state.sharedDone=Object.assign({},state.sharedDone); delete state.sharedDone[t.id]; save(); B.colUpdate(fid,'tasks',t.id,{done:null}).then(()=>{ render(); toast('Tarefa voltou para a lista'); }).catch(()=>toast('Não foi possível desfazer')); return; }
+  if(act==='done'){ const before=compute(); state.sharedDone=Object.assign({},state.sharedDone,{[t.id]:today()}); save(); const after=compute();
+    B.colUpdate(fid,'tasks',t.id,{done:{at:today(),by:me,name:state.name||'',ts:Date.now()}}).catch(()=>toast('Não foi possível salvar')); render();
+    const others=(t.mids||[]).filter(x=>x!==me).map(x=>nameOf(x,t.names)); const gain=after.total-before.total; toast(`Feito! ${gain>0?`+${gain} XP. `:''}Fica concluída para ${joinN(others)} também`); celebrate(before,after); }
+}
+function mkShared(name,date,withIds){ const me=myMid(), id=B.newColId(), names={[me]:state.name||''}; withIds.forEach(x=>{ const m=members.find(y=>y.id===x); names[x]=(m&&m.name)||''; });
+  const mids=[me].concat(withIds), uids=[...new Set(mids.map(uidOf))];
+  return B.colSet(state.familyId,'tasks',id,{name:capF(name).slice(0,70),date:date||null,createdBy:uid,by:me,names,mids,uids,acc:{[me]:true},no:{},done:null,createdAt:Date.now()}); }
+/* Duelo: 1 contra 1, 7 dias, cada um com o próprio hábito ou vício */
+const DUEL_DAYS=7, DUEL_XP={win:100,tie:60,lose:30};
+function duelDays(d,h){ let str=''; for(let i=0;i<DUEL_DAYS;i++){ const k=keyOf(addDays(parseKey(d.start),i)); if(k>today()){ str+='-'; continue; } const ok=h&&habitDone(h,k,(state.log[k]||{})[h.id]||0); str+=ok?'1':k===today()?'-':'0'; } return str; }
+function duelInfo(d){ const me=myMid(), side=x=>{ const hb=(d.hab||{})[x]||null; let days='';
+    if(x===me){ const h=hb&&state.habits.find(y=>y.id===hb.id); days=d.start?duelDays(d,h):''; } else { const m=members.find(y=>y.id===x); days=(m&&m.duel&&m.duel[d.id])||''; }
+    return {id:x,name:x===me?'Você':nameOf(x,d.names),hab:hb,days,n:(days.match(/1/g)||[]).length}; };
+  const A=side(d.a), Bs=side(d.b), ended=d.status==='ativo'&&d.end&&today()>d.end, day=d.start?Math.min(DUEL_DAYS,Math.floor((parseKey(today())-parseKey(d.start))/864e5)+1):0;
+  return {A,B:Bs,ended,day,mine:d.a===me||d.b===me}; }
+function myDuels(){ const me=myMid(); return duos.filter(d=>d.type==='duel'&&(d.a===me||d.b===me)); }
+function duelMemberData(){ const out={}; myDuels().filter(d=>d.status==='ativo'&&d.start).forEach(d=>{ const hb=(d.hab||{})[myMid()]; const h=hb&&state.habits.find(y=>y.id===hb.id); out[d.id]=duelDays(d,h); }); return out; }
+function checkDuels(){ myDuels().forEach(d=>{ if(state.duoRewards[d.id]) return; const i=duelInfo(d); if(!i.ended) return; const me=myMid(), mine=d.a===me?i.A:i.B, oth=d.a===me?i.B:i.A;
+  const res=mine.n>oth.n?'win':mine.n===oth.n?'tie':'lose', h=mine.hab&&state.habits.find(y=>y.id===mine.hab.id);
+  state.duoRewards[d.id]={xp:DUEL_XP[res],attr:(h&&h.attr)||'familia',at:today()}; save(); jump();
+  toast(res==='win'?`Você venceu o duelo contra ${oth.name}! +${DUEL_XP.win} XP`:res==='tie'?`Duelo empatado com ${oth.name}. +${DUEL_XP.tie} XP`:`${oth.name} venceu o duelo. +${DUEL_XP.lose} XP pela participação`); }); }
+function duelHTML(d){ const me=myMid(), i=duelInfo(d), dots=s=>`<span class="wdots">${Array.from({length:DUEL_DAYS},(_,k)=>`<i class="${s[k]==='1'?'on':s[k]==='0'?'no':''}"></i>`).join('')}</span>`;
+  const prize=d.prize?`<div class="small">Prêmio: <b>${esc(d.prize)}</b></div>`:'';
+  if(d.status==='convite'){ if(d.b===me){ const opts=state.habits.filter(h=>!h.archived&&!h.deleted).map(h=>`<option value="${h.id}">${esc(h.name)}${isAvoid(h)?' (largar)':''}</option>`).join('');
+      return `<div class="gl duel"><span class="gn">⚔️ ${esc(nameOf(d.a,d.names))} te desafiou</span><div class="small">Item de ${esc(nameOf(d.a,d.names))}: <b>${esc(((d.hab||{})[d.a]||{}).name||'')}</b> · ${DUEL_DAYS} dias</div>${prize}<label class="small">Escolha o seu<select data-duelhab="${d.id}">${opts}</select></label><div class="grow"><button class="btn ghost sm" data-duelno="${d.id}" type="button">Recusar</button><button class="btn sm" data-duelok="${d.id}" type="button">Aceitar</button></div></div>`; }
+    return `<div class="gl duel"><span class="gn">⚔️ Duelo com ${esc(nameOf(d.b,d.names))}</span><div class="small">Esperando ${esc(nameOf(d.b,d.names))} aceitar · seu item: <b>${esc(((d.hab||{})[me]||{}).name||'')}</b></div>${prize}<div class="grow"><span></span><button class="btn ghost sm" data-dueldel="${d.id}" type="button">Cancelar</button></div></div>`; }
+  if(d.status==='recusado') return `<div class="gl duel"><span class="gn">⚔️ ${esc(nameOf(d.b,d.names))} recusou o duelo</span>${d.createdBy===uid?`<div class="grow"><span></span><button class="btn ghost sm" data-dueldel="${d.id}" type="button">Apagar</button></div>`:''}</div>`;
+  const row=x=>`<span><b>${esc(x.name)}</b> · ${esc((x.hab||{}).name||'')}</span><span class="num small">${x.n} de ${DUEL_DAYS}</span>${dots(x.days)}<span></span>`;
+  const lead=i.A.n===i.B.n?'Empatados':`${i.A.n>i.B.n?i.A.name:i.B.name} na frente`;
+  const res=i.ended?(i.A.n===i.B.n?'Terminou empatado':`${i.A.n>i.B.n?i.A.name:i.B.name} venceu`)+(i.A.name==='Você'||i.B.name==='Você'?'':''):`Dia ${i.day} de ${DUEL_DAYS} · ${lead}`;
+  return `<div class="gl duel${i.ended?' won':''}"><span class="gn">${i.ended?'<span class="trophy"></span>':'⚔️ '}${esc(res)}</span><div class="side2">${row(i.A)}${row(i.B)}</div>${prize}${i.ended&&d.createdBy===uid?`<div class="grow"><span class="small">até ${d.end.split('-').reverse().slice(0,2).join('/')}</span><button class="btn ghost sm" data-dueldel="${d.id}" type="button">Apagar</button></div>`:''}</div>`; }
 function renderQuick(){
   if(!$('nf-attr').options.length){ $('nf-attr').innerHTML=attrOptions('vigor'); $('nf-qattr').innerHTML=attrOptions('equilibrio'); }
   ['task','hab','quit'].forEach(k=>$('qa-'+k).setAttribute('aria-pressed',String(qaMode===k)));
@@ -2822,6 +2907,8 @@ function renderQuick(){
   [...$('qa-when').children].forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.when===qaWhen)));
   [...$('qa-qmode').children].forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.qmode===qaQMode)));
   $('qa-dateW').hidden=!(T&&qaWhen==='outra');
+  const fo=T?famOthers():[]; qaWith=qaWith.filter(x=>fo.some(m=>m.id===x)); $('qa-withW').hidden=!fo.length;
+  $('qa-with').innerHTML=fo.map(m=>`<button type="button" data-with="${esc(m.id)}" aria-pressed="${qaWith.includes(m.id)}">${esc(nameOf(m.id,{}))}</button>`).join('');
   $('qa-quitOpts').hidden=!(Q&&qaQMode!=='quit');
   $('nf-startW').hidden=$('nf-goalW').hidden=qaQMode!=='reduce'; $('nf-limW').hidden=qaQMode!=='week'; $('nf-qunitW').hidden=qaQMode==='quit';
   $('qa-habOpts').hidden=!(Hb&&qaMore); $('qa-quitMore').hidden=!(Q&&qaMore);
@@ -2833,7 +2920,7 @@ function renderQuick(){
   if(Q&&qaMore&&!$('nf-qxp').options.length) $('nf-qxp').innerHTML=xpOpts(20,$('nf-qattr').value,null);
   renderPrev();
 }
-let qaWhen='hoje', qaAuto=null, qaManual=false, qaQMode='quit', qaPrev=null, nfDays=[1,2,3,4,5];
+let qaWith=[], qaWhen='hoje', qaAuto=null, qaManual=false, qaQMode='quit', qaPrev=null, nfDays=[1,2,3,4,5];
 const fold=t=>t.normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase();
 const capF=t=>t?t[0].toUpperCase()+t.slice(1):t;
 function parseWhen(txt){
@@ -2888,9 +2975,11 @@ function mkHabit(name){ const id='h'+Date.now().toString(36)+Math.random().toStr
   if(fq==='week') nh.wk=Math.max(1,Math.min(6,parseInt($('nf-wk').value)||3));
   return nh; }
 function qaReset(){ $('qa-name').value=''; $('qa-date').value=''; $('nf-unit').value=''; $('nf-target').value=1; $('nf-time').value=''; $('nf-freq').value='day'; $('nf-qunit').value='';
-  qaMore=false; qaPrev=null; qaAuto=null; qaManual=false; qaWhen='hoje'; }
+  qaMore=false; qaPrev=null; qaAuto=null; qaManual=false; qaWhen='hoje'; qaWith=[]; }
 function qaCreate(items){
   if(!items.length) return;
+  if(qaMode==='task'&&qaWith.length&&state.familyId){ const w=qaWith.slice(), nm=joinN(w.map(x=>nameOf(x,{}))); Promise.all(items.map(it=>mkShared(it.name,it.date,w))).then(()=>toast(items.length>1?`${items.length} tarefas enviadas para ${nm} aceitar`:`Tarefa enviada para ${nm} aceitar`)).catch(()=>toast('Não foi possível criar a tarefa junto'));
+    qaReset(); bump('junto'); save(); render(); return; }
   if(qaMode==='task'){ let last=null; items.forEach(it=>{ last=mkTask(it.name,it.date); }); lastTask=last; setTimeout(()=>{ lastTask=null; },1500);
     const one=items[0]; qaReset(); bump('add'); save(); render();
     toast(items.length>1?`${items.length} tarefas adicionadas`:one.date&&one.date>today()?`Tarefa marcada para ${whenLabel(one.date)}`:'Tarefa adicionada'); return; }
@@ -2992,7 +3081,7 @@ function render(){ if(swapping){ setTimeout(render,0); return; }
   if(aiming){ $('tour').hidden=true; $('daily').hidden=true; renderAims(); return; }
   if(picking){ $('daily').hidden=true; renderClassPick(); return; }
   checkHeroes(); renderFamBadge();
-  if(tab==='hoje'){ renderToday(c); renderHeroStrip(); renderPiggy(c); renderAgeAsk(); renderCasa(); renderRace(c); renderQuick(); renderTasks(); renderEditMode(); }
+  if(tab==='hoje'){ renderToday(c); renderHeroStrip(); renderPiggy(c); renderAgeAsk(); renderCasa(); renderRace(c); renderQuick(); renderTasks(); renderInvites(); renderEditMode(); }
   if(tab==='obj'){ renderVices(c); renderGoals(); }
   if(tab==='cal') renderCal();
   if(tab==='char'){ document.querySelectorAll('.charseg [data-sub]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.sub===charSub)); ['ficha','lendas','vis','hist'].forEach(k=>$('sub-'+k).hidden=k!==charSub);
@@ -3078,16 +3167,17 @@ $('famCreateForm').addEventListener('submit',async e=>{ e.preventDefault(); $('f
 $('famJoinForm').addEventListener('submit',async e=>{ e.preventDefault(); $('famErr').textContent=''; const code=$('fj-code').value.trim().toUpperCase().replace(/[^A-Z0-9]/g,''); if(code.length!==6){ $('famErr').textContent='O código tem 6 letras e números.'; return; }
   try{ const f=await B.famGet(code); if(!f){ $('famErr').textContent='Não achei nenhuma família com esse código.'; return; } if(f.removed&&f.removed[uid]){ $('famErr').textContent='Quem criou essa família não aceitou o pedido.'; return; }
     state.familyId=code; save(); watchFamily(); render(); const direct=!f.gate||f.createdBy===uid; toast(direct?`Você entrou em ${f.name}`:`Pedido enviado para ${f.name}. Falta quem criou aceitar.`); }catch(err){ $('famErr').textContent='Não foi possível entrar ('+(err&&err.code||'erro')+').'; } });
-$('duoForm').addEventListener('submit',e=>{ e.preventDefault(); if(!duSel.length||!state.familyId) return; if(needPlan('Os desafios em família fazem parte do Plano Família.')) return;
-  const m=famMission(compute()), me=uid+'_'+pid, wk=weekKey();
-  const ppl=duSel.map(id=>m.list.find(x=>x.id===id)).filter(Boolean); if(!ppl.length) return;
-  const ids=[me].concat(ppl.map(x=>x.id)), key=ids.slice().sort().join('|');
-  if(duos.some(d=>d.week===wk&&(d.members||[d.a,d.b]).slice().sort().join('|')===key)){ toast('Esse grupo já tem um desafio nesta semana'); return; }
-  const names={[me]:state.name}; ppl.forEach(x=>names[x.id]=x.name||'');
-  const did=B.newDuoId();
-  B.duoCreate(state.familyId,did,{members:ids,names,a:me,b:ppl[0].id,aName:state.name,bName:ppl[0].name||'',attr:$('du-attr').value,target:Math.max(2,Math.min(200,parseInt($('du-target').value)||8)),week:wk,createdBy:uid,createdAt:Date.now()})
-    .then(()=>{ duSel=[]; duTouched=false; render(); toast(ppl.length>1?`Desafio lançado para ${ppl.length} pessoas`:`Desafio lançado para ${ppl[0].name}`); }).catch(()=>toast('Não foi possível criar o desafio')); });
-$('duoList').addEventListener('click',e=>{ const b=e.target.closest('[data-duodel]'); if(!b) return; B.duoDelete(state.familyId,b.dataset.duodel).catch(()=>{}); });
+$('duoForm').addEventListener('submit',e=>{ e.preventDefault(); if(!duSel.length||!state.familyId) return; if(needPlan('Os duelos fazem parte do Plano Família.')) return;
+  const me=myMid(), opp=duSel[0], h=state.habits.find(x=>x.id===$('du-hab').value); if(!h){ toast('Escolha o seu hábito ou vício'); return; }
+  const m=members.find(x=>x.id===opp), did=B.newDuoId();
+  B.duoCreate(state.familyId,did,{type:'duel',a:me,b:opp,uids:[...new Set([uid,uidOf(opp)])],names:{[me]:state.name||'',[opp]:(m&&m.name)||''},hab:{[me]:{id:h.id,name:h.name}},prize:$('du-prize').value.trim().slice(0,60),status:'convite',createdBy:uid,createdAt:Date.now()})
+    .then(()=>{ duSel=[]; $('du-prize').value=''; render(); toast(`Duelo enviado para ${nameOf(opp,{})}. Falta aceitar`); }).catch(()=>toast('Não foi possível criar o duelo')); });
+$('duoList').addEventListener('click',e=>{ const fid=state.familyId; if(!fid) return;
+  const del=e.target.closest('[data-dueldel]'); if(del){ B.duoDelete(fid,del.dataset.dueldel).catch(()=>{}); return; }
+  const no=e.target.closest('[data-duelno]'); if(no){ B.colUpdate(fid,'duos',no.dataset.duelno,{status:'recusado'}).then(()=>toast('Duelo recusado')).catch(()=>toast('Não foi possível recusar')); return; }
+  const ok=e.target.closest('[data-duelok]'); if(ok){ const did=ok.dataset.duelok, sel=document.querySelector(`[data-duelhab="${did}"]`), h=sel&&state.habits.find(x=>x.id===sel.value); if(!h){ toast('Escolha o seu hábito ou vício'); return; }
+    const me=myMid(), st=today(); B.colUpdate(fid,'duos',did,{[`hab.${me}`]:{id:h.id,name:h.name},[`names.${me}`]:state.name||'',status:'ativo',start:st,end:keyOf(addDays(parseKey(st),DUEL_DAYS-1))}).then(()=>{ save(); toast(`Duelo aceito! ${DUEL_DAYS} dias a partir de hoje`); }).catch(()=>toast('Não foi possível aceitar')); return; }
+  const b=e.target.closest('[data-duodel]'); if(b) B.duoDelete(fid,b.dataset.duodel).catch(()=>{}); });
 $('rwForm').addEventListener('submit',e=>{ e.preventDefault(); const n=$('rw-name').value.trim(); if(!n) return; if(!pinFree()){ askPin('Cadastrar prêmio é com os adultos da casa.',()=>$('rwForm').requestSubmit()); return; } if(needPlan('Os Prêmios da casa fazem parte do Plano Família.')) return; const ultR=$('rw-ult').checked; house.rewards=(house.rewards||[]).concat([{id:'r'+Date.now().toString(36),name:n,cost:ultR?0:Math.max(10,parseInt($('rw-cost').value)||500),ult:ultR}]); $('rw-name').value=''; $('rw-ult').checked=false; saveHouse(); toast('Prêmio criado'); });
 $('houseCard').addEventListener('click',e=>{ const t=e.target.closest('button'); if(!t) return; const d=t.dataset;
   if(d.rwask&&needPlan('Os Prêmios da casa fazem parte do Plano Família.')) return;
@@ -3211,13 +3301,18 @@ $('skShare').addEventListener('click',()=>{ if(skInfo) shareCard(skInfo.art,skIn
 $('shareMe').addEventListener('click',()=>{ const c=compute(); shareCard(myAvatar(c),state.name||'',[`${tierName(tierOf(c.p.lvl),isF(state.equipped))} · Nível ${c.p.lvl}`,c.streak>1?`${c.streak} dias seguidos`:'',c.fullDays?`${c.fullDays} ${c.fullDays===1?'dia cheio':'dias cheios'}`:''].filter(Boolean)); });
 function editRaw(opid,fn){ const o=otherProfiles().find(x=>x.id===opid); if(!o) return; const body=JSON.parse(JSON.stringify(o.raw)); fn(body); body.updatedAt=Date.now(); profOver[opid]={t:body.updatedAt,data:body}; B.saveProfile(uid,opid,body).catch(()=>toast('Não foi possível salvar')); render(); }
 let afId=null, afKind='task';
-function afRender(){ $('af-task').setAttribute('aria-pressed',afKind==='task'); $('af-hab').setAttribute('aria-pressed',afKind==='hab'); $('af-blockW').hidden=afKind!=='hab'; }
+function afRender(){ $('af-task').setAttribute('aria-pressed',afKind==='task'); $('af-hab').setAttribute('aria-pressed',afKind==='hab'); $('af-blockW').hidden=afKind!=='hab'; $('af-dateW').hidden=afKind!=='task'; }
 $('af-task').addEventListener('click',()=>{ afKind='task'; afRender(); }); $('af-hab').addEventListener('click',()=>{ afKind='hab'; afRender(); });
 $('af-cancel').addEventListener('click',()=>{ $('addFor').hidden=true; });
-$('af-save').addEventListener('click',()=>{ const n=$('af-name').value.trim(); if(!n){ $('af-name').focus(); return; } const id=afId;
-  editRaw(id,b=>{ if(afKind==='task'){ b.tasks=(b.tasks||[]).concat([{id:'t'+Date.now().toString(36),name:n.slice(0,70),date:$('af-date').value||null,done:false,created:today(),byAdult:true}]); }
-    else { b.habits=b.habits||[]; if(b.habits.filter(h=>!h.archived).length>=MAXHABITS){ toast(`Limite de ${MAXHABITS} hábitos ativos`); return; } b.habits.push({id:'h'+Date.now().toString(36),name:n.slice(0,60),attr:'familia',xp:20,target:1,block:$('af-block').value,created:today(),byAdult:true}); } });
-  $('addFor').hidden=true; toast(afKind==='task'?'Tarefa criada':'Hábito criado'); });
+$('af-save').addEventListener('click',()=>{ const n=capF($('af-name').value.trim()); if(!n){ $('af-name').focus(); return; } const id=afId, o=otherProfiles().find(x=>x.id===id), kn=o?o.raw.name||'':'', fol=$('af-follow').checked;
+  const iid=(afKind==='task'?'t':'h')+Date.now().toString(36)+Math.random().toString(36).slice(2,4), dt=$('af-date').value||null; let ok=true;
+  editRaw(id,b=>{ if(afKind==='task'){ b.tasks=(b.tasks||[]).concat([{id:iid,name:n.slice(0,70),date:dt,done:false,created:today(),byAdult:true}]); }
+    else { b.habits=b.habits||[]; if(b.habits.filter(h=>!h.archived).length>=MAXHABITS){ ok=false; toast(`Limite de ${MAXHABITS} hábitos ativos`); return; } b.habits.push({id:iid,name:n.slice(0,60),attr:'familia',xp:20,target:1,block:$('af-block').value,created:today(),byAdult:true}); } });
+  if(ok&&fol){ const cn=`Conferir: ${n} (${kn})`.slice(0,70);
+    if(afKind==='task'){ state.tasks=(state.tasks||[]).concat([{id:'t'+Date.now().toString(36)+'f',name:cn,date:dt,done:false,created:today(),follow:{pid:id,kind:'task',id:iid}}]); }
+    else if(state.habits.filter(h=>!h.archived).length<MAXHABITS){ state.habits.push({id:'h'+Date.now().toString(36)+'f',name:cn.slice(0,60),attr:'familia',xp:10,target:1,block:$('af-block').value,created:today(),follow:{pid:id,kind:'hab',id:iid}}); syncTodaySum(); }
+    save(); }
+  $('addFor').hidden=true; if(ok) toast((afKind==='task'?'Tarefa criada':'Hábito criado')+(fol?'. O "Conferir" aparece na sua lista':'')); render(); });
 $('ageAsk').addEventListener('click',e=>{ const b=e.target.closest('[data-ageset]'); if(!b) return; state.ageBand=b.dataset.ageset; if(state.ageBand==='0-3'&&state.bossMode==='leve') state.bossMode='off'; save(); render(); toast('Idade salva'); });
 let newKRole=null; const syncKRole=()=>{ const cur=newKRole!=null?newKRole:(newFem?'Filha':'Filho'); document.querySelectorAll('#pf-krole [data-krole]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.krole===cur))); };
 $('pf-krole').addEventListener('click',e=>{ const b=e.target.closest('[data-krole]'); if(!b) return; newKRole=b.dataset.krole; syncKRole(); });
@@ -3246,6 +3341,15 @@ $('qaForm').addEventListener('submit',e=>{
   qaCreate(items);
 });
 document.addEventListener('click',e=>{ if(!e.target.closest('[data-addquit]')) return; qaMode='quit'; qaPrev=null; if(tab!=='hoje') goTab('hoje'); homeMode='eu'; render(); setTimeout(()=>{ try{ $('qaForm').scrollIntoView({block:'center',behavior:'smooth'}); }catch(err){} $('qa-name').focus(); },60); });
+/* Sugestões e problemas enviados pelo app (lidos 1 vez por semana para a próxima rodada) */
+const APPVER='v16'; let fbKind='problema';
+document.addEventListener('click',e=>{ if(!e.target.closest('[data-fb]')) return; fbKind='problema'; document.querySelectorAll('#fbKind [data-fbk]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.fbk===fbKind))); $('fbText').value=''; $('fbBox').hidden=false; setTimeout(()=>$('fbText').focus(),50); });
+$('fbKind').addEventListener('click',e=>{ const b=e.target.closest('[data-fbk]'); if(!b) return; fbKind=b.dataset.fbk; document.querySelectorAll('#fbKind [data-fbk]').forEach(x=>x.setAttribute('aria-pressed',String(x===b))); });
+$('fbCancel').addEventListener('click',()=>{ $('fbBox').hidden=true; });
+$('fbSend').addEventListener('click',()=>{ const t=$('fbText').value.trim(); if(t.length<3){ $('fbText').focus(); return; } const btn=$('fbSend'); btn.disabled=true;
+  B.sendFeedback({uid,pid,name:state.name||'',kid:!!state.kid,ageBand:state.ageBand||null,role:state.famRole||'',familyId:state.familyId||null,kind:fbKind,text:t.slice(0,1000),tab,home:homeMode,ver:APPVER,via:viaNow(),day:today(),at:Date.now()})
+    .then(()=>{ $('fbBox').hidden=true; toast('Enviado. Obrigado! Cada mensagem é lida.'); bump('sugestao'); save(); })
+    .catch(()=>toast('Não foi possível enviar agora. Tente de novo mais tarde.')).finally(()=>{ btn.disabled=false; }); });
 /* Seletor de horário do próprio app (o relógio do Android cortava os botões em alguns celulares) */
 let tpIn=null, tpH=null, tpM=null;
 function tpRender(){ $('tpH').innerHTML=Array.from({length:24},(_,i)=>`<button type="button" role="option" data-tph="${i}" aria-selected="${i===tpH}">${pad(i)}</button>`).join('');
@@ -3285,7 +3389,8 @@ $('editList').addEventListener('click',e=>{ if(e.target.closest('#editAll')){ ed
   const b=e.target.closest('[data-hday]'); if(!b) return; const h=state.habits.find(x=>x.id===b.dataset.hid2); if(!h) return; const i=+b.dataset.hday;
   let ds=h.days&&h.days.length?h.days.slice():[0,1,2,3,4,5,6]; ds=ds.includes(i)?ds.filter(x=>x!==i):ds.concat([i]).sort();
   if(!ds.length){ toast('Escolha pelo menos 1 dia'); return; } h.days=ds; syncTodaySum(); save(); render(); });
-$('taskList').addEventListener('click',e=>{ const row=e.target.closest('[data-tid]'); if(!row) return; const t=(state.tasks||[]).find(x=>x.id===row.dataset.tid); if(!t) return;
+$('taskList').addEventListener('click',e=>{ const fr=e.target.closest('[data-ftid]'); if(fr){ const t=famTasks.find(x=>x.id===fr.dataset.ftid); if(!t) return; const b=e.target.closest('[data-ftacc],[data-ftno],[data-ftact]'); if(!b) return; ftAct(t,b.dataset.ftacc?'acc':b.dataset.ftno?'no':b.dataset.ftact); return; }
+  const row=e.target.closest('[data-tid]'); if(!row) return; const t=(state.tasks||[]).find(x=>x.id===row.dataset.tid); if(!t) return;
   const b=e.target.closest('[data-tact]'); const act=b?b.dataset.tact:'done';
   if(act==='del'){ state.tasks=state.tasks.filter(x=>x!==t); save(); render(); toast('Tarefa apagada'); return; }
   const before=compute(); t.done=true; t.doneAt=today(); save(); const after=compute(); render();
@@ -3301,6 +3406,8 @@ $('habSugs').addEventListener('click',e=>{ const b=e.target.closest('[data-hsug]
 document.querySelector('.charseg').addEventListener('click',e=>{ const b=e.target.closest('[data-sub]'); if(!b) return; charSub=b.dataset.sub; if(charSub==='lendas') bump('lendas'); render(); });
 $('miniAv').addEventListener('click',()=>{ charSub='ficha'; goTab('char'); });
 $('raceCard').addEventListener('click',e=>{ if(e.target.closest('[data-gofam]')) goTab('fam'); });
+$('inviteArea').addEventListener('click',e=>{ if(e.target.closest('[data-gofam]')) goTab('fam'); });
+$('qa-with').addEventListener('click',e=>{ const b=e.target.closest('[data-with]'); if(!b) return; const id=b.dataset.with; qaWith=qaWith.includes(id)?qaWith.filter(x=>x!==id):qaWith.concat([id]); renderQuick(); });
 $('ultOpts').addEventListener('click',e=>{ const b=e.target.closest('[data-uo]'); if(!b||b.disabled) return; const c=compute(); if(c.ultCharge>0) return;
   state.ult=Object.assign({},state.ult||{},{choice:b.dataset.uo}); save(); render(); toast(`Especial: ${curUlt().n}`); });
 function applyTheme(t){ if(t==='light') document.documentElement.dataset.theme='light'; else delete document.documentElement.dataset.theme;
