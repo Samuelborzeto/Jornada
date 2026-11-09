@@ -146,7 +146,8 @@ h3.sec{font-size:17px}
 .xpbar{height:10px;background:var(--panel2);border:1px solid var(--line);border-radius:2px;overflow:hidden}
 .xpbar i{display:block;height:100%;background:var(--gold);transition:width .4s}
 .chips{display:flex;flex-wrap:wrap;gap:6px}
-.sheetchips{grid-column:1/-1}
+.sheetchips{grid-column:1/-1;flex-wrap:nowrap;gap:4px;overflow-x:auto;scrollbar-width:none}.sheetchips::-webkit-scrollbar{display:none}
+.sheetchips .chip{font-size:12px;padding:2px 6px}
 .chip{font-family:var(--body);font-weight:600;font-size:14px;background:var(--panel2);border:1px solid var(--line);border-radius:3px;padding:2px 8px;white-space:nowrap}
 .chip b{color:var(--goldtx);font-weight:700}
 .stats{grid-column:1/-1;display:grid;gap:7px}
@@ -155,7 +156,8 @@ h3.sec{font-size:17px}
 .stat .bar{height:8px;background:var(--panel2);border-radius:2px;overflow:hidden}
 .stat .bar i{display:block;height:100%;transition:width .4s}
 .stat .lv{font-family:var(--display);text-align:right}
-.next{grid-column:1/-1;font-size:14px;color:var(--muted);border-top:1px dashed var(--line);padding-top:8px}
+.next{grid-column:1/-1;font-size:13px;color:var(--muted);border-top:1px dashed var(--line);padding-top:8px;display:grid;grid-template-columns:auto 1fr;gap:2px 10px;align-items:baseline}
+.next .nl{font-size:11px;text-transform:uppercase;letter-spacing:.04em}.next .nv{min-width:0}
 .next b{color:var(--fg);font-weight:500}
 
 /* abas */
@@ -186,6 +188,19 @@ section[role=tabpanel],section.panel{display:flex;flex-direction:column;gap:12px
 .jrday{display:flex;flex-direction:column;gap:4px}.jre{display:grid;grid-template-columns:auto auto 1fr auto;gap:8px;align-items:center}.jrh{display:flex;flex-direction:column;gap:2px;padding:4px 0;border-bottom:1px solid var(--line)}
 .evwhen{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:end}.evwhen .chk{padding-bottom:10px}
 .mission{display:flex;flex-direction:column;gap:8px}
+#famIn{display:flex;flex-direction:column;gap:18px}#famIn>.card{margin:0}
+details.more{font-size:14px;color:var(--muted)}details.more>summary{cursor:pointer;list-style:none;color:var(--accent);font-weight:600;font-size:13px;display:inline-flex;gap:4px;align-items:center}
+details.more>summary::-webkit-details-marker{display:none}details.more>summary::after{content:'▾';transition:transform .15s}details.more[open]>summary::after{transform:rotate(180deg)}
+details.more>div{margin-top:6px;background:var(--panel2);border-radius:8px;padding:8px 10px}
+.hmenu{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end;padding:6px 10px;margin-top:-4px;background:var(--panel2);border:1px solid var(--line);border-top:0;border-radius:0 0 10px 10px}
+.habit.skip{opacity:.65}.habit.skip .hn{text-decoration:line-through}
+.vd.can{cursor:pointer;outline:1px dashed color-mix(in srgb,var(--muted) 60%,transparent);outline-offset:-2px}
+.fixbox{grid-column:2/-1;display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 12px 10px;padding:8px 10px;background:var(--panel2);border-radius:8px}
+.shopcat{display:flex;flex-direction:column;gap:6px}.shopcat h3{margin:0;font-size:13px;color:var(--muted);display:flex;justify-content:space-between}
+.shoprow{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(140px,44%);gap:8px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:4px}.shoprow>.item{scroll-snap-align:start}
+.tipbar{display:flex;gap:10px;align-items:flex-start;background:color-mix(in srgb,var(--gold) 14%,var(--panel));border:1px solid color-mix(in srgb,var(--gold) 45%,var(--line));border-radius:10px;padding:10px 12px;font-size:14px;margin-bottom:12px}
+.tipbar b{display:block;margin-bottom:2px}.tipbar button{flex:none}
+.rkt .small.rkl{color:var(--muted)}
 .sugs button{padding:3px 9px!important;font-size:12.5px!important}
 #cfg-swap.confirm{background:var(--gold);color:#1a1300;border-color:var(--gold)}
 .habit .side .ed{background:none;border:0;color:var(--muted);font-size:16px;padding:4px 6px;cursor:pointer}
@@ -463,7 +478,7 @@ input,select{background:var(--panel2);border:1px solid var(--inline);border-radi
 .qa-prev .pi{display:grid;grid-template-columns:1fr auto auto;gap:6px;align-items:center}
 .qa-prev .pi input{min-width:0}.qa-prev .pd{font-size:12.5px;color:var(--muted);white-space:nowrap}
 .qa-prev .pbar{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
-.vweek{display:flex;gap:4px;margin-top:6px}.vd{display:flex;flex-direction:column;align-items:center;gap:1px;width:30px}
+.vweek{display:flex;gap:4px;margin-top:6px}button.vd{font:inherit;color:inherit;border:0;background:none;padding:0;border-radius:6px}.vd{display:flex;flex-direction:column;align-items:center;gap:1px;width:30px}
 .vd b{display:grid;place-items:center;width:28px;height:24px;border-radius:6px;border:1px solid var(--line);background:var(--panel2);font-size:13px;font-weight:800;color:var(--fg)}
 .vd small{font-size:10.5px;color:var(--muted);font-weight:700}.vd.ok b{background:color-mix(in srgb,#2fb36b 30%,var(--panel2));border-color:#2fb36b}
 .vd.over b{background:color-mix(in srgb,var(--forca) 30%,var(--panel2));border-color:var(--forca)}.vd.none b{color:var(--muted)}.vd.pre{opacity:.3}.vd.fut b{border-style:dashed}.vd.td b{outline:1.5px solid var(--fg);outline-offset:1px}
@@ -825,7 +840,7 @@ input,select{background:var(--panel2);border:1px solid var(--inline);border-radi
           </div>
             <div class="chips sheetchips">
               <span class="chip num" title="Moedas para a loja"><b id="pcoins">0</b> moedas</span>
-              <span class="chip num" title="Dias seguidos com pelo menos 1 hábito"><b id="pstreak">0</b> dias seguidos</span>
+              <span class="chip num" title="Dias seguidos com pelo menos 1 hábito"><b id="pstreak">0</b> dias</span>
               <span class="chip" id="pshield" title="O escudo protege 1 dia sem marcar por semana: a sequência não quebra e o boss não avança"></span>
               <span class="chip num" title="Objetivos concluídos" id="ptrophyChip" hidden><span class="trophy"></span><b id="ptrophy">0</b></span>
             </div>
@@ -1631,8 +1646,9 @@ function questOf(d){ return state.quests[d]||questPick(d); }
 function qmOf(d){ const b=specFx().quest||2; return (state.ultReleases||[]).some(r=>r.at===d&&relEff(r)==='quest')?Math.max(b,3):b; }
 function specFx(){ const c=state.cls&&CLS[state.cls]; return c&&state.spec?c.specs[state.spec].fx:{}; }
 function mult(attr){ let m=1; const c=state.cls&&CLS[state.cls]; if(c&&c.attr===attr) m+=.2; const fx=specFx(); if(fx.attr===attr) m+=fx.pct; return m; }
-const bornOn=(h,d)=>!h.created||!d||d>=h.created;
-const schedOn=(h,d)=>bornOn(h,d)&&(!h.days||!h.days.length||h.days.includes(parseKey(d).getDay()));
+const bornOn=(h,d)=>(!h.created||!d||d>=h.created)&&(!h.until||!d||d<=h.until);
+const isSkip=(h,d)=>!!d&&!!((state.skip||{})[d]||{})[h.id];
+const schedOn=(h,d)=>bornOn(h,d)&&!isSkip(h,d)&&(!h.days||!h.days.length||h.days.includes(parseKey(d).getDay()));
 const wOf=h=>h.wk?(h.xp||0)*h.wk/7:(h.xp||0);
 const activeWeights=(d)=>state.habits.filter(h=>!h.archived&&(!d||schedOn(h,d))).reduce((s,h)=>s+wOf(h),0)||1;
 function goalOn(d){ const n=state.habits.filter(h=>!h.archived&&!h.deleted&&!isAvoid(h)&&!h.wk&&schedOn(h,d)).length; return Math.max(1,Math.min(state.dailyGoal,n||state.dailyGoal)); }
@@ -2063,12 +2079,14 @@ const markFresh=()=>{ try{ sessionStorage.setItem('jornada-pinfresh',String(Date
 function needPlan(why){ if(premium()) return false; openPlan(why); return true; }
 function planLimitProfile(kid){ if(premium()) return false; const n=profiles.filter(p=>!!p.kid===!!kid).length;
   if(n>=(kid?FREE_KIDS:FREE_ADULTS)){ openPlan(kid?'No plano grátis cabe 1 criança. Com o Plano Família, entram todos os filhos.':'No plano grátis cabe 1 adulto. Com o Plano Família, entra a família toda.'); return true; } return false; }
+let jrAll=false, jrHistAll=false;
 const jrEntries=j=>!j?[]:(j.e&&j.e.length?j.e:((j.m!=null||j.t)?[{h:j.at?new Date(j.at).toTimeString().slice(0,5):'',m:j.m!=null?j.m:null,t:j.t||''}]:[]));
 function syncJournal(){ const d=viewDay, jr=state.journal[d]||null, dr=jrDraft||{m:null,t:''}, es=jrEntries(jr);
   const empty=dr.m==null&&!(dr.t||'').trim();
   $('jr-save').disabled=empty||d<minEditDay(); $('jr-save').textContent='Registrar';
   $('jr-status').textContent=empty?(es.length?`${es.length} ${es.length===1?'registro':'registros'}${d===today()?' hoje':''}${JOURNALXP?` · +${JOURNALXP} XP 1 vez por dia`:''}`:`+${JOURNALXP} XP no 1º registro do dia`):'Toque em registrar';
-  $('jrDay').innerHTML=es.map((x,i)=>`<div class="jre"><span class="num small">${esc(x.h||'')}</span><span>${x.m!=null?MOODS[x.m]:''}</span><span class="small">${esc(x.t||'')}</span><button class="del" type="button" data-jdel="${i}" aria-label="Apagar este registro">×</button></div>`).join('');
+  const JRMAX=3, jshow=jrAll?es:es.slice(-JRMAX), joff=es.length-jshow.length;
+  $('jrDay').innerHTML=(joff?`<button class="linkbtn" type="button" data-jrall="1">Ver os ${es.length} registros do dia</button>`:'')+jshow.map((x,j)=>{ const i=j+joff; return `<div class="jre"><span class="num small">${esc(x.h||'')}</span><span>${x.m!=null?MOODS[x.m]:''}</span><span class="small">${esc(x.t||'')}</span><button class="del" type="button" data-jdel="${i}" aria-label="Apagar este registro">×</button></div>`; }).join('')+(jrAll&&es.length>JRMAX?'<button class="linkbtn" type="button" data-jrall="0">Mostrar só os últimos</button>':'');
   $('jr-status').style.color=empty&&es.length?'var(--good)':''; }
 let tab='hoje', slotFilter='all', viewDay=today(), tourStep=0, charSub='ficha', editMode=false, qaMode='task', qaMore=false, dailyShown=null;
 const setSync=t=>{ $('sync').textContent=t; };
@@ -2101,7 +2119,7 @@ function flush(){
 const utcSlot=t=>{ const [h,m]=t.split(':').map(Number); const u=((h*60+m+new Date().getTimezoneOffset())%1440+1440)%1440; return Math.floor(u/5)*5; };
 function syncPush(){
   if(!pid||!B) return;
-  const items=[]; state.habits.filter(h=>!h.archived&&!h.deleted).forEach(h=>{ const ts=timesOf(h); ts.forEach((t,i)=>{ const it={hid:h.id,name:h.name,time:t,kind:h.kind||'do',target:h.target||1}; if(ts.length>1){ it.occ=i+1; it.need=i+1; } items.push(it); }); });
+  const items=[]; state.habits.filter(h=>!h.archived&&!h.deleted).forEach(h=>{ const ts=timesOf(h); ts.forEach((t,i)=>{ const it={hid:h.id,name:h.name,time:t,kind:h.kind||'do',target:h.target||1}; if(h.until) it.until=h.until; if(ts.length>1){ it.occ=i+1; it.need=i+1; } items.push(it); }); });
   const times=new Set(items.map(i=>i.time));
   (rawProfiles||[]).forEach(d=>{ if(d.id===pid) return; ((d.data||{}).habits||[]).forEach(h=>{ if(!h.archived&&!h.deleted) timesOf(h).forEach(t=>times.add(t)); }); });
   const slots=[...new Set([...times].map(utcSlot))].sort((a,b)=>a-b);
@@ -2257,8 +2275,8 @@ function duoStatus(m){
 let duSel=[], duTouched=false;
 
 /* ---------- ações ---------- */
-function setCount(hid,val){
-  const d=viewDay; if(d<minEditDay()||d>today()) return;
+function setCount(hid,val,day,fix){
+  const d=day||viewDay; if(d>today()){ toast('Esse dia ainda não chegou'); return; } if(!fix&&d<minEditDay()) return;
   const before=compute();
   const h=state.habits.find(x=>x.id===hid); const t=h.target||1;
   if(!bornOn(h,d)){ toast('Esse hábito ainda não existia nesse dia'); return; }
@@ -2303,19 +2321,19 @@ function renderSheet(c){
   $('ptier').textContent=c.boss.dead?'':tierName(tier,isF(state.equipped));
   $('pnext').textContent=tier<9?`nova roupa no ${(tier+1)*10}`:(c.p.lvl<MAXLVL?'rumo ao prestígio no 100':'');
   const AS=state.kid?KID_AIMS:AIMS; const al_=(state.aims||[]).filter(a=>AS[a]);
-  $('aimLine').hidden=!al_.length; $('aimLine').textContent=al_.length?'Quer: '+al_.map(a=>(AIM_SHORT[a]||AS[a].n).toLowerCase()).join(' · '):'';
+  $('aimLine').hidden=true; $('aimLine').textContent='';
   $('plvl').textContent=c.p.lvl;
   $('pxpbar').style.width=c.p.pct+'%';
-  $('pxptext').textContent=(c.p.lvl>=MAXLVL?'Nível máximo':`${c.p.into} / ${c.p.need} XP para o nível ${c.p.lvl+1}`)+` · ${Math.max(0,Math.round(c.total)).toLocaleString('pt-BR')} XP no total`;
+  $('pxptext').textContent=(c.p.lvl>=MAXLVL?'Nível máximo':`${c.p.into}/${c.p.need} XP`)+` · total ${Math.max(0,Math.round(c.total)).toLocaleString('pt-BR')}`; $('pxptext').title=c.p.lvl>=MAXLVL?'':`Faltam ${c.p.need-c.p.into} XP para o nível ${c.p.lvl+1}`;
   $('pcoins').textContent=c.coins; $('scoins').textContent=c.coins; $('pstreak').textContent=c.streak;
-  { const left=c.shield.allow-c.shield.usedCount; $('pshield').innerHTML=left>0?`<b>Escudo</b> pronto${left>1?` (${left})`:''}`:`Escudo usado (${DOW[parseKey(c.shield.used).getDay()].toLowerCase()})`; }
+  { const left=c.shield.allow-c.shield.usedCount; $('pshield').innerHTML=left>0?`<b>Escudo</b> ok${left>1?` (${left})`:''}`:`Escudo usado (${DOW[parseKey(c.shield.used).getDay()].toLowerCase().slice(0,3)})`; }
   renderUlt(c);
   $('ptrophyChip').hidden=!c.won; $('ptrophy').textContent=c.won;
   $('stats').innerHTML=AKEYS.map(k=>`<div class="stat${cls&&cls.attr===k?' main':''}" title="${c.attr[k]} XP no total"><span>${ATTRS[k].n}</span><span class="bar"><i style="width:${c.al[k].pct}%;background:${ATTRS[k].c}"></i></span><span class="lv num">Nv ${c.al[k].lvl}</span></div>`).join('');
   const nx=[];
-  if(tier<9) nx.push(`Próxima roupa: <b>${tierName(tier+1,isF(state.equipped))}</b> no nível ${(tier+1)*10}`);
-  if(cls&&c.ws<WSTAGES.length-1) nx.push(`Próxima arma: <b>${cls.stages[c.ws+1]}</b> com ${ATTRS[cls.attr].n} ${WSTAGES[c.ws+1]}`);
-  $('nextLine').innerHTML=nx.join(' · '); $('nextLine').hidden=!nx.length;
+  if(tier<9) nx.push(`<span class="nl">Roupa</span><span class="nv"><b>${tierName(tier+1,isF(state.equipped))}</b> · nível ${(tier+1)*10}</span>`);
+  if(cls&&c.ws<WSTAGES.length-1) nx.push(`<span class="nl">Arma</span><span class="nv"><b>${cls.stages[c.ws+1]}</b> · ${ATTRS[cls.attr].n} ${WSTAGES[c.ws+1]}</span>`);
+  $('nextLine').innerHTML=nx.join(''); $('nextLine').hidden=!nx.length;
 }
 function renderClassPick(){
   if(!swapPrev&&state.swapPrev) swapPrev=state.swapPrev;
@@ -2338,9 +2356,9 @@ function renderToday(c){
     sp.innerHTML=`<h2>Escolha sua especialização</h2><div class="small">Vale a partir de agora e muda a cor da roupa. Só dá para trocar trocando de classe.</div><div class="specs">${Object.entries(cls.specs).map(([k,s])=>`<button class="spec" data-spec="${k}"><span class="prev">${myAvatar(c,{spec:k})}</span><b>${isF(state.equipped)?s.nf:s.n}</b><span class="small">${s.d}</span></button>`).join('')}</div>`;
   } else sp.hidden=true;
   const tk=today(), yk=keyOf(addDays(new Date(),-1));
-  $('dayTitle').textContent=d===tk?'Hoje':d===yk?'Ontem':fmtDay(d);
+  $('dayTitle').textContent=d===tk?'Hoje':d===yk?'Ontem':d===keyOf(addDays(new Date(),1))?'Amanhã':fmtDay(d);
   $('d-today').setAttribute('aria-pressed',d===tk); $('d-yest').setAttribute('aria-pressed',d===yk);
-  $('d-pick').max=tk; $('d-pick').min=minEditDay(); $('d-pick').value=d;
+  $('d-pick').max=keyOf(addDays(new Date(),60)); $('d-pick').min=minEditDay(); $('d-pick').value=d;
   const info=c.byDay[d]||{xp:0,done:0,full:false}, g=goalOn(d);
   // evento
   const ev=activeEvent(); let eh='';
@@ -2391,38 +2409,44 @@ function renderToday(c){
   $('avoidList').innerHTML=avs.map(h=>avoidRow(h,c,d,entries,q,fx)).join('');
   const pendD=(state.pend||{})[d]||{};
   const isDoneH=h=>Math.min(h.target||1,entries[h.id]||0)>=(h.target||1)||(!!h.wk&&weekDone(h,d)>=h.wk), fresh=h=>justDone[h.id]&&Date.now()-justDone[h.id]<700;
-  const offH=act.filter(h=>!schedOn(h,d)&&!isDoneH(h)), onH=act.filter(h=>schedOn(h,d)||isDoneH(h));
+  const skH=act.filter(h=>isSkip(h,d)&&!isDoneH(h)), offH=act.filter(h=>!schedOn(h,d)&&!isDoneH(h)&&!isSkip(h,d)), onH=act.filter(h=>schedOn(h,d)||isDoneH(h));
   const todoH=onH.filter(h=>!isDoneH(h)||fresh(h)), doneH=onH.filter(h=>isDoneH(h)&&!fresh(h));
-  const hrow=(h,later)=>{
+  const canSkip=h=>d===tk&&!h.wk&&!isDoneH(h);
+  const hrow=(h,later,sk)=>{
     const t=h.target||1, cnt=Math.min(t,entries[h.id]||0), done=cnt>=t, a=ATTRS[h.attr]||ATTRS.equilibrio;
     const st=habitStreak(h.id), isQ=h.id===q, base=xpFor(h,d), qm=fx.quest||2, boosted=mult(h.attr)>1;
     const wd=h.wk?weekDone(h,d):0, wkMet=!!h.wk&&wd>=h.wk&&!done, mon=mondayOf(parseKey(d));
     const dots=`<span class="wdots" aria-hidden="true">${Array.from({length:7},(_,i)=>{ const k=keyOf(addDays(mon,i)); const on=((state.log[k]||{})[h.id]||0)>=t; return `<i class="${on?'on':''}${!h.wk&&!schedOn(h,k)?' off':''}${k===d?' td':''}"></i>`; }).join('')}</span>`;
-    const side=t>1?`<div class="counter"><button data-act="minus" aria-label="Tirar 1">−</button><span class="cv num">${cnt}/${t}</span><button data-act="plus" aria-label="Somar 1" ${cnt>=t?'disabled':''}>+</button></div>`:`<div class="box">${check}</div>`;
+    const ed=`<button class="ed" data-act="menu" type="button" aria-label="Opções do hábito">✎</button>`;
+    const side=sk?`<button class="btn ghost sm" data-act="unskip" type="button">Desfazer</button>`:ed+(t>1?`<div class="counter"><button data-act="minus" aria-label="Tirar 1">−</button><span class="cv num">${cnt}/${t}</span><button data-act="plus" aria-label="Somar 1" ${cnt>=t?'disabled':''}>+</button></div>`:`<div class="box">${check}</div>`);
     const pendH=!done&&pendD[h.id];
-    return `<div class="habit${done?' done':''}${later?' later':''}${pendH?' pending':''}" data-hid="${h.id}" style="--c:${a.c}">
+    return `<div class="habit${done?' done':''}${later?' later':''}${pendH?' pending':''}${sk?' skip':''}" data-hid="${h.id}" style="--c:${a.c}">
       <span class="stripe"></span>
-      <button class="main" data-act="${t>1?(done?'none':'plus'):'toggle'}" aria-pressed="${done}">
+      <button class="main" data-act="${sk?'unskip':t>1?(done?'none':'plus'):'toggle'}" aria-pressed="${done}">
         ${isQ?`<span class="quest">Missão do dia ×${qm}</span>`:''}
         <span class="hn">${esc(h.name)}</span>${pendH?'<span class="pendnote">Esperando um adulto confirmar</span>':''}
-        <span class="meta"><span class="a">${a.n}</span>${h.block?`<span>${{m:'manhã',t:'tarde',n:'noite'}[h.block]}</span>`:''}${timesOf(h).length?`<span>às ${timesOf(h).join(' e ')}</span>`:''}${h.why&&AIM_SHORT[h.why]?`<span class="whyc">${AIM_SHORT[h.why]}</span>`:''}${h.follow&&followTxt(h.follow)?`<span class="whyc">${esc(followTxt(h.follow))}</span>`:''}${h.shared&&d===today()&&sharedTxt(h)?`<span class="whyc">${esc(sharedTxt(h))}</span>`:''}${h.wk?`<span>${wkMet?'meta da semana cumprida':`${wd} de ${h.wk} na semana`}</span>`:''}<span class="${boosted?'boost':''}">${wkMet?'sem XP extra esta semana':`+${isQ?base*qm:base} XP${boosted?' (classe)':''}`}</span>${t>1?`<span>${t} ${esc(h.unit||'')}</span>`:''}${st>1?`<span>${st} dias seguidos</span>`:''}</span>
+        <span class="meta"><span class="a">${a.n}</span>${sk?'<span>dispensado hoje, sem contar como falha</span>':''}${h.until?`<span>até ${h.until.split('-').reverse().slice(0,2).join('/')}</span>`:''}${h.block?`<span>${{m:'manhã',t:'tarde',n:'noite'}[h.block]}</span>`:''}${timesOf(h).length?`<span>às ${timesOf(h).join(' e ')}</span>`:''}${h.why&&AIM_SHORT[h.why]?`<span class="whyc">${AIM_SHORT[h.why]}</span>`:''}${h.follow&&followTxt(h.follow)?`<span class="whyc">${esc(followTxt(h.follow))}</span>`:''}${h.shared&&d===today()&&sharedTxt(h)?`<span class="whyc">${esc(sharedTxt(h))}</span>`:''}${h.wk?`<span>${wkMet?'meta da semana cumprida':`${wd} de ${h.wk} na semana`}</span>`:''}<span class="${boosted?'boost':''}">${wkMet?'sem XP extra esta semana':`+${isQ?base*qm:base} XP${boosted?' (classe)':''}`}</span>${t>1?`<span>${t} ${esc(h.unit||'')}</span>`:''}${st>1?`<span>${st} dias seguidos</span>`:''}</span>
         ${dots}
       </button>
       <div class="side">${side}</div>
       ${t>1?`<div class="prog"><i style="width:${Math.min(100,cnt/t*100)}%"></i></div>`:''}
-    </div>`; };
-  $('habits').innerHTML=act.length?todoH.map(h=>hrow(h,false)).join('')+(doneH.length?`<div class="donesep">${d===tk?'Feitos hoje':'Feitos'} (${doneH.length})</div>`+doneH.map(h=>hrow(h,true)).join(''):'')+(offH.length?`<div class="donesep">Não é dia (${offH.length})</div>`+offH.map(h=>hrow(h,true)).join(''):''):'<div class="card small">Nenhum hábito ativo. Use o "+ Adicionar" acima e escolha Hábito.</div>';
+    </div>${habMenu===h.id?`<div class="hmenu" data-hid="${h.id}"><button class="btn ghost sm" data-act="edit" type="button">✎ Editar hábito</button>${canSkip(h)?'<button class="btn ghost sm" data-act="skip" type="button">Não fazer hoje</button>':''}<button class="btn ghost sm" data-act="mclose" type="button">Fechar</button></div>`:''}`; };
+  $('habits').innerHTML=act.length?todoH.map(h=>hrow(h,false)).join('')+(doneH.length?`<div class="donesep">${d===tk?'Feitos hoje':'Feitos'} (${doneH.length})</div>`+doneH.map(h=>hrow(h,true)).join(''):'')+(skH.length?`<div class="donesep">Dispensados hoje (${skH.length})</div>`+skH.map(h=>hrow(h,true,true)).join(''):'')+(offH.length?`<div class="donesep">Não é dia (${offH.length})</div>`+offH.map(h=>hrow(h,true)).join(''):''):'<div class="card small">Nenhum hábito ativo. Use o "+ Adicionar" acima e escolha Hábito.</div>';
 }
 const justDone={};
+let habMenu=null, fixDay=null;
 
-function avoidWeek(h,d){ const mon=mondayOf(parseKey(d)), tk=today(), L=['S','T','Q','Q','S','S','D']; let note='';
+function avoidWeek(h,d){ const mon=mondayOf(parseKey(d)), tk=today(), L=['S','T','Q','Q','S','S','D']; let note=''; const fixable=k=>bornOn(h,k)&&k<tk&&k>=keyOf(addDays(parseKey(tk),-6));
   if(h.created&&h.created>keyOf(mon)&&h.created<=keyOf(addDays(mon,6))) note=`semana começou ${['no domingo','na segunda','na terça','na quarta','na quinta','na sexta','no sábado'][parseKey(h.created).getDay()]}`;
   const cells=L.map((l,i)=>{ const k=keyOf(addDays(mon,i)), v=(state.log[k]||{})[h.id]||0; let cls='', txt='';
     if(!bornOn(h,k)) cls='pre'; else if(k>tk) cls='fut';
     else if(countMode(h)){ if(v>=1){ txt=String(v-1); cls=habitDone(h,k,v)?'ok':'over'; } else if(k<tk){ txt='–'; cls='none'; } }
     else { if(v===1){ txt='✓'; cls='ok'; } else if(v===-1){ txt='✗'; cls='over'; } else if(k<tk){ txt='–'; cls='none'; } }
-    return `<span class="vd ${cls}${k===d?' td':''}"><b>${txt}</b><small>${l}</small></span>`; }).join('');
-  return `<div class="vweek" aria-hidden="true">${cells}</div>${note?`<div class="small vnote">${note}</div>`:''}`; }
+    return fixable(k)?`<button type="button" class="vd ${cls}${k===d?' td':''} can" data-act="fixday" data-day="${k}" aria-label="Corrigir ${fmtDay(k)}"><b>${txt}</b><small>${l}</small></button>`:`<span class="vd ${cls}${k===d?' td':''}"><b>${txt}</b><small>${l}</small></span>`; }).join('');
+  return `<div class="vweek">${cells}</div>${note?`<div class="small vnote">${note}</div>`:''}<div class="small vnote">Toque num dia que passou para corrigir.</div>`; }
+function fixHTML(h){ if(!fixDay||fixDay.hid!==h.id) return ''; const v=fixDay.v, k=fixDay.d;
+  if(countMode(h)) return `<div class="fixbox" data-hid="${h.id}"><span class="small">Corrigir <b>${fmtDay(k)}</b></span><div class="counter"><button data-act="fixminus" type="button" aria-label="Tirar 1">−</button><span class="cv num">${v>=1?v-1:'–'}</span><button data-act="fixplus" type="button" aria-label="Somar 1">+</button></div><button class="btn sm" data-act="fixsave" type="button">Salvar</button><button class="btn ghost sm" data-act="fixclose" type="button">Cancelar</button></div>`;
+  return `<div class="fixbox" data-hid="${h.id}"><span class="small">Corrigir <b>${fmtDay(k)}</b></span><button class="btn ghost sm" data-act="fixset" data-v="1" aria-pressed="${v===1}" type="button">Resistiu</button><button class="btn ghost sm" data-act="fixset" data-v="-1" aria-pressed="${v===-1}" type="button">Recaí</button><button class="btn ghost sm" data-act="fixset" data-v="0" aria-pressed="${v===0}" type="button">Sem registro</button><button class="btn sm" data-act="fixsave" type="button">Salvar</button><button class="btn ghost sm" data-act="fixclose" type="button">Cancelar</button></div>`; }
 function avoidRow(h,c,d,entries,q,fx){
   const cnt=entries[h.id]||0, a=ATTRS[h.attr]||ATTRS.equilibrio, v=c.vices[h.id]||{streak:0,hp:VICE_HP}, base=xpFor(h,d), isQ=h.id===q, qm=fx.quest||2;
   const xpTxt=`+${isQ?base*qm:base} XP`;
@@ -2433,8 +2457,8 @@ function avoidRow(h,c,d,entries,q,fx){
       <span class="stripe"></span>
       <div class="main" style="cursor:default">${quest}<span class="hn">${esc(h.name)}</span>
         <span class="meta"><span class="a">Limite por semana</span><span>${used} de ${lim} ${esc(h.unit||'vezes')} na semana${over?' · passou do limite':''}</span><span>${doses===null?'hoje: nada registrado':`hoje: ${doses}`} · ${xpTxt}</span></span></div>
-      <div class="side">${doses===null?`<button class="btn ghost sm" data-act="zero" type="button">Nenhum</button>`:''}<div class="counter"><button data-act="minus" aria-label="Tirar 1">−</button><span class="cv num">${doses===null?'–':doses}</span><button data-act="plus" aria-label="Somar 1">+</button></div></div>
-      <div class="vrow">${avoidWeek(h,d)}</div>
+      <div class="side"><button class="ed" data-act="edit" type="button" aria-label="Editar">✎</button>${doses===null?`<button class="btn ghost sm" data-act="zero" type="button">Nenhum</button>`:''}<div class="counter"><button data-act="minus" aria-label="Tirar 1">−</button><span class="cv num">${doses===null?'–':doses}</span><button data-act="plus" aria-label="Somar 1">+</button></div></div>
+      <div class="vrow">${avoidWeek(h,d)}</div>${fixHTML(h)}
       <div class="prog" style="--c:${over?'var(--forca)':a.c}"><i style="width:${Math.min(100,lim?used/lim*100:(used?100:0))}%"></i></div>
     </div>`;
   }
@@ -2444,8 +2468,8 @@ function avoidRow(h,c,d,entries,q,fx){
       <span class="stripe"></span>
       <div class="main" style="cursor:default">${quest}<span class="hn">${esc(h.name)}</span>
         <span class="meta"><span class="a">Diminuir</span><span>Limite: ${lim} ${esc(h.unit||'')}${lim>(h.goal||0)?` (meta ${h.goal||0})`:' (meta atingida)'}</span><span>${doses===null?'nada registrado':(over?`passou do limite`:`dentro do limite`)} · ${xpTxt}</span></span></div>
-      <div class="side">${doses===null?`<button class="btn ghost sm" data-act="zero" type="button">Nenhum</button>`:''}<div class="counter"><button data-act="minus" aria-label="Tirar 1">−</button><span class="cv num">${doses===null?'–':doses}/${lim}</span><button data-act="plus" aria-label="Somar 1">+</button></div></div>
-      <div class="vrow">${avoidWeek(h,d)}</div>
+      <div class="side"><button class="ed" data-act="edit" type="button" aria-label="Editar">✎</button>${doses===null?`<button class="btn ghost sm" data-act="zero" type="button">Nenhum</button>`:''}<div class="counter"><button data-act="minus" aria-label="Tirar 1">−</button><span class="cv num">${doses===null?'–':doses}/${lim}</span><button data-act="plus" aria-label="Somar 1">+</button></div></div>
+      <div class="vrow">${avoidWeek(h,d)}</div>${fixHTML(h)}
       <div class="prog" style="--c:${over?'var(--forca)':a.c}"><i style="width:${doses===null?0:Math.min(100,lim?doses/lim*100:(doses?100:0))}%"></i></div>
     </div>`;
   }
@@ -2454,8 +2478,8 @@ function avoidRow(h,c,d,entries,q,fx){
     <span class="stripe"></span>
     <button class="main" data-act="resist" aria-pressed="${done}">${quest}<span class="hn">${esc(h.name)}</span>
       <span class="meta"><span class="a">Parar de vez</span><span>${rel?'recaída registrada':(done?'resistiu hoje':'toque se resistiu hoje')} · ${xpTxt}</span><span>${v.streak} dia${v.streak===1?'':'s'} limpo</span></span></button>
-    <div class="side"><button class="btn ghost sm" data-act="relapse" type="button">${rel?'Desfazer':'Recaí'}</button><div class="box">${check}</div></div>
-    <div class="vrow">${avoidWeek(h,d)}</div>
+    <div class="side"><button class="ed" data-act="edit" type="button" aria-label="Editar">✎</button><button class="btn ghost sm" data-act="relapse" type="button">${rel?'Desfazer':'Recaí'}</button><div class="box">${check}</div></div>
+    <div class="vrow">${avoidWeek(h,d)}</div>${fixHTML(h)}
   </div>`;
 }
 function renderVices(c){
@@ -2652,13 +2676,13 @@ function renderFamily(c){
   $('famWeek').textContent=`${pad(parseKey(m.wk).getDate())}/${pad(parseKey(m.wk).getMonth()+1)} a ${pad(end.getDate())}/${pad(end.getMonth()+1)}`;
   $('famMission').innerHTML=`<div class="head"><h2>Missão da semana</h2><span class="small num">+${FAMREWARD} XP para cada um</span></div>
     <div class="mission"><div>Juntos, completem <b>${m.target} hábitos de ${a.n}</b> até domingo.</div>
-    <div class="small">Todo hábito de ${a.n} que alguém da família faz de segunda a domingo soma aqui. Quando a soma chega a ${m.target}, cada um ganha +${FAMREWARD} XP. Toda segunda começa uma missão nova, com outro atributo.</div>
+    <details class="more"><summary>Como funciona</summary><div>Todo hábito de ${a.n} que alguém da família faz de segunda a domingo soma aqui. Quando a soma chega a ${m.target}, cada um ganha +${FAMREWARD} XP. Toda segunda começa uma missão nova, com outro atributo.</div></details>
     <div class="gbar" style="--c:${a.c}"><i style="width:${done?100:Math.min(100,m.progress/m.target*100)}%"></i></div>
     <div class="small num">${done?'Concluída! XP recebido por todos':`${Math.min(m.progress,m.target)} de ${m.target} · faltam ${Math.max(0,m.target-m.progress)}`}</div></div>`;
   const rank=rankOf(m.list); const champ=champOf(m.list);
   renderVillage(m); renderDuos(m); renderHouseTasks();
   const bossTxt=b=>b==='dead'?' · virou fantasma':BOSSES[b]?' · enfrentando boss':'';
-  $('famRank').innerHTML=rank.map((r,i)=>`<div class="rk${r.pos===1?' first':''}${r.me?' me':''}"><span class="pos">${r.pos}º</span><span class="prev" style="${r.boss==='dead'?'filter:grayscale(1);opacity:.6':''}">${avatarSVG({eq:r.eq||{},level:r.lvl||1,cls:r.cls,spec:r.spec,wstage:r.ws||0,prestige:r.prestige||0})}</span><span class="rkt"><b>${champ.includes(r.id)?'👑 ':''}${esc(r.name||'Sem nome')}${r.role?` <span class="role">${esc(r.role)}</span>`:''}${r.me?' (você)':''}${(r.streak||0)>=7?` <span class="fire" title="${r.streak} dias seguidos">🔥${r.streak}</span>`:''}</b><span class="small">Nível ${r.lvl||1}${r.cls&&CLS[r.cls]?' · '+clsName(r.cls,isF(r.eq)):''}${r.prestige?' · P'+r.prestige:''}</span><span class="small">${((r.weekAttr||{})[m.attr]||0)} de ${a.n}${bossTxt(r.boss)}</span></span><span class="xp num">${r.weekPts||0}<small> pts</small></span></div>`).join('');
+  $('famRank').innerHTML=rank.map((r,i)=>`<div class="rk${r.pos===1?' first':''}${r.me?' me':''}"><span class="pos">${r.pos}º</span><span class="prev" style="${r.boss==='dead'?'filter:grayscale(1);opacity:.6':''}">${avatarSVG({eq:r.eq||{},level:r.lvl||1,cls:r.cls,spec:r.spec,wstage:r.ws||0,prestige:r.prestige||0})}</span><span class="rkt"><b>${champ.includes(r.id)?'👑 ':''}${esc(r.name||'Sem nome')}${r.role?` <span class="role">${esc(r.role)}</span>`:''}${r.me?' (você)':''}${(r.streak||0)>=7?` <span class="fire" title="${r.streak} dias seguidos">🔥${r.streak}</span>`:''}</b><span class="small rkl">Nv ${r.lvl||1}${r.cls&&CLS[r.cls]?' · '+clsName(r.cls,isF(r.eq)):''}${r.prestige?' · P'+r.prestige:''} · ${((r.weekAttr||{})[m.attr]||0)} de ${a.n}${bossTxt(r.boss)}</span></span><span class="xp num">${r.weekPts||0}<small> pts</small></span></div>`).join('');
 }
 const SCENES=[['bg_jardim','Jardim'],['bg_parque','Parque'],['bg_quarto','Sala'],['bg_praia','Praia'],['bg_montanha','Montanha'],['bg_noite','Noite estrelada'],['bg_espaco','Espaço']];
 let selMember=null;
@@ -2694,6 +2718,8 @@ function renderVillage(m){
       ${r.me?'':`<label class="small nickw">Apelido que só você vê<input data-nick="${esc(r.id)}" value="${esc((state.nicks||{})[r.id]||'')}" maxlength="16" placeholder="${esc(r.realName||r.name||'')}"></label>`}
     </div></div>`;
 }
+function habCountWeek(wkStart){ let n=0; for(let i=0;i<7;i++){ const k=keyOf(addDays(parseKey(wkStart),i)); if(k>today()) break; state.habits.filter(h=>!isAvoid(h)).forEach(h=>{ if(habitDone(h,k,(state.log[k]||{})[h.id]||0)) n++; }); } return n; }
+function taskCountWeek(wkStart){ const e=keyOf(addDays(parseKey(wkStart),6)); return (state.tasks||[]).filter(t=>t.done&&t.doneAt&&t.doneAt>=wkStart&&t.doneAt<=e).length+Object.values(state.sharedDone||{}).filter(x=>x>=wkStart&&x<=e).length; }
 function weekSummary(c,wkStart){
   const days=Array.from({length:7},(_,i)=>keyOf(addDays(parseKey(wkStart),i))), prevDays=days.map(k=>keyOf(addDays(parseKey(k),-7)));
   const sumXP=ds=>ds.reduce((a,k)=>a+((c.byDay[k]||{}).xp||0),0);
@@ -2702,7 +2728,7 @@ function weekSummary(c,wkStart){
   const top=hs.slice().sort((a,b)=>b.now-a.now)[0];
   const drop=hs.filter(x=>x.before>x.now).sort((a,b)=>(b.before-b.now)-(a.before-a.now))[0];
   const rise=hs.filter(x=>x.now>x.before).sort((a,b)=>(b.now-b.before)-(a.now-a.before))[0];
-  return {from:days[0],to:days[6],xp:sumXP(days),prev:sumXP(prevDays),full:days.filter(k=>(c.byDay[k]||{}).full).length,
+  return {from:days[0],to:days[6],xp:sumXP(days),prev:sumXP(prevDays),hab:habCountWeek(days[0]),habPrev:habCountWeek(prevDays[0]),tasks:taskCountWeek(days[0]),full:days.filter(k=>(c.byDay[k]||{}).full).length,
     active:days.filter(k=>(c.byDay[k]||{}).done).length,shield:days.find(k=>c.shieldDays.has(k)),top,drop,rise,
     mood:(()=>{ const ms=days.map(k=>(state.journal[k]||{}).m).filter(x=>x!=null); return ms.length?Math.round(ms.reduce((a,b)=>a+b,0)/ms.length):null; })()};
 }
@@ -2717,8 +2743,9 @@ function summaryHTML(w,title){
   if(w.shield) lines.push(`Escudo usado em ${d(w.shield)}`);
   if(w.mood!=null) lines.push(`Humor médio no diário: ${MOODS[w.mood]}`);
   return `<div class="head"><h2>${title}</h2><span class="small">${d(w.from)} a ${d(w.to)}</span></div>
-    <div class="sumgrid"><div><span class="small">XP</span><b class="num">${w.xp}</b><span class="small num">${w.prev?`${diff>=0?'+':''}${diff} vs a semana anterior (${w.prev})`:'sem dados da semana anterior'}</span></div>
+    <div class="sumgrid"><div><span class="small">Hábitos feitos</span><b class="num">${w.hab}</b><span class="small num">semana anterior: ${w.habPrev}${w.tasks?` · ${w.tasks} ${w.tasks===1?'tarefa':'tarefas'}`:''}</span></div>
     <div><span class="small">Dias cheios</span><b class="num">${w.full} de 7</b><span class="small num">${w.active} dias com algum hábito</span></div></div>
+    <div class="small num">XP da semana: ${w.xp} (semana anterior: ${w.prev})</div>
     ${lines.length?`<div class="small" style="display:flex;flex-direction:column;gap:4px">${lines.map(l=>`<span>${l}</span>`).join('')}</div>`:''}`;
 }
 function renderDuos(m){
@@ -2802,28 +2829,36 @@ function renderVisual(c){
   $('slots').innerHTML=SLOTS.map(([k,n])=>`<button data-slot="${k}" aria-pressed="${slotFilter===k}">${n}</button>`).join('');
   $('shopNote').hidden=!c.boss.dead;
   const list=ITEMS.filter(i=>i.slot!=='skin'&&i.slot!=='hstyle'&&i.slot!=='body'&&(slotFilter==='all'||i.slot===slotFilter));
-  $('shop').innerHTML=list.map(it=>{
+  const card=it=>{
     const own=owns(it.id,c), ok=reqOk(it,c), on=eq[it.slot]===it.id, fixed=FIXED.has(it.slot);
     let btn;
     if(own) btn=`<button class="${on?'eq':''}" data-equip="${it.id}" ${on&&fixed?'disabled':''}>${on?(fixed?'Em uso':'Tirar'):'Usar'}</button>`;
     else if(!ok) btn='<button disabled>Bloqueado</button>';
     else btn=`<button class="buy" data-buy="${it.id}" ${c.coins<it.p||c.boss.dead?'disabled':''}>${it.p} moedas</button>`;
     return `<div class="item${!own&&!ok?' locked':''}"><div class="prev">${myAvatar(c,{eq:Object.assign({},eq,{[it.slot]:it.id}),noHero:it.slot!=='pet'&&it.slot!=='bg'})}</div><span class="in">${esc(it.n)}</span><span class="req${ok?' ok':''}">${own?(it.p===0?'Grátis':'Seu'):(ok?`Requisito ok · ${reqText(it)}`:`Precisa de ${reqText(it)}`)}</span>${btn}</div>`;
-  }).join('');
+  };
+  const rank_=it=>owns(it.id,c)?0:reqOk(it,c)?1:2;
+  if(slotFilter==='all'){ $('shop').className='shopcats'; $('shop').innerHTML=SLOTS.filter(([k])=>k!=='all').map(([k,n])=>{ const its=list.filter(i=>i.slot===k).sort((a,b)=>rank_(a)-rank_(b)); if(!its.length) return ''; const mine=its.filter(i=>owns(i.id,c)).length;
+      return `<div class="shopcat"><h3><span>${n}</span><span class="num">${mine} de ${its.length} · <button class="linkbtn" type="button" data-slot="${k}">ver todos</button></span></h3><div class="shoprow">${its.map(card).join('')}</div></div>`; }).join(''); }
+  else { $('shop').className='shopgrid'; $('shop').innerHTML=list.sort((a,b)=>rank_(a)-rank_(b)).map(card).join(''); }
 }
 function renderHist(c){
   const now=new Date(), monday=mondayOf(now);
   let wk=0, lw=0;
   for(let i=0;i<7;i++){ wk+=c.byDay[keyOf(addDays(monday,i))]?.xp||0; lw+=c.byDay[keyOf(addDays(monday,i-7))]?.xp||0; }
   const ym=keyOf(now).slice(0,7); let fullM=0; for(const [d,v] of Object.entries(c.byDay)) if(d.startsWith(ym)&&v.full) fullM++;
-  const diff=wk-lw;
-  $('kpis').innerHTML=`<div class="kpi"><span class="small">XP na semana</span><b class="num">${wk}</b><span class="small num">${lw?`${diff>=0?'+':''}${diff} vs semana passada (${lw})`:'semana passada: 0'}</span></div>
+  const diff=wk-lw; const hW=habCountWeek(keyOf(monday)), hL=habCountWeek(keyOf(addDays(monday,-7))), tW=taskCountWeek(keyOf(monday));
+  $('kpis').innerHTML=`<div class="kpi"><span class="small">Hábitos feitos na semana</span><b class="num">${hW}</b><span class="small num">semana passada: ${hL}</span></div>
+    <div class="kpi"><span class="small">Tarefas concluídas</span><b class="num">${tW}</b><span class="small">nesta semana</span></div>
+    <div class="kpi"><span class="small">XP na semana</span><b class="num">${wk}</b><span class="small num">semana passada: ${lw}</span></div>
     <div class="kpi"><span class="small">Dias cheios no mês</span><b class="num">${fullM}</b></div>
     <div class="kpi"><span class="small">Maior sequência</span><b class="num">${c.best}</b><span class="small">dias</span></div>`;
   $('sumCard').innerHTML=summaryHTML(weekSummary(c,keyOf(addDays(monday,-7))),'Resumo da semana passada');
-  const jk=Object.keys(state.journal||{}).filter(k=>state.journal[k]&&(state.journal[k].t||state.journal[k].m!=null)).sort().reverse().slice(0,14);
+  const jkAll=Object.keys(state.journal||{}).filter(k=>jrEntries(state.journal[k]).length).sort().reverse().slice(0,30), jk=jrHistAll?jkAll:jkAll.slice(0,5);
   $('jrCard').hidden=!jk.length;
-  $('jrList').innerHTML=jk.map(k=>`<div class="jrh"><b class="small" style="color:var(--fg)">${fmtDay(k)}</b>${jrEntries(state.journal[k]).map(x=>`<div class="small">${x.h?`<span class="num">${esc(x.h)}</span> `:''}${x.m!=null?MOODS[x.m]:''} ${esc(x.t||'')}</div>`).join('')}</div>`).join('');
+  $('jrList').innerHTML=jk.map(k=>{ const es=jrEntries(state.journal[k]), ms=es.filter(x=>x.m!=null).map(x=>MOODS[x.m]).join(' '), tx=es.filter(x=>x.t);
+    return `<details class="jrh"><summary class="small" style="color:var(--fg);cursor:pointer"><b>${fmtDay(k)}</b> ${ms} <span style="color:var(--muted)">· ${es.length} ${es.length===1?'registro':'registros'}</span></summary>${es.map(x=>`<div class="small">${x.h?`<span class="num">${esc(x.h)}</span> `:''}${x.m!=null?MOODS[x.m]:''} ${esc(x.t||'')}</div>`).join('')}</details>`; }).join('')
+    +(jkAll.length>5?`<button class="linkbtn" type="button" id="jrMore">${jrHistAll?'Mostrar menos':`Ver mais dias (${jkAll.length-5})`}</button>`:'');
   const got=ACH.filter(a=>state.ach.includes(a.id)).length;
   $('achCount').textContent=`${got} de ${ACH.length}`;
   $('badges').innerHTML=ACH.map(a=>`<div class="bd${state.ach.includes(a.id)?' on':''}"><span class="md"></span><b>${a.n}</b><span>${a.d}</span></div>`).join('');
@@ -2875,6 +2910,7 @@ function renderHabEdit(){
     ${fq==='week'?`<label class="full">Quantas vezes por semana<input data-f="wk" type="number" min="1" max="6" value="${h.wk}"></label>`:''}
     <div class="full metarow"><span class="mlabel">Meta do dia</span><input data-f="target" type="number" min="1" max="50" value="${h.target||1}" aria-label="Quantidade por dia"><input data-f="unit" value="${esc(h.unit||'')}" placeholder="vez" maxlength="30" aria-label="Unidade"></div>`}
     ${timesHTML(h)}
+    ${av?'':`<label class="full">Termina em (opcional)<input data-f="until" type="date" min="${today()}" value="${h.until||''}"></label>`}
     <label>Atributo<select id="e-attr-${h.id}" data-f="attr">${attrOptions(h.attr)}</select></label>
     <label class="full">Quanto vale<select id="e-xp-${h.id}" data-f="xp">${xpOpts(h.xp,h.attr,h,h.wk||0)}</select></label>
     ${av?(h.mode==='reduce'?`<label>Começo/dia<input id="e-s-${h.id}" data-f="start" type="number" min="1" max="50" value="${h.start||1}"></label><label>Limite final/dia<input id="e-g-${h.id}" data-f="goal" type="number" min="0" max="49" value="${h.goal||0}"></label>`:h.mode==='week'?`<label>Limite por semana<input data-f="lim" type="number" min="0" max="49" value="${h.lim||0}"></label><label>Unidade<input data-f="unit" value="${esc(h.unit||'')}" maxlength="30"></label>`:''):''}
@@ -2927,6 +2963,8 @@ function renderTasks(){
   const open=(state.tasks||[]).filter(t=>!t.done&&(!t.date||t.date<=tk)).sort((a,b)=>(a.date||'9')<(b.date||'9')?-1:1);
   const later=(state.tasks||[]).filter(t=>!t.done&&t.date&&t.date>tk);
   const fm=ftMine(), inv=fm.filter(t=>!(t.acc||{})[me]&&!t.done), sOpen=fm.filter(t=>(t.acc||{})[me]&&!t.done&&(!t.date||t.date<=tk)), sLater=fm.filter(t=>(t.acc||{})[me]&&!t.done&&t.date&&t.date>tk), sDone=fm.filter(t=>(t.acc||{})[me]&&t.done&&t.done.at>=yk);
+  if(d>tk){ const fut=(state.tasks||[]).filter(t=>!t.done&&t.date===d).map(t=>t.name).concat(fm.filter(t=>(t.acc||{})[me]&&!t.done&&t.date===d).map(t=>t.name+' (junto)'));
+    $('taskWrap').hidden=!fut.length; $('taskList').innerHTML=fut.map(n=>`<div class="habit task later"><span class="stripe"></span><div class="main" style="cursor:default"><span class="hn">${esc(n)}</span><span class="meta"><span class="ttag">Tarefa</span><span>para ${esc(whenLabel(d))}</span></span></div></div>`).join(''); return; }
   const show=d===tk&&(open.length||later.length||inv.length||sOpen.length||sLater.length||sDone.length);
   $('taskWrap').hidden=!show; if(!show){ $('taskList').innerHTML=''; return; }
   const doneToday=(state.tasks||[]).filter(t=>t.done&&t.doneAt===tk).length+Object.values(state.sharedDone||{}).filter(x=>x===tk).length;
@@ -3175,7 +3213,23 @@ function render(){ if(swapping){ setTimeout(render,0); return; }
   if(tab==='fam'){ renderFamily(c); renderHouse(c); }
   if(tab==='hab') renderSettings(c);
   renderDaily(c); if(state.tour) checkMilestone(c);
+  renderTip();
 }
+const TIPS={
+  hoje:['Sua aba principal','Toque no hábito para marcar. O ✎ abre as opções: editar ou "Não fazer hoje". Em "Para largar", toque num dia da semana que passou para corrigir.'],
+  cal:['Calendário da casa','Os números mostram quantos hábitos a casa fez no dia. Toque num dia para ver quem fez o quê, as tarefas e as datas importantes.'],
+  obj:['Metas e bosses','Metas maiores dão recompensa quando você chega lá. Cada vício vira um demônio que perde vida conforme você cumpre o combinado.'],
+  'char-ficha':['Seu personagem','Nível e roupa sobem com o XP geral. A arma melhora com o atributo da sua classe.'],
+  'char-lendas':['Lendas da temporada','Cada lenda é liberada pelos dias em que você marca pelo menos 1 hábito, sem precisar ser em sequência.'],
+  'char-vis':['Visual e loja','Cada categoria da loja anda para o lado. Toque em "ver todos" para ver a categoria inteira.'],
+  'char-hist':['Status','O resumo mostra quantos hábitos e tarefas você cumpriu na semana. Toque num dia do diário para abrir os registros.'],
+  fam:['Família','Placar, missão da semana, duelo e tarefas da casa ficam aqui. Toque em alguém para ver a ficha.'],
+  hab:['Ajustes','Aqui ficam perfil, notificações, aparência e conta. O tutorial pode ser revisto a qualquer momento.']};
+function renderTip(){ document.querySelectorAll('.tipbar').forEach(x=>x.remove()); if(view!=='app'||!state.tour||!state.cls||!$('daily').hidden) return;
+  const k=tab==='char'?'char-'+charSub:tab, t=TIPS[k]; if(!t||(state.tips||{})[k]) return; const panel=$('p-'+tab); if(!panel||panel.hidden) return;
+  const el=document.createElement('div'); el.className='tipbar'; el.innerHTML=`<span style="flex:1"><b>${t[0]}</b>${t[1]}</span><button class="btn ghost sm" type="button" data-tipok="${k}">Entendi</button>`;
+  const anchor=tab==='char'?$('sub-'+charSub):panel; anchor.prepend(el); }
+document.addEventListener('click',e=>{ const b=e.target.closest('[data-tipok]'); if(!b) return; state.tips=Object.assign({},state.tips,{[b.dataset.tipok]:1}); save(); b.closest('.tipbar').remove(); });
 function goTab(t){ if(t==='hab'&&tab!=='hab'&&!pinFree()){ askPin('Os Ajustes são só para os adultos da casa.',()=>goTab(t)); return; } if(t!==tab&&(t==='cal'||t==='fam')){ bump(t==='cal'?'calendario':'familia'); save(); } tab=t; document.querySelectorAll('.tab').forEach(x=>x.setAttribute('aria-selected',x.id==='t-'+t)); render(); try{ window.scrollTo({top:0}); }catch(e){} }
 
 /* ---------- eventos ---------- */
@@ -3184,7 +3238,7 @@ $('classList').addEventListener('click',e=>{ const b=e.target.closest('[data-cls
 $('specPick').addEventListener('click',e=>{ const b=e.target.closest('[data-spec]'); if(!b) return; state.spec=b.dataset.spec; save(); render(); toast(`Especialização: ${specName(state.cls,state.spec,isF(state.equipped))}`); jump(); });
 $('d-today').addEventListener('click',()=>{ viewDay=today(); render(); });
 $('d-yest').addEventListener('click',()=>{ viewDay=keyOf(addDays(new Date(),-1)); render(); });
-$('d-pick').addEventListener('change',e=>{ const v=e.target.value; if(v&&v<=today()&&v>=minEditDay()) { viewDay=v; render(); } });
+$('d-pick').addEventListener('change',e=>{ const v=e.target.value; if(v&&v>=minEditDay()&&v<=keyOf(addDays(new Date(),60))) { viewDay=v; habMenu=null; fixDay=null; render(); } });
 const needAppr=()=>!!state.kid&&!!state.needApproval;
 function togglePend(hid){ const d=viewDay; if(d<minEditDay()||d>today()) return; const h=state.habits.find(x=>x.id===hid); if(!h) return;
   const cur=(state.log[d]||{})[hid]||0; if(cur>=(h.target||1)){ toast('Esse já foi confirmado por um adulto'); return; }
@@ -3195,6 +3249,18 @@ function onHabitClick(e){
   const b=e.target.closest('[data-act]')||row.querySelector('.main[data-act]'); if(!b) return; const hid=row.dataset.hid;
   const h=state.habits.find(x=>x.id===hid); if(!h) return;
   const cnt=(state.log[viewDay]||{})[hid]||0, act=b.dataset.act, red=isAvoid(h)&&countMode(h);
+  if(act==='menu'){ habMenu=habMenu===hid?null:hid; render(); return; }
+  if(act==='mclose'){ habMenu=null; render(); return; }
+  if(act==='edit'){ habMenu=null; openHabEdit(hid); return; }
+  if(act==='skip'||act==='unskip'){ const d=today(); state.skip=state.skip||{}; state.skip[d]=state.skip[d]||{}; if(act==='skip'){ state.skip[d][hid]=1; toast('Fica para outro dia. Não conta como falha'); } else { delete state.skip[d][hid]; if(!Object.keys(state.skip[d]).length) delete state.skip[d]; } Object.keys(state.skip).forEach(k=>{ if(k<keyOf(addDays(new Date(),-60))) delete state.skip[k]; }); habMenu=null; syncTodaySum(); save(); render(); return; }
+  if(act==='fixday'){ const k=b.dataset.day, v=(state.log[k]||{})[hid]||0; fixDay=fixDay&&fixDay.hid===hid&&fixDay.d===k?null:{hid,d:k,v,v0:v}; render(); return; }
+  if(act==='fixclose'){ fixDay=null; render(); return; }
+  if(fixDay&&fixDay.hid===hid){
+    if(act==='fixplus'){ fixDay.v=fixDay.v>=1?Math.min(99,fixDay.v+1):1; render(); return; }
+    if(act==='fixminus'){ fixDay.v=fixDay.v>1?fixDay.v-1:0; render(); return; }
+    if(act==='fixset'){ fixDay.v=+b.dataset.v; render(); return; }
+    if(act==='fixsave'){ const f=fixDay; fixDay=null; if(f.v!==f.v0){ state.fixes=(state.fixes||[]).concat([{d:f.d,hid,from:f.v0,to:f.v,at:Date.now()}]).slice(-100); setCount(hid,f.v,f.d,true); toast(`${fmtDay(f.d)} corrigido`); } else render(); return; } }
+  if(viewDay>today()){ toast('Esse dia ainda não chegou'); return; }
   if(needAppr()&&!isAvoid(h)&&['toggle','plus','none'].includes(act)){ togglePend(hid); return; }
   if(act==='toggle') setCount(hid,cnt>=1?0:1);
   if(act==='resist') setCount(hid,cnt===1?0:1);
@@ -3282,7 +3348,7 @@ $('jr-save').addEventListener('click',()=>{ const d=viewDay; if(!jrDraft||d<minE
   if(jrDraft.m==null&&!t) return; const es=jrEntries(state.journal[d]).slice(), now=new Date(), h=d===today()?`${pad(now.getHours())}:${pad(now.getMinutes())}`:'';
   es.push({h,m:jrDraft.m!=null?jrDraft.m:null,t}); const last=es[es.length-1]; state.journal[d]={m:last.m,t:last.t,at:Date.now(),e:es.slice(-12)};
   jrDraft={d,m:null,t:''}; $('jr-text').value=''; save(); render(); toast(es.length>1?`Registrado às ${h||'—'}. O registro anterior continua no histórico`:'Registrado'); celebrate(before,compute()); });
-$('jrDay').addEventListener('click',e=>{ const b=e.target.closest('[data-jdel]'); if(!b) return; const d=viewDay; if(d<minEditDay()) return; const es=jrEntries(state.journal[d]).slice(); es.splice(+b.dataset.jdel,1);
+$('jrDay').addEventListener('click',e=>{ const ja=e.target.closest('[data-jrall]'); if(ja){ jrAll=ja.dataset.jrall==='1'; syncJournal(); return; } const b=e.target.closest('[data-jdel]'); if(!b) return; const d=viewDay; if(d<minEditDay()) return; const es=jrEntries(state.journal[d]).slice(); es.splice(+b.dataset.jdel,1);
   if(!es.length) delete state.journal[d]; else { const l=es[es.length-1]; state.journal[d]={m:l.m,t:l.t,at:Date.now(),e:es}; } save(); render(); toast('Registro apagado'); });
 $('jrHist').addEventListener('click',()=>{ charSub='hist'; goTab('char'); setTimeout(()=>{ try{ $('jrCard').scrollIntoView({block:'start',behavior:'smooth'}); }catch(e){} },80); });
 $('sumBanner').addEventListener('click',e=>{ if(!e.target.closest('#sumClose')) return; const now=new Date(); const sk=now.getDay()===0?weekKey():keyOf(addDays(mondayOf(now),-7)); state.summarySeen[sk]=true; save(); render(); });
@@ -3296,6 +3362,8 @@ $('famLeave').addEventListener('click',e=>{ const b=e.currentTarget; if(!b.datas
   delete b.dataset.confirm; b.textContent='Sair da família';
   B.memberDelete(state.familyId,uid+'_'+pid).catch(()=>{}); state.familyId=null; save(); watchFamily(); render(); });
 
+$('shop').addEventListener('click',e=>{ const b=e.target.closest('[data-slot]'); if(!b) return; slotFilter=b.dataset.slot; render(); try{ $('slots').scrollIntoView({block:'start',behavior:'smooth'}); }catch(err){} });
+$('jrList').addEventListener('click',e=>{ if(e.target.closest('#jrMore')){ jrHistAll=!jrHistAll; render(); } });
 $('slots').addEventListener('click',e=>{ const b=e.target.closest('[data-slot]'); if(!b) return; slotFilter=b.dataset.slot; render(); });
 function onLook(e){ const b=e.target.closest('[data-look]'); if(!b) return; const it=ITEM[b.dataset.look]; if(!it||it.slot==='body') return; state.equipped[it.slot]=it.id; save(); render(); }
 $('skins').addEventListener('click',onLook); $('hstyles').addEventListener('click',onLook);
@@ -3433,7 +3501,7 @@ $('qaForm').addEventListener('submit',e=>{
 });
 document.addEventListener('click',e=>{ if(!e.target.closest('[data-addquit]')) return; qaMode='quit'; qaPrev=null; if(tab!=='hoje') goTab('hoje'); homeMode='eu'; render(); setTimeout(()=>{ try{ $('qaForm').scrollIntoView({block:'center',behavior:'smooth'}); }catch(err){} $('qa-name').focus(); },60); });
 /* Sugestões e problemas enviados pelo app (lidos 1 vez por semana para a próxima rodada) */
-const APPVER='v19'; let fbKind='problema';
+const APPVER='v20'; let fbKind='problema';
 document.addEventListener('click',e=>{ if(!e.target.closest('[data-fb]')) return; fbKind='problema'; document.querySelectorAll('#fbKind [data-fbk]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.fbk===fbKind))); $('fbText').value=''; $('fbBox').hidden=false; setTimeout(()=>$('fbText').focus(),50); });
 $('fbKind').addEventListener('click',e=>{ const b=e.target.closest('[data-fbk]'); if(!b) return; fbKind=b.dataset.fbk; document.querySelectorAll('#fbKind [data-fbk]').forEach(x=>x.setAttribute('aria-pressed',String(x===b))); });
 $('fbCancel').addEventListener('click',()=>{ $('fbBox').hidden=true; });
@@ -3554,6 +3622,7 @@ function onEdit(e){
   if(f==='unit') h.unit=el.value.trim();
   if(f==='wk') h.wk=Math.max(1,Math.min(6,parseInt(el.value)||1));
   if(f==='lim') h.lim=Math.max(0,Math.min(49,parseInt(el.value)||0));
+  if(f==='until'){ if(el.value) h.until=el.value; else delete h.until; }
   if(f==='freq'){ const v=el.value; delete h.wk; if(v==='day') delete h.days; if(v==='days'){ if(!h.days||!h.days.length||h.days.length===7) h.days=[1,2,3,4,5]; } else delete h.days; if(v==='week') h.wk=3; }
   if(f==='time'){ const i=+(el.dataset.ti||0), arr=(h.times&&h.times.length?h.times:(h.time?[h.time]:[])).slice(); while(arr.length<=i) arr.push(null); arr[i]=el.value||null; const ts=arr.filter(Boolean).sort(); if(ts.length>1) h.times=ts; else delete h.times; h.time=ts[0]||null; }
   if(f==='start') h.start=Math.max(1,Math.min(50,parseInt(el.value)||1));
@@ -3581,7 +3650,7 @@ $('cfg-name').addEventListener('change',e=>{ state.name=e.target.value.trim()||'
 $('cfg-placar').addEventListener('change',e=>{ state.placarPush=e.target.checked; save(); setTimeout(syncPush,800); });
 $('cfg-goal').addEventListener('change',e=>{ state.dailyGoal=Math.max(1,Math.min(20,parseInt(e.target.value)||4)); save(); render(); });
 $('cfg-swap').addEventListener('click',e=>{ const b=e.currentTarget; if(!b.dataset.confirm){ b.dataset.confirm='1'; b.textContent='Toque de novo para confirmar'; b.classList.add('confirm'); setTimeout(()=>{ delete b.dataset.confirm; b.textContent='Trocar classe'; b.classList.remove('confirm'); },4000); return; } delete b.dataset.confirm; b.textContent='Trocar classe'; b.classList.remove('confirm'); swapPrev={cls:state.cls,spec:state.spec}; state.swapPrev=swapPrev; state.cls=null; state.spec=null; save(); render(); try{ window.scrollTo({top:0}); }catch(err){} });
-$('cfg-tour').addEventListener('click',()=>{ state.tour=false; tourStep=0; render(); });
+$('cfg-tour').addEventListener('click',()=>{ state.tour=false; state.tips={}; tourStep=0; render(); });
 $('rm-time').addEventListener('change',e=>{ state.reminder=e.target.value||'21:00'; save(); render(); });
 $('ult-hab').addEventListener('change',e=>{ const v=e.target.value||null; if((state.ult||{}).hid===v) return; state.ult={hid:v,start:today(),choice:(state.ult||{}).choice||null}; save(); render(); if(v) toast('Hábito do especial escolhido'); });
 ['ultBox','ultMini'].forEach(id=>$(id).addEventListener('click',e=>{ if(e.target.closest('[data-ultgo]')) releaseUlt(); if(e.target.closest('[data-ultcfg]')){ goTab('hab'); setTimeout(()=>{ try{ $('ultCfg').scrollIntoView({behavior:'smooth'}); }catch(err){} },50); } }));

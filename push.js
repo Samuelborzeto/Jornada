@@ -21,9 +21,10 @@ function agora(tz){
         if(!it.time) continue;
         const [h,m]=it.time.split(':').map(Number), t=h*60+m, chave=`${pid}_${it.hid}${it.occ?'_'+it.occ:''}`;
         if(min<t||min-t>JANELA||sent[chave]===dia) continue;
+        if(it.until&&dia>it.until) continue;
         upd[`sent.${chave}`]=dia;
         let feito=false;
-        try{ const p=await db.doc(`users/${doc.id}/profiles/${pid}`).get(); const n=(((p.data()||{}).log||{})[dia]||{})[it.hid]||0; feito=it.kind==='avoid'?n===1:n>=(it.need||it.target||1); }catch(e){}
+        try{ const p=await db.doc(`users/${doc.id}/profiles/${pid}`).get(); const pd=p.data()||{}, n=((pd.log||{})[dia]||{})[it.hid]||0; feito=it.kind==='avoid'?n===1:n>=(it.need||it.target||1); if(((pd.skip||{})[dia]||{})[it.hid]) feito=true; }catch(e){}
         if(feito) continue;
         const res=await admin.messaging().sendEachForMulticast({tokens,data:{title:`Hora de: ${it.name}`,body:prof.name?`${prof.name}, marque no app quando terminar.`:'Marque no app quando terminar.',url:d.appUrl||'',tag:chave},webpush:{headers:{Urgency:'high',TTL:'3600'}}});
         res.responses.forEach((r,i)=>{ const c=(r.error&&r.error.code)||''; if(!r.success&&/not-registered|invalid-registration|invalid-argument/.test(c)) ruins.add(tokens[i]); });
