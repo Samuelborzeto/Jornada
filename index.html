@@ -575,9 +575,48 @@ input,select{background:var(--panel2);border:1px solid var(--inline);border-radi
 .pacto ul{text-align:left;margin:0;padding-left:20px;display:flex;flex-direction:column;gap:3px}
 .whyc{display:inline-block;font-size:12px;font-weight:700;border-radius:999px;padding:1px 8px;background:var(--panel2);border:1px solid var(--line);color:var(--muted)}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* Temas exclusivos da Temporada 1 (Valquíria e Zeus): trocam o topo, o destaque e os detalhes. O texto continua o do claro ou do escuro. */
+#szTop{position:absolute;top:0;left:0;right:0;height:280px;z-index:-1;pointer-events:none;display:none;overflow:hidden;-webkit-mask-image:linear-gradient(#000 42%,transparent);mask-image:linear-gradient(#000 42%,transparent)}
+#szTop::before,#szTop::after{content:"";position:absolute;pointer-events:none}
+#szFx{position:fixed;inset:0;z-index:60;pointer-events:none;opacity:0}
+:root[data-szn] #szTop{display:block}
+:root[data-szn] body{padding-top:60px}
+:root[data-szn] .mini{background:color-mix(in srgb,var(--panel) 80%,transparent);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+:root[data-szn="valquiria"]{--accent:#58dcb9;--line:#414b5e;--boxline:#8d9bb3;--inline:#5d6980;--szn-snow:#fff;--szn-edge:#aab6c9}
+:root[data-szn="valquiria"][data-theme="light"]{--accent:#0c7f6b;--line:#ccd4e0;--boxline:#8795ab;--inline:#aab5c6;--szn-snow:#7f96bb;--szn-edge:#8f9db5}
+:root[data-szn="valquiria"] #szTop{background:radial-gradient(70% 100% at 18% 0,rgba(52,224,164,.62),transparent 68%),radial-gradient(60% 95% at 80% 0,rgba(140,104,255,.58),transparent 68%),radial-gradient(45% 80% at 50% 0,rgba(70,196,255,.42),transparent 70%);background-size:150% 100%;animation:sznAur 16s ease-in-out infinite alternate}
+:root[data-szn="valquiria"] #szTop::after{inset:-120px 0 0 0;background-image:radial-gradient(circle at 14px 22px,var(--szn-snow) 1.2px,transparent 1.7px),radial-gradient(circle at 62px 84px,var(--szn-snow) 1px,transparent 1.5px),radial-gradient(circle at 98px 40px,var(--szn-snow) 1.3px,transparent 1.8px),radial-gradient(circle at 40px 108px,var(--szn-snow) 1px,transparent 1.5px);background-size:120px 120px;opacity:.8;animation:sznSnow 9s linear infinite}
+:root[data-szn="valquiria"] .mini,:root[data-szn="valquiria"] .tabs{border-color:var(--szn-edge)}
+:root[data-szn="valquiria"] #szFx.go{background:linear-gradient(180deg,rgba(52,224,164,.5),rgba(140,104,255,.32) 45%,transparent 78%);animation:sznPulse 1.4s ease-out}
+:root[data-szn="zeus"]{--accent:#7cc4ff;--line:#3b4a63;--boxline:#7f97b8;--inline:#55688a;--szn-cloud:rgba(214,232,255,.36);--szn-sky:rgba(46,104,190,.62);--szn-edge:#7cc4ff}
+:root[data-szn="zeus"][data-theme="light"]{--accent:#1b6fc2;--line:#c9d9ee;--boxline:#7f99bd;--inline:#a9bcd8;--szn-cloud:rgba(255,255,255,.96);--szn-sky:rgba(96,170,255,.62);--szn-edge:#6da7e6}
+:root[data-szn="zeus"] #szTop{background:linear-gradient(var(--szn-sky),transparent 88%)}
+:root[data-szn="zeus"] #szTop::after{inset:0 -30% 0 -30%;background:radial-gradient(90px 30px at 14% 26px,var(--szn-cloud),transparent 72%),radial-gradient(130px 38px at 30% 44px,var(--szn-cloud),transparent 72%),radial-gradient(110px 34px at 55% 24px,var(--szn-cloud),transparent 72%),radial-gradient(150px 42px at 76% 46px,var(--szn-cloud),transparent 72%),radial-gradient(100px 30px at 93% 22px,var(--szn-cloud),transparent 72%);animation:sznDrift 44s ease-in-out infinite alternate}
+:root[data-szn="zeus"] #szTop::before{inset:0;z-index:1;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 40'%3E%3Cpath d='M12 0L2 22h7L6 40l12-24h-7z' fill='%23fff3a8'/%3E%3C/svg%3E") no-repeat 84% 4px/30px 60px,url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 40'%3E%3Cpath d='M12 0L2 22h7L6 40l12-24h-7z' fill='%23fff3a8'/%3E%3C/svg%3E") no-repeat 11% 0/22px 44px;opacity:0;animation:sznBolt 11s linear infinite}
+:root[data-szn="zeus"][data-theme="light"] #szTop::before{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 40'%3E%3Cpath d='M12 0L2 22h7L6 40l12-24h-7z' fill='%23e9a400'/%3E%3C/svg%3E"),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 40'%3E%3Cpath d='M12 0L2 22h7L6 40l12-24h-7z' fill='%23e9a400'/%3E%3C/svg%3E")}
+:root[data-szn="zeus"] .mini,:root[data-szn="zeus"] .tabs{border-color:var(--szn-edge)}
+:root[data-szn="zeus"] #szFx.go{background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 40'%3E%3Cpath d='M12 0L2 22h7L6 40l12-24h-7z' fill='%23fff3a8'/%3E%3C/svg%3E") no-repeat 50% 10%/130px 260px,rgba(190,225,255,.34);animation:sznFlash 1s linear}
+@keyframes sznAur{from{background-position:0 0}to{background-position:100% 0}}
+@keyframes sznSnow{to{transform:translateY(120px)}}
+@keyframes sznDrift{from{transform:translateX(-8%)}to{transform:translateX(8%)}}
+@keyframes sznBolt{0%,90%{opacity:0}91%{opacity:1}92.2%{opacity:.15}93.6%{opacity:1}96%,100%{opacity:0}}
+@keyframes sznPulse{0%{opacity:0}25%{opacity:1}100%{opacity:0}}
+@keyframes sznFlash{0%{opacity:1}10%{opacity:.1}18%{opacity:1}45%{opacity:.55}100%{opacity:0}}
+@media (prefers-reduced-motion:reduce){#szTop,#szTop::before,#szTop::after,#szFx{animation:none!important}}
+.hero .szntag{font-size:11px;font-weight:800;color:var(--goldtx);line-height:1.2}
+.hero .herotag{color:var(--ink)}
+.hero .herotag.own{background:var(--accent);color:#10131a}
+:root[data-theme="light"] .hero .herotag.own{color:#fff}
+:root[data-szn] .charseg{background:color-mix(in srgb,var(--bg) 78%,transparent);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-radius:10px}
+.sznrow{display:flex;flex-direction:column;gap:8px}
+.ownlab{font-weight:700;color:var(--fg)}
+.seg.ownwrap{flex-wrap:wrap}.seg.ownwrap button{flex:1 1 30%}
+.ownbar{width:100%;text-align:left;background:var(--panel2);border:1px dashed var(--gold);border-radius:10px;padding:8px 12px;color:var(--fg);font-size:13.5px;font-weight:700}
 </style>
 </head>
 <body>
+<div id="szTop" aria-hidden="true"></div>
 <div class="wrap">
   <div class="card" id="installBar" hidden style="border-color:var(--gold)">
     <div class="head"><b style="font-family:var(--display);font-size:16px">Instale na tela inicial</b><button class="linkbtn" id="installClose" type="button">Agora não</button></div>
@@ -670,6 +709,7 @@ input,select{background:var(--panel2);border:1px solid var(--inline);border-radi
     </section>
 
     <section role="tabpanel" id="p-hoje" aria-labelledby="t-hoje">
+      <button class="ownbar" id="ownBar" type="button" hidden></button>
       <div class="mini">
         <button class="mini-av" id="miniAv" type="button" aria-label="Abrir seu personagem"></button>
         <div class="mini-main">
@@ -994,6 +1034,7 @@ input,select{background:var(--panel2);border:1px solid var(--inline);border-radi
         <h2>Aparência do app</h2>
         <div class="seg" id="themeSeg"><button type="button" data-theme="dark" aria-pressed="true">Escuro</button><button type="button" data-theme="light" aria-pressed="false">Claro</button></div>
         <div class="small">Vale para este aparelho.</div>
+        <div class="sznrow" id="sznRow" hidden><div class="small ownlab">Tema exclusivo da Temporada 1</div><div class="seg" id="sznSeg"></div><div class="small" id="sznHint"></div></div>
       </div>
       <div class="card" id="ultCfg">
         <h2>Especial da classe</h2>
@@ -1044,6 +1085,16 @@ input,select{background:var(--panel2);border:1px solid var(--inline);border-radi
         <button class="linkbtn" data-delacct="1" type="button">Apagar minha conta e todos os dados</button>
         <div class="legal" style="justify-content:flex-start"><a href="politica.html" target="_blank" rel="noopener">Política de privacidade</a><a href="excluir-conta.html" target="_blank" rel="noopener">Como apagar a conta</a></div>
       </div>
+      <div class="card" id="ownCard" hidden>
+        <h2>Prévia do dono</h2>
+        <div class="small">Só a sua conta vê esta área. O que você ligar aqui aparece só neste aparelho: não é gravado no perfil, não conta pontos e não aparece para a família.</div>
+        <div class="small ownlab">Tema</div>
+        <div class="seg" id="ownTheme"></div>
+        <div class="small ownlab">Ver o meu avatar como</div>
+        <div class="seg ownwrap" id="ownHero"></div>
+        <label class="consent"><input type="checkbox" id="ownAll"> <span>Mostrar todas as lendas reveladas na aba Lendas</span></label>
+        <button class="linkbtn" id="ownOff" type="button">Desligar toda a prévia</button>
+      </div>
       <div class="card" id="planCard" hidden>
         <h2>Plano Família</h2>
         <div class="small" id="planLine"></div>
@@ -1062,6 +1113,7 @@ input,select{background:var(--panel2);border:1px solid var(--inline);border-radi
   <div class="sync" id="sync">Carregando…</div>
 </div>
 
+<div id="szFx" aria-hidden="true"></div>
 <div class="ultfx" id="ultFx" hidden></div>
 <div class="overlay" id="tpick" hidden><div class="tourcard tpk" role="dialog" aria-modal="true" aria-labelledby="tpTitle">
   <h2 id="tpTitle">Escolha o horário</h2>
@@ -1537,6 +1589,32 @@ const HEROES=[
     fx:[[L(3,14,['1.2y','2y1.','1.2y','3y','2.1y','1.1y1.']),{y:'#ffe27a'}]]}
 ];
 const HERO=Object.fromEntries(HEROES.map(h=>[h.id,h]));
+/* Temas exclusivos da Temporada 1: cada um é liberado junto com a sua lenda e fica gravado no perfil (state.szn) */
+const SZN={valquiria:{n:'Valquíria',hero:'valquiria'},zeus:{n:'Zeus',hero:'zeus'}};
+/* Modo dono: prévia só para a conta do Samuel, conferida pelo resumo SHA-256 do uid do login. Fica só neste aparelho, fora do perfil. */
+const OWNER_HASH=['670f107547fb8412776e2505a1fd3817fab3b9057aadc6a5851aaa0f3d9c7363'];
+let isOwner=false, own={theme:'',hero:'',all:false};
+try{ own=Object.assign(own,JSON.parse(localStorage.getItem('jornada-dono')||'{}')); }catch(e){}
+const ownSave=()=>{ try{ localStorage.setItem('jornada-dono',JSON.stringify(own)); }catch(e){} };
+async function ownerCheck(u){ isOwner=false; if(!u||!OWNER_HASH.length||!(window.crypto&&crypto.subtle)) return;
+  try{ const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(u)); const hx=[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('');
+    if(uid===u&&OWNER_HASH.includes(hx)){ isOwner=true; if(view==='app') render(); } }catch(e){} }
+const ownEq=()=>isOwner&&own.hero&&HERO[own.hero]?Object.assign({},state.equipped,{hero:own.hero}):state.equipped;
+const sznHas=id=>!!(SZN[id]&&state.heroes&&state.heroes[SZN[id].hero]);
+const sznNow=()=>view!=='app'?'':(isOwner&&SZN[own.theme]?own.theme:(sznHas(state.szn)?state.szn:''));
+function applySzn(){ const s=sznNow(), r=document.documentElement; if(s) r.dataset.szn=s; else delete r.dataset.szn;
+  const ob=$('ownBar'), on=isOwner&&!!((own.theme&&SZN[own.theme])||(own.hero&&HERO[own.hero])||own.all); ob.hidden=!on;
+  if(on) ob.textContent='Prévia do dono ligada: '+[SZN[own.theme]?'tema '+SZN[own.theme].n:'',HERO[own.hero]?'avatar como '+HERO[own.hero].n:'',own.all?'lendas reveladas':''].filter(Boolean).join(', ')+'. Toque para mudar.'; }
+function sznFx(){ if(!document.documentElement.dataset.szn||matchMedia('(prefers-reduced-motion: reduce)').matches) return; const f=$('szFx'); f.classList.remove('go'); void f.offsetWidth; f.classList.add('go'); }
+function renderSzn(){ const days=seasonDays();
+  const opts=Object.keys(SZN).filter(id=>sznHas(id)||heroStatus(HERO[SZN[id].hero],days)==='lock'); $('sznRow').hidden=!opts.length;
+  if(opts.length){ const cur=sznHas(state.szn)?state.szn:'';
+    $('sznSeg').innerHTML=`<button type="button" data-szn="" aria-pressed="${!cur}">Padrão</button>`+opts.map(id=>`<button type="button" data-szn="${id}" aria-pressed="${cur===id}"${sznHas(id)?'':' disabled'}>${esc(SZN[id].n)}</button>`).join('');
+    $('sznHint').textContent=(opts.some(id=>!sznHas(id))?'Cada tema é liberado junto com a sua lenda. ':'')+'Vale para este perfil, por cima do claro ou do escuro.'; }
+  $('ownCard').hidden=!isOwner; if(!isOwner) return;
+  $('ownTheme').innerHTML=[['','Nenhum']].concat(Object.keys(SZN).map(id=>[id,SZN[id].n])).map(([id,n])=>`<button type="button" data-ownszn="${id}" aria-pressed="${(own.theme||'')===id}">${esc(n)}</button>`).join('');
+  $('ownHero').innerHTML=[['','Meu avatar']].concat(HEROES.map(h=>[h.id,h.n])).map(([id,n])=>`<button type="button" data-ownhero="${id}" aria-pressed="${(own.hero||'')===id}">${esc(n)}</button>`).join('');
+  $('ownAll').checked=!!own.all; }
 function heroSVG(h,eq){
   const grid=Array.from({length:H},()=>Array(W).fill(null));
   const pal=Object.assign({k:'#1b1726',s:'#f1c7a0',e:'#1b1726',m:'#b4545a',h:'#1b1726',t:'#888',p:'#555',b:'#5a3b2e'},h.pal,h.bpal||{});
@@ -1648,6 +1726,8 @@ function specFx(){ const c=state.cls&&CLS[state.cls]; return c&&state.spec?c.spe
 function mult(attr){ let m=1; const c=state.cls&&CLS[state.cls]; if(c&&c.attr===attr) m+=.2; const fx=specFx(); if(fx.attr===attr) m+=fx.pct; return m; }
 const bornOn=(h,d)=>(!h.created||!d||d>=h.created)&&(!h.until||!d||d<=h.until);
 const isSkip=(h,d)=>!!d&&!!((state.skip||{})[d]||{})[h.id];
+const SKIPMAX=2;
+const skipAll=k=>{ const sk=(state.skip||{})[k]; if(!sk||!Object.keys(sk).length) return false; return !state.habits.some(h=>!h.archived&&!h.deleted&&!isAvoid(h)&&!h.wk&&schedOn(h,k)); };
 const schedOn=(h,d)=>bornOn(h,d)&&!isSkip(h,d)&&(!h.days||!h.days.length||h.days.includes(parseKey(d).getDay()));
 const wOf=h=>h.wk?(h.xp||0)*h.wk/7:(h.xp||0);
 const activeWeights=(d)=>state.habits.filter(h=>!h.archived&&(!d||schedOn(h,d))).reduce((s,h)=>s+wOf(h),0)||1;
@@ -1719,7 +1799,7 @@ function checkHeroes(){ const days=seasonDays(); state.heroes=state.heroes||{}; 
   if(fresh){ save(); showHeroFx(fresh); } else if(view==='app'&&tab==='hoje') setTimeout(checkHeroArrival,600); }
 let heroFxId=null;
 function showHeroFx(h){ heroFxId=h.id; $('hfUse').textContent='Usar agora'; state.heroSeen=state.heroSeen||{}; state.heroSeen[h.id]=true; $('hfFrom').textContent=`Nova lenda liberada · ${h.from}`; $('hfArt').innerHTML=avatarSVG({eq:{bg:'bg_noite',hero:h.id}}); $('hfTitle').textContent=h.n;
-  $('hfText').textContent=`${h.t}. Liberada com ${h.days} dias de uso, a lenda é sua para sempre. Classe, nível e XP continuam iguais.`; $('heroFx').hidden=false; }
+  $('hfText').textContent=`${h.t}. Liberada com ${h.days} dias de uso, a lenda é sua para sempre. Classe, nível e XP continuam iguais.${SZN[h.id]?' Vem junto um tema exclusivo da Temporada 1: ligue em Ajustes, em Aparência do app.':''}`; $('heroFx').hidden=false; }
 function nextHero(days){ for(const h of HEROES){ const st=heroStatus(h,days); if(st==='lock'||st==='soon') return {h,st}; } return null; }
 const AGES=[['0-3','Até 3 anos'],['4-6','4 a 6'],['7-10','7 a 10'],['11-14','11 a 14'],['15-17','15 a 17']];
 const ageChips=(cur,attr)=>AGES.map(([k,n])=>`<button type="button" ${attr}="${k}" aria-pressed="${cur===k}">${n}</button>`).join('');
@@ -1807,15 +1887,16 @@ function renderHeroStrip(){ const el=$('heroStrip'); const days=seasonDays(); co
   el.innerHTML=`<span class="prev lock">${avatarSVG({eq:{bg:'none',hero:h.id}})}</span><span><b>Próxima lenda: ${esc(h.n)}</b><span class="small num">${days} de ${h.days} dias de uso</span><span class="hb"><i style="width:${Math.min(100,Math.round(100*days/h.days))}%"></i></span></span><span class="go">Lendas ›</span>`; }
 const MESES=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
 function renderHeroes(){
-  const days=seasonDays(), cur=state.equipped.hero||'';
+  const days=seasonDays(), cur=state.equipped.hero||'', pv=isOwner&&HERO[own.hero]?own.hero:'', all=isOwner&&own.all;
   $('heroDays').textContent=`${days} ${days===1?'dia':'dias'} de uso`;
   $('heroIntro').textContent=`${SEASON.n}: lendas de vários cantos do mundo. Uma nova chega a cada 2 ou 3 meses e é liberada pelos dias em que você marca pelo menos 1 hábito, sem precisar ser em sequência. A lenda liberada é sua para sempre.`;
-  $('heroList').innerHTML=HEROES.map(h=>{ const st=heroStatus(h,days);
-    if(st==='soon'){ const d=parseKey(heroRelDate(h)); return `<div class="hero soon"><span class="prev">?</span><b>???</b><span>${esc(h.from)} · chega em ${MESES[d.getMonth()]}/${d.getFullYear()}</span></div>`; }
+  $('heroList').innerHTML=HEROES.map(h=>{ const st=heroStatus(h,days); const tg=SZN[h.id]?'<span class="szntag">+ Tema exclusivo da Temporada 1</span>':'';
+    if(all&&(st==='soon'||st==='lock')){ const d=parseKey(heroRelDate(h)); return `<button class="hero${pv===h.id?' cur':''}" type="button" data-ownhero="${h.id}"><span class="prev">${avatarSVG({eq:{bg:state.equipped.bg,hero:h.id}})}</span><b>${esc(h.n)}</b><span>${esc(h.t)} · ${h.days} dias${st==='soon'?` · chega em ${MESES[d.getMonth()]}/${d.getFullYear()}`:''}</span>${tg}<span class="herotag own">${pv===h.id?'Prévia em uso':'Prévia'}</span></button>`; }
+    if(st==='soon'){ const d=parseKey(heroRelDate(h)); return `<div class="hero soon"><span class="prev">?</span><b>???</b><span>${esc(h.from)} · chega em ${MESES[d.getMonth()]}/${d.getFullYear()}</span>${tg}</div>`; }
     const prev=avatarSVG({eq:{bg:st==='lock'?'none':state.equipped.bg,hero:h.id}});
-    if(st==='lock') return `<div class="hero lock"><span class="prev">${prev}</span><b>${esc(h.n)}</b><span>${esc(h.from)}</span><div class="hb"><i style="width:${Math.min(100,Math.round(100*days/h.days))}%"></i></div><span class="num">${days} de ${h.days} dias</span></div>`;
-    return `<button class="hero${cur===h.id?' cur':''}" type="button" data-hero="${h.id}"><span class="prev">${prev}</span><b>${esc(h.n)}</b><span>${esc(h.t)}</span>${cur===h.id?'<span class="herotag">Em uso</span>':''}</button>`; }).join('');
-  $('heroUse').innerHTML=cur&&HERO[cur]?`Você está jogando como <b>${esc(HERO[cur].n)}</b>. Classe, nível e XP continuam iguais. <button class="linkbtn" type="button" data-hero="">Voltar para o meu avatar</button>`:'Toque numa lenda liberada para jogar com ela. Classe, nível e XP continuam iguais.';
+    if(st==='lock') return `<div class="hero lock"><span class="prev">${prev}</span><b>${esc(h.n)}</b><span>${esc(h.from)}</span><div class="hb"><i style="width:${Math.min(100,Math.round(100*days/h.days))}%"></i></div><span class="num">${days} de ${h.days} dias</span>${tg}</div>`;
+    return `<button class="hero${cur===h.id?' cur':''}" type="button" data-hero="${h.id}"><span class="prev">${prev}</span><b>${esc(h.n)}</b><span>${esc(h.t)}</span>${tg}${cur===h.id?'<span class="herotag">Em uso</span>':''}</button>`; }).join('');
+  $('heroUse').innerHTML=pv?`Prévia do dono: seu avatar aparece como <b>${esc(HERO[pv].n)}</b> só para você, neste aparelho. <button class="linkbtn" type="button" data-ownhero="">Desligar a prévia</button>`:cur&&HERO[cur]?`Você está jogando como <b>${esc(HERO[cur].n)}</b>. Classe, nível e XP continuam iguais. <button class="linkbtn" type="button" data-hero="">Voltar para o meu avatar</button>`:'Toque numa lenda liberada para jogar com ela. Classe, nível e XP continuam iguais.';
   $('heroDemo').hidden=!(B&&B.demo)||heroDemoAll;
 }
 function compute(){
@@ -1865,7 +1946,7 @@ function compute(){
   (state.ultReleases||[]).forEach(r=>{ if(relEff(r)==='meteor'){ const w=keyOf(mondayOf(parseKey(r.at))); meteor[w]=(meteor[w]||0)+1; } });
   if(start&&start<tk){
     for(let d=parseKey(start); keyOf(d)<tk; d=addDays(d,1)){ const k=keyOf(d), w=keyOf(mondayOf(d)); const used=shields.get(w)||[];
-      if(!inPause(k)&&!(byDay[k]&&byDay[k].done)&&used.length<1+(meteor[w]||0)){ shields.set(w,used.concat([k])); } }
+      if(!inPause(k)&&!skipAll(k)&&!(byDay[k]&&byDay[k].done)&&used.length<1+(meteor[w]||0)){ shields.set(w,used.concat([k])); } }
   }
   const shieldDays=new Set([].concat(...shields.values()));
   if(start&&start<=tk){
@@ -1874,7 +1955,7 @@ function compute(){
       total+=info.xp+(extra[k]||0);
       if(bossOff) continue;
       if(dead){ if(info.full){ reviveRun++; if(reviveRun>=3){ dead=false; n=0; drained=0; reviveRun=0; revived++; } } else if(k<tk) reviveRun=0; continue; }
-      if(inPause(k)||shieldDays.has(k)) continue;
+      if(inPause(k)||shieldDays.has(k)||skipAll(k)) continue;
       const bt=bossType(n,R);
       if((relDay[k]||[]).includes('arrow')){ if(bt){ const ref=Math.floor(drained/2); total+=ref; refundTotal+=ref; loot+=BOSSES[bt].loot; defeats[bt]++; if(k>=wk) weekPen-=ref; n=0; drained=0; continue; } else { total+=ARROWXP; attr.vigor+=ARROWXP; if(k>=wk) weekXP+=ARROWXP; } }
       if(info.full){ if(bt){ const ref=Math.floor(drained/2); total+=ref; refundTotal+=ref; loot+=BOSSES[bt].loot; defeats[bt]++; if(k>=wk) weekPen-=ref; } n=0; drained=0; continue; }
@@ -1892,7 +1973,7 @@ function compute(){
     totalDefeats:defeats.goblin+defeats.ogro+defeats.dragao,next:(!dead&&!paused&&!light&&bossType(n+1,R))?R.rate[bossType(n+1,R)]:0,R,light};
   const sw=shields.get(wk)||[]; const shield={used:sw[sw.length-1]||null,usedCount:sw.length,allow:1+(meteor[wk]||0),count:shieldDays.size};
   const p=lvlP(Math.max(0,total-(state.prestigeOffset||0))); const al={}; for(const k in attr) al[k]=lvlA(attr[k]);
-  const okDay=k=>!!(byDay[k]&&byDay[k].done), keepDay=k=>shieldDays.has(k)||inPause(k);
+  const okDay=k=>!!(byDay[k]&&byDay[k].done), keepDay=k=>shieldDays.has(k)||inPause(k)||skipAll(k);
   let streak=0, cur=new Date(); if(!okDay(keyOf(cur))) cur=addDays(cur,-1);
   for(let g=0; g<4000; g++){ const k=keyOf(cur); if(start&&k<start) break; if(okDay(k)) streak++; else if(!keepDay(k)) break; cur=addDays(cur,-1); }
   let best=0, run=0;
@@ -1918,7 +1999,7 @@ function compute(){
 function habitStreak(id){ const h=state.habits.find(x=>x.id===id); if(!h||h.wk) return 0; const ok=k=>habitDone(h,k,(state.log[k]||{})[id]||0); let n=0, cur=new Date(), guard=0;
   if(!ok(keyOf(cur))) cur=addDays(cur,-1);
   while(guard++<800){ const k=keyOf(cur); if(!bornOn(h,k)) break; if(ok(k)) n++; else if(schedOn(h,k)) break; if(k<(state.created||k)) break; cur=addDays(cur,-1); } return n; }
-function myAvatar(c,over){ return avatarSVG(Object.assign({eq:state.equipped,level:c.p.lvl,cls:state.cls,spec:state.spec,wstage:c.ws,prestige:state.prestige},over||{})); }
+function myAvatar(c,over){ return avatarSVG(Object.assign({eq:ownEq(),level:c.p.lvl,cls:state.cls,spec:state.spec,wstage:c.ws,prestige:state.prestige},over||{})); }
 
 const ACH=[
   {id:'primeiro',n:'Primeiro passo',d:'Marcou o primeiro hábito',ok:c=>c.doneCount>=1},
@@ -2189,6 +2270,7 @@ async function createProfile(name,kid,fem){
 /* ---------- celebrações ---------- */
 function checkGoals(){ const won=[]; state.goals.forEach(g=>{ if(!g.done&&goalProg(g)>=g.target){ g.done=true; g.doneAt=today(); won.push(g); } }); return won; }
 function celebrate(before,after,won){
+  if(after.byDay[viewDay]?.full&&!before.byDay[viewDay]?.full) sznFx();
   if(after.ultCharge>=100&&before.ultCharge<100&&state.cls){ toast(`Especial carregado! Solte ${curUlt().n} na aba Hoje`); jump(); return; }
   if(won&&won.length){ toast(`Objetivo concluído: ${won[0].name} (+${won[0].reward} XP)`); jump(); return; }
   if(after.p.lvl>before.p.lvl){
@@ -2279,7 +2361,7 @@ function setCount(hid,val,day,fix){
   const d=day||viewDay; if(d>today()){ toast('Esse dia ainda não chegou'); return; } if(!fix&&d<minEditDay()) return;
   const before=compute();
   const h=state.habits.find(x=>x.id===hid); const t=h.target||1;
-  if(!bornOn(h,d)){ toast('Esse hábito ainda não existia nesse dia'); return; }
+  if(!bornOn(h,d)){ toast(h.until&&d>h.until?'Esse hábito já tinha terminado nesse dia':'Esse hábito ainda não existia nesse dia'); return; }
   val=isAvoid(h)?Math.max(-1,Math.min(99,val)):Math.max(0,Math.min(t,val));
   state.log[d]=state.log[d]||{};
   if(!state.quests[d]){ const q=questPick(d); if(q) state.quests[d]=q; }
@@ -2425,13 +2507,13 @@ function renderToday(c){
       <button class="main" data-act="${sk?'unskip':t>1?(done?'none':'plus'):'toggle'}" aria-pressed="${done}">
         ${isQ?`<span class="quest">Missão do dia ×${qm}</span>`:''}
         <span class="hn">${esc(h.name)}</span>${pendH?'<span class="pendnote">Esperando um adulto confirmar</span>':''}
-        <span class="meta"><span class="a">${a.n}</span>${sk?'<span>dispensado hoje, sem contar como falha</span>':''}${h.until?`<span>até ${h.until.split('-').reverse().slice(0,2).join('/')}</span>`:''}${h.block?`<span>${{m:'manhã',t:'tarde',n:'noite'}[h.block]}</span>`:''}${timesOf(h).length?`<span>às ${timesOf(h).join(' e ')}</span>`:''}${h.why&&AIM_SHORT[h.why]?`<span class="whyc">${AIM_SHORT[h.why]}</span>`:''}${h.follow&&followTxt(h.follow)?`<span class="whyc">${esc(followTxt(h.follow))}</span>`:''}${h.shared&&d===today()&&sharedTxt(h)?`<span class="whyc">${esc(sharedTxt(h))}</span>`:''}${h.wk?`<span>${wkMet?'meta da semana cumprida':`${wd} de ${h.wk} na semana`}</span>`:''}<span class="${boosted?'boost':''}">${wkMet?'sem XP extra esta semana':`+${isQ?base*qm:base} XP${boosted?' (classe)':''}`}</span>${t>1?`<span>${t} ${esc(h.unit||'')}</span>`:''}${st>1?`<span>${st} dias seguidos</span>`:''}</span>
+        <span class="meta"><span class="a">${a.n}</span>${sk?`<span>dispensado${d===tk?' hoje':''}, sem contar como falha</span>`:''}${h.until?`<span>até ${h.until.split('-').reverse().slice(0,2).join('/')}</span>`:''}${h.block?`<span>${{m:'manhã',t:'tarde',n:'noite'}[h.block]}</span>`:''}${timesOf(h).length?`<span>às ${timesOf(h).join(' e ')}</span>`:''}${h.why&&AIM_SHORT[h.why]?`<span class="whyc">${AIM_SHORT[h.why]}</span>`:''}${h.follow&&followTxt(h.follow)?`<span class="whyc">${esc(followTxt(h.follow))}</span>`:''}${h.shared&&d===today()&&sharedTxt(h)?`<span class="whyc">${esc(sharedTxt(h))}</span>`:''}${h.wk?`<span>${wkMet?'meta da semana cumprida':`${wd} de ${h.wk} na semana`}</span>`:''}<span class="${boosted?'boost':''}">${wkMet?'sem XP extra esta semana':`+${isQ?base*qm:base} XP${boosted?' (classe)':''}`}</span>${t>1?`<span>${t} ${esc(h.unit||'')}</span>`:''}${st>1?`<span>${st} dias seguidos</span>`:''}</span>
         ${dots}
       </button>
       <div class="side">${side}</div>
       ${t>1?`<div class="prog"><i style="width:${Math.min(100,cnt/t*100)}%"></i></div>`:''}
     </div>${habMenu===h.id?`<div class="hmenu" data-hid="${h.id}"><button class="btn ghost sm" data-act="edit" type="button">✎ Editar hábito</button>${canSkip(h)?'<button class="btn ghost sm" data-act="skip" type="button">Não fazer hoje</button>':''}<button class="btn ghost sm" data-act="mclose" type="button">Fechar</button></div>`:''}`; };
-  $('habits').innerHTML=act.length?todoH.map(h=>hrow(h,false)).join('')+(doneH.length?`<div class="donesep">${d===tk?'Feitos hoje':'Feitos'} (${doneH.length})</div>`+doneH.map(h=>hrow(h,true)).join(''):'')+(skH.length?`<div class="donesep">Dispensados hoje (${skH.length})</div>`+skH.map(h=>hrow(h,true,true)).join(''):'')+(offH.length?`<div class="donesep">Não é dia (${offH.length})</div>`+offH.map(h=>hrow(h,true)).join(''):''):'<div class="card small">Nenhum hábito ativo. Use o "+ Adicionar" acima e escolha Hábito.</div>';
+  $('habits').innerHTML=act.length?todoH.map(h=>hrow(h,false)).join('')+(doneH.length?`<div class="donesep">${d===tk?'Feitos hoje':'Feitos'} (${doneH.length})</div>`+doneH.map(h=>hrow(h,true)).join(''):'')+(skH.length?`<div class="donesep">${d===tk?'Dispensados hoje':'Dispensados'} (${skH.length})</div>`+skH.map(h=>hrow(h,true,true)).join(''):'')+(offH.length?`<div class="donesep">Não é dia (${offH.length})</div>`+offH.map(h=>hrow(h,true)).join(''):''):'<div class="card small">Nenhum hábito ativo. Use o "+ Adicionar" acima e escolha Hábito.</div>';
 }
 const justDone={};
 let habMenu=null, fixDay=null;
@@ -2873,6 +2955,7 @@ function renderHist(c){
   $('attrxp').innerHTML=AKEYS.map(k=>`<div class="stat"><span>${ATTRS[k].n}</span><span class="bar"><i style="width:${c.attr[k]/tot*100}%;background:${ATTRS[k].c}"></i></span><span class="lv num">${c.attr[k]}</span></div>`).join('');
 }
 function renderSettings(c){
+  renderSzn();
   const showPlan=BILLING||/[?&]plano=1/.test(location.search); $('planCard').hidden=!showPlan;
   if(showPlan){ const left=plan.trialStart?Math.max(0,TRIAL_DAYS-Math.floor((Date.now()-plan.trialStart)/864e5)):TRIAL_DAYS;
     $('planLine').textContent=!BILLING?'Cobrança desligada: no teste, tudo está liberado para todos.':(plan.until&&plan.until>Date.now()?'Plano Família ativo.':(left>0&&plan.trialStart?`Teste grátis: faltam ${left} dias.`:'Você está no plano grátis.')); }
@@ -3191,6 +3274,7 @@ function renderTour(c){
 }
 
 function render(){ if(swapping){ setTimeout(render,0); return; }
+  applySzn();
   $('loginView').hidden=view!=='login'; $('profileView').hidden=view!=='profiles'; $('appView').hidden=view!=='app';
   if(view==='login'){ $('loginAvatar').innerHTML=avatarSVG({eq:{bg:'bg_noite'},level:20,cls:'mago',wstage:3}); $('tour').hidden=true; return; }
   if(view==='profiles'){ renderProfiles(); $('tour').hidden=true; return; }
@@ -3252,7 +3336,11 @@ function onHabitClick(e){
   if(act==='menu'){ habMenu=habMenu===hid?null:hid; render(); return; }
   if(act==='mclose'){ habMenu=null; render(); return; }
   if(act==='edit'){ habMenu=null; openHabEdit(hid); return; }
-  if(act==='skip'||act==='unskip'){ const d=today(); state.skip=state.skip||{}; state.skip[d]=state.skip[d]||{}; if(act==='skip'){ state.skip[d][hid]=1; toast('Fica para outro dia. Não conta como falha'); } else { delete state.skip[d][hid]; if(!Object.keys(state.skip[d]).length) delete state.skip[d]; } Object.keys(state.skip).forEach(k=>{ if(k<keyOf(addDays(new Date(),-60))) delete state.skip[k]; }); habMenu=null; syncTodaySum(); save(); render(); return; }
+  if(act==='skip'||act==='unskip'){ const d=act==='skip'?today():viewDay; if(d<minEditDay()||d>today()) return; state.skip=state.skip||{}; state.skip[d]=state.skip[d]||{};
+    if(act==='skip'){ if(Object.keys(state.skip[d]).length>=SKIPMAX){ toast(`Dá para dispensar até ${SKIPMAX} hábitos por dia`); habMenu=null; render(); return; }
+      state.quests=state.quests||{}; if(!state.quests[d]) state.quests[d]=questOf(d); state.skip[d][hid]=1; if(state.quests[d]===hid){ const q=questPick(d); if(q) state.quests[d]=q; else delete state.quests[d]; } toast('Fica para outro dia. Não conta como falha'); }
+    else { delete state.skip[d][hid]; }
+    if(!Object.keys(state.skip[d]).length) delete state.skip[d]; habMenu=null; if(d===today()) syncTodaySum(); save(); render(); return; }
   if(act==='fixday'){ const k=b.dataset.day, v=(state.log[k]||{})[hid]||0; fixDay=fixDay&&fixDay.hid===hid&&fixDay.d===k?null:{hid,d:k,v,v0:v}; render(); return; }
   if(act==='fixclose'){ fixDay=null; render(); return; }
   if(fixDay&&fixDay.hid===hid){
@@ -3344,7 +3432,7 @@ $('houseCard').addEventListener('click',e=>{ const t=e.target.closest('button');
 $('moods').addEventListener('click',e=>{ const b=e.target.closest('[data-mood]'); if(!b||!jrDraft) return; const m=+b.dataset.mood; jrDraft.m=jrDraft.m===m?null:m;
   document.querySelectorAll('#moods [data-mood]').forEach(x=>x.setAttribute('aria-pressed',jrDraft.m===+x.dataset.mood)); syncJournal(); });
 $('jr-text').addEventListener('input',e=>{ if(!jrDraft) return; jrDraft.t=e.target.value; syncJournal(); });
-$('jr-save').addEventListener('click',()=>{ const d=viewDay; if(!jrDraft||d<minEditDay()) return; const before=compute(); const t=($('jr-text').value||'').trim().slice(0,140);
+$('jr-save').addEventListener('click',()=>{ const d=viewDay; if(d>today()){ toast('Esse dia ainda não chegou'); return; } if(!jrDraft||d<minEditDay()) return; const before=compute(); const t=($('jr-text').value||'').trim().slice(0,140);
   if(jrDraft.m==null&&!t) return; const es=jrEntries(state.journal[d]).slice(), now=new Date(), h=d===today()?`${pad(now.getHours())}:${pad(now.getMinutes())}`:'';
   es.push({h,m:jrDraft.m!=null?jrDraft.m:null,t}); const last=es[es.length-1]; state.journal[d]={m:last.m,t:last.t,at:Date.now(),e:es.slice(-12)};
   jrDraft={d,m:null,t:''}; $('jr-text').value=''; save(); render(); toast(es.length>1?`Registrado às ${h||'—'}. O registro anterior continua no histórico`:'Registrado'); celebrate(before,compute()); });
@@ -3416,6 +3504,12 @@ $('pin-del').addEventListener('click',()=>{ delete house.pin; saveHouse(); toast
 document.addEventListener('click',e=>{ const b=e.target.closest('[data-hero]'); if(!b) return; const id=b.dataset.hero;
   if(id&&!(state.heroes||{})[id]) return; state.equipped.hero=id||''; save(); render(); toast(id?`Agora você é ${HERO[id].n}`:'Voltou para o seu avatar'); });
 $('heroDemo').addEventListener('click',()=>{ heroDemoAll=true; render(); });
+document.addEventListener('click',e=>{ const b=e.target.closest('[data-ownhero]'); if(!b||!isOwner) return; const id=b.dataset.ownhero; own.hero=id&&own.hero!==id?id:''; ownSave(); render(); });
+$('sznSeg').addEventListener('click',e=>{ const b=e.target.closest('[data-szn]'); if(!b||b.disabled) return; const id=b.dataset.szn; if(id&&!sznHas(id)) return; state.szn=id; save(); render(); toast(id?`Tema ${SZN[id].n} ligado`:'Tema padrão ligado'); });
+$('ownTheme').addEventListener('click',e=>{ const b=e.target.closest('[data-ownszn]'); if(!b||!isOwner) return; own.theme=b.dataset.ownszn; ownSave(); render(); });
+$('ownAll').addEventListener('change',e=>{ if(!isOwner) return; own.all=e.target.checked; ownSave(); render(); });
+$('ownOff').addEventListener('click',()=>{ own={theme:'',hero:'',all:false}; ownSave(); render(); toast('Prévia desligada'); });
+$('ownBar').addEventListener('click',()=>goTab('hab'));
 $('heroStrip').addEventListener('click',()=>{ bump('lendas'); charSub='lendas'; goTab('char'); });
 $('calGrid').addEventListener('click',e=>{ const b=e.target.closest('[data-cal]'); if(!b) return; calSel=b.dataset.cal; renderCal(); });
 $('calPrev').addEventListener('click',()=>{ const [y,m]=calMonth.split('-').map(Number); const d=new Date(y,m-2,1); calMonth=`${d.getFullYear()}-${pad(d.getMonth()+1)}`; renderCal(); });
@@ -3501,7 +3595,7 @@ $('qaForm').addEventListener('submit',e=>{
 });
 document.addEventListener('click',e=>{ if(!e.target.closest('[data-addquit]')) return; qaMode='quit'; qaPrev=null; if(tab!=='hoje') goTab('hoje'); homeMode='eu'; render(); setTimeout(()=>{ try{ $('qaForm').scrollIntoView({block:'center',behavior:'smooth'}); }catch(err){} $('qa-name').focus(); },60); });
 /* Sugestões e problemas enviados pelo app (lidos 1 vez por semana para a próxima rodada) */
-const APPVER='v20'; let fbKind='problema';
+const APPVER='v21'; let fbKind='problema';
 document.addEventListener('click',e=>{ if(!e.target.closest('[data-fb]')) return; fbKind='problema'; document.querySelectorAll('#fbKind [data-fbk]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.fbk===fbKind))); $('fbText').value=''; $('fbBox').hidden=false; setTimeout(()=>$('fbText').focus(),50); });
 $('fbKind').addEventListener('click',e=>{ const b=e.target.closest('[data-fbk]'); if(!b) return; fbKind=b.dataset.fbk; document.querySelectorAll('#fbKind [data-fbk]').forEach(x=>x.setAttribute('aria-pressed',String(x===b))); });
 $('fbCancel').addEventListener('click',()=>{ $('fbBox').hidden=true; });
@@ -3742,10 +3836,10 @@ function startAuth(){
   B.onAuth(u=>{
     if(unsubList){ unsubList(); unsubList=null; } if(unsubProf){ unsubProf(); unsubProf=null; } if(unsubFam){ unsubFam(); unsubFam=null; }
     user=u;
-    if(!u){ uid=null; pid=null; view='login'; render(); setSync(''); return; }
+    if(!u){ uid=null; pid=null; isOwner=false; view='login'; render(); setSync(''); return; }
     if(unsubHouse){ unsubHouse(); unsubHouse=null; }
     if(unsubPlan){ unsubPlan(); unsubPlan=null; } plan={}; unsubPlan=B.watchPlan?B.watchPlan(u.uid,d=>{ plan=d||{}; if(BILLING&&!plan.trialStart&&!B.demo){ /* teste de 14 dias começa no primeiro acesso */ } if(view==='app') render(); }):null;
-    uid=u.uid; unsubHouse=B.watchHouse(uid,h=>{ house=Object.assign({rewards:[],requests:[]},h||{}); if(view==='app') render(); });
+    uid=u.uid; ownerCheck(uid); unsubHouse=B.watchHouse(uid,h=>{ house=Object.assign({rewards:[],requests:[]},h||{}); if(view==='app') render(); });
     $('acctLine').textContent=B.demo?u.label:'Conectado como '+u.label; $('btnLogout1').hidden=B.demo;
     let saved=null; try{ saved=localStorage.getItem(pidKey()); }catch(e){}
     let first=true;
